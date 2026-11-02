@@ -102,7 +102,7 @@ export default function HomePage() {
 
           <div id="logo" style={{ zIndex: 5, position: "relative", display: "flex", justifyContent: "center" }}>
               <a href="/">
-                  <img className="animate__infinite animate__slower animate__animated animate__pulse" src="/images/pokefun_logo.jpg" alt="Pokefun" style={{ maxWidth: "300px", height: "auto" }} />
+                  <img className="animate__infinite animate__slower animate__animated animate__pulse" src="/images/pokefun_logo_transparent.png" alt="Pokefun" style={{ maxWidth: "300px", height: "auto", mixBlendMode: "screen", filter: "drop-shadow(0 0 20px rgba(0, 168, 255, 0.4))" }} />
               </a>
               <div className="circle">
                   <div className="circle"></div>

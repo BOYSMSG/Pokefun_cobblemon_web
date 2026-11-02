@@ -135,14 +135,14 @@ export default async function RootLayout({
           .desktop-sidebar-container h2 { font-size: 1.8rem !important; }
 
           .custom-global-nav {
-             padding: 0 170px 0 20px;
+             padding: 0 150px 0 15px;
           }
           #nav .container>a {
-             padding: 6px 13px !important;
-             font-size: 16px !important;
+             padding: 5px 10px !important;
+             font-size: 14.5px !important;
              display: inline-flex;
              align-items: center;
-             gap: 6px;
+             gap: 5px;
              border-radius: 20px;
              transition: all 0.2s ease;
              white-space: nowrap;
@@ -205,7 +205,7 @@ export default async function RootLayout({
             <div className="viewport">
               <div id="gh-header">
               <div id="nav" className="custom-global-nav">
-                  <div className="container" style={{ position: "relative", display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "8px 12px", maxWidth: "1280px", margin: "0 auto" }}>
+                  <div className="container" style={{ position: "relative", display: "flex", flexWrap: "wrap", justifyContent: "center", alignItems: "center", gap: "6px 14px", maxWidth: "1400px", margin: "0 auto", padding: "0 10px" }}>
                       <a href="/">Home</a>
                       <a href="/community">Community</a>
                       <a href="/community/reels">Reels</a>
