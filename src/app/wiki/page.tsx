@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 
 const wikiPages = [
+  { href: "/wiki/guides/cobbleleague-phone", icon: "📱", title: "CobbleLeague Phone", desc: "Complete guide to the Trainer Phone, Tournaments, Gym Leaders, App Merging, and League features.", bg: "linear-gradient(135deg, #06b6d4, #3b82f6)" },
   { href: "/wiki/guides/npc", icon: "🗺️", title: "NPCs & Gyms Guide", desc: "Complete guide to Gyms, custom NPCs, EV Training, and Server Warps.", bg: "linear-gradient(135deg, #8b5cf6, #ec4899)" },
   { href: "/wiki/pokedex", icon: "📖", title: "Official Pokémon Dex", desc: "Explore all official Pokémon, their base stats, abilities, typings, and more!", bg: "linear-gradient(135deg, #f59e0b, #ef4444)" },
   { href: "/wiki/fakemons", icon: "🐉", title: "Fakemon Dex", desc: "Explore all the custom Fakemons, their stats, types, abilities, and learnable moves.", bg: "#e6f7ff" },

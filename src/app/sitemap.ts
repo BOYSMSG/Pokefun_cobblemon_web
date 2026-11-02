@@ -60,6 +60,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
     {
+      url: `${baseUrl}/wiki/guides/cobbleleague-phone`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.7,
+    },
+    {
       url: `${baseUrl}/changelogs`,
       lastModified: new Date(),
       changeFrequency: 'weekly',

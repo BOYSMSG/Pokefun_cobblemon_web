@@ -44,6 +44,7 @@ export default function GlobalSidebar() {
   ];
 
   const guideLinks = [
+    { title: "CobbleLeague Phone", path: "/wiki/guides/cobbleleague-phone" },
     { title: "NPCs & Gyms Guide", path: "/wiki/guides/npc" },
     { title: "Introduction", path: "/wiki/guides" },
     { title: "Server Features", path: "/wiki/guides/features" },
