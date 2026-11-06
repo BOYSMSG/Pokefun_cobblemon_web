@@ -4,6 +4,9 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import GlobalSaleBanner from "@/components/GlobalSaleBanner";
 import DynamicHero3D from "@/components/3d/DynamicHero3D";
+import AtmosphereEngine from "@/components/effects/AtmosphereEngine";
+import CinematicScroll from "@/components/effects/CinematicScroll";
+import MagneticButton from "@/components/effects/MagneticButton";
 
 export default function HomePage() {
   const [playerCount, setPlayerCount] = useState<number | null>(null);
@@ -102,7 +105,12 @@ export default function HomePage() {
       {/* =================================================================
           WHITE & ELECTRIC AQUA SCI-FI HERO SECTION (SPLIT-HERO LAYOUT)
           ================================================================= */}
+      {/* Cinematic GSAP Scroll Choreography */}
+      <CinematicScroll />
+
       <section className="scifi-cyber-grid hero-sci-fi-section">
+        {/* Living Atmosphere Particle Engine */}
+        <AtmosphereEngine />
 
         {/* Ambient Holographic Glow Aura */}
         <div style={{
@@ -230,30 +238,32 @@ export default function HomePage() {
                   </span>
                 </div>
 
-                {/* 1-Click Copy Button */}
-                <button
-                  onClick={handleCopyIP}
-                  className="interactive-hero-btn scifi-sheen-btn cta-btn-play apex-gateway-copy-btn"
-                  style={{
-                    padding: "11px 22px",
-                    borderRadius: "12px",
-                    fontWeight: 900,
-                    border: "none",
-                    cursor: "pointer",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "10px",
-                    background: copied ? "#10b981" : "linear-gradient(135deg, #1677FF 0%, #00C9D8 100%)",
-                    color: "#FFFFFF",
-                    boxShadow: copied ? "0 4px 20px rgba(16, 185, 129, 0.45)" : "0 4px 20px rgba(0, 201, 216, 0.45)",
-                    fontSize: "0.88rem",
-                    letterSpacing: "0.5px"
-                  }}
-                  title="Click to copy server IP to clipboard"
-                >
-                  <i className={`fa-solid ${copied ? 'fa-check' : 'fa-copy'}`} style={{ fontSize: "1.1rem" }}></i>
-                  <span>{copied ? 'IP COPIED! ⚡' : 'CLICK TO COPY'}</span>
-                </button>
+                {/* 1-Click Copy Button with Magnetic Tactility */}
+                <MagneticButton strength={0.22}>
+                  <button
+                    onClick={handleCopyIP}
+                    className="interactive-hero-btn scifi-sheen-btn cta-btn-play apex-gateway-copy-btn"
+                    style={{
+                      padding: "11px 22px",
+                      borderRadius: "12px",
+                      fontWeight: 900,
+                      border: "none",
+                      cursor: "pointer",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "10px",
+                      background: copied ? "#10b981" : "linear-gradient(135deg, #1677FF 0%, #00C9D8 100%)",
+                      color: "#FFFFFF",
+                      boxShadow: copied ? "0 4px 20px rgba(16, 185, 129, 0.45)" : "0 4px 20px rgba(0, 201, 216, 0.45)",
+                      fontSize: "0.88rem",
+                      letterSpacing: "0.5px"
+                    }}
+                    title="Click to copy server IP to clipboard"
+                  >
+                    <i className={`fa-solid ${copied ? 'fa-check' : 'fa-copy'}`} style={{ fontSize: "1.1rem" }}></i>
+                    <span>{copied ? 'IP COPIED! ⚡' : 'CLICK TO COPY'}</span>
+                  </button>
+                </MagneticButton>
               </div>
 
               {/* Terminal Details Footer */}
@@ -411,7 +421,7 @@ export default function HomePage() {
       {/* =================================================================
           COMMUNITY HUB PROMO BANNER (WHITE & ELECTRIC AQUA)
           ================================================================= */}
-      <section style={{
+      <section className="community-hub-card" style={{
         position: "relative",
         overflow: "hidden",
         borderRadius: "24px",
@@ -506,7 +516,7 @@ export default function HomePage() {
           </p>
         </div>
 
-        <div style={{
+        <div className="features-grid-container" style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
           gap: "24px"
@@ -514,6 +524,7 @@ export default function HomePage() {
           {featureItems.map((item, idx) => (
             <div 
               key={idx}
+              className="feature-card-item"
               style={{
                 borderRadius: "22px",
                 background: "#FFFFFF",
@@ -582,7 +593,7 @@ export default function HomePage() {
       {/* =================================================================
           GLOBAL LEADERBOARD PROMO CARD
           ================================================================= */}
-      <section style={{
+      <section className="leaderboard-promo-section" style={{
         position: "relative",
         overflow: "hidden",
         borderRadius: "24px",

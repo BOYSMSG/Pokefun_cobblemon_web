@@ -34,15 +34,17 @@ export default function HeroScene({
     let modelGroup: THREE.Group | null = null;
     let cyberRing: THREE.Mesh | null = null;
     let cyberRingOuter: THREE.Mesh | null = null;
-    let basePosY = 0;
-    const baseRotY = rotY;
+    let groundContact: THREE.Mesh | null = null;
+    let hasNativeAnim = false;
+    let basePosY = 0.05;
+    let isVisible = true;
 
     // Scene
     const scene = new THREE.Scene();
 
     // Camera setup - looking from +Z towards origin
     const width = container.clientWidth || window.innerWidth;
-    const height = container.clientHeight || 650;
+    const height = container.clientHeight || 520;
     const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
     camera.position.set(0, 1.8, 5.2);
     camera.lookAt(0, 0.9, 0);
@@ -61,7 +63,7 @@ export default function HeroScene({
     container.appendChild(renderer.domElement);
 
     // Studio Lighting for Electric Sci-Fi Aqua Look
-    const ambientLight = new THREE.AmbientLight(0xf0faff, 2.2);
+    const ambientLight = new THREE.AmbientLight(0xf0faff, 2.3);
     scene.add(ambientLight);
 
     const keyLight = new THREE.DirectionalLight(0x00c9d8, 3.4);
@@ -91,6 +93,32 @@ export default function HeroScene({
     stageMesh.position.y = -0.08;
     scene.add(stageMesh);
 
+    // Ground Contact Shadow Disc (Makes Pokémon feel grounded on stage)
+    const shadowGeo = new THREE.PlaneGeometry(3.2, 3.2);
+    const shadowCanvas = document.createElement("canvas");
+    shadowCanvas.width = 128;
+    shadowCanvas.height = 128;
+    const sCtx = shadowCanvas.getContext("2d");
+    if (sCtx) {
+      const grad = sCtx.createRadialGradient(64, 64, 0, 64, 64, 64);
+      grad.addColorStop(0, "rgba(0, 180, 216, 0.55)");
+      grad.addColorStop(0.5, "rgba(22, 119, 255, 0.2)");
+      grad.addColorStop(1, "rgba(0, 0, 0, 0)");
+      sCtx.fillStyle = grad;
+      sCtx.fillRect(0, 0, 128, 128);
+    }
+    const shadowTex = new THREE.CanvasTexture(shadowCanvas);
+    const shadowMat = new THREE.MeshBasicMaterial({
+      map: shadowTex,
+      transparent: true,
+      opacity: 0.7,
+      depthWrite: false
+    });
+    groundContact = new THREE.Mesh(shadowGeo, shadowMat);
+    groundContact.rotation.x = -Math.PI / 2;
+    groundContact.position.y = 0.01;
+    scene.add(groundContact);
+
     // Inner Glowing Neon Cyber-Ring
     const ringGeo = new THREE.RingGeometry(2.6, 2.75, 64);
     const ringMat = new THREE.MeshBasicMaterial({
@@ -118,18 +146,18 @@ export default function HeroScene({
     scene.add(cyberRingOuter);
 
     // Floating Luminous Sci-Fi Energy Particles
-    const particleCount = 85;
+    const particleCount = 65;
     const particleGeo = new THREE.BufferGeometry();
     const particlePos = new Float32Array(particleCount * 3);
     for (let i = 0; i < particleCount * 3; i += 3) {
-      particlePos[i] = (Math.random() - 0.5) * 12;
-      particlePos[i + 1] = Math.random() * 4.5 + 0.1;
-      particlePos[i + 2] = (Math.random() - 0.5) * 12;
+      particlePos[i] = (Math.random() - 0.5) * 8;
+      particlePos[i + 1] = Math.random() * 4.2 + 0.1;
+      particlePos[i + 2] = (Math.random() - 0.5) * 8;
     }
     particleGeo.setAttribute("position", new THREE.BufferAttribute(particlePos, 3));
     const particleMat = new THREE.PointsMaterial({
       color: 0x00c9d8,
-      size: 0.065,
+      size: 0.055,
       transparent: true,
       opacity: 0.85,
       blending: THREE.AdditiveBlending
@@ -137,16 +165,39 @@ export default function HeroScene({
     const particles = new THREE.Points(particleGeo, particleMat);
     scene.add(particles);
 
-    // Mouse Interaction
-    let mouseOffsetRotY = 0;
+    // Tactile 360° Drag & Pointer Interaction
+    let currentRotY = rotY;
+    let targetRotY = rotY;
     let mouseOffsetRotX = 0;
-    const handleMouseMove = (e: MouseEvent) => {
-      const mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-      const mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
-      mouseOffsetRotY = mouseX * 0.4;
-      mouseOffsetRotX = mouseY * 0.15;
+    let isDragging = false;
+    let lastPointerX = 0;
+
+    const onPointerDown = (e: PointerEvent) => {
+      isDragging = true;
+      lastPointerX = e.clientX;
+      if (container) container.style.cursor = "grabbing";
     };
-    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+
+    const onPointerMove = (e: PointerEvent) => {
+      if (isDragging) {
+        const deltaX = e.clientX - lastPointerX;
+        lastPointerX = e.clientX;
+        targetRotY += deltaX * 0.015;
+      } else {
+        const mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+        const mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+        mouseOffsetRotX = mouseY * 0.12;
+      }
+    };
+
+    const onPointerUp = () => {
+      isDragging = false;
+      if (container) container.style.cursor = "grab";
+    };
+
+    container.addEventListener("pointerdown", onPointerDown);
+    window.addEventListener("pointermove", onPointerMove, { passive: true });
+    window.addEventListener("pointerup", onPointerUp);
 
     // Load Cobblemon GLB Model
     const loader = new GLTFLoader();
@@ -162,16 +213,13 @@ export default function HeroScene({
         const targetSize = 2.4;
         const autoScale = maxDim > 0 ? targetSize / maxDim : 1.2;
         
-        // Setup wrapper group for clear hierarchy
         const wrapper = new THREE.Group();
         gltf.scene.scale.set(autoScale, autoScale, autoScale);
         gltf.scene.position.x = -center.x * autoScale;
         gltf.scene.position.z = -center.z * autoScale;
         
-        // Smart vertical centering to ensure both ground and flying/hover models stay in pod center
         const bottomGroundedY = -box.min.y * autoScale;
         const middlePodY = -center.y * autoScale + 1.1;
-        // If bottom grounding pushes center out of view (> 1.7 or < 0.4), use middle centering
         const centerAfterGrounded = (center.y - box.min.y) * autoScale;
         if (centerAfterGrounded > 1.8 || box.min.y > 1.5) {
           gltf.scene.position.y = middlePodY;
@@ -180,7 +228,9 @@ export default function HeroScene({
         }
         
         wrapper.add(gltf.scene);
-        wrapper.rotation.y = baseRotY; // Initial facing angle (facing camera)
+        wrapper.rotation.y = rotY;
+        currentRotY = rotY;
+        targetRotY = rotY;
         
         basePosY = 0.05;
         wrapper.position.y = basePosY;
@@ -191,11 +241,14 @@ export default function HeroScene({
         if (gltf.animations && gltf.animations.length > 0) {
           try {
             mixer = new THREE.AnimationMixer(gltf.scene);
-            const idleClip = gltf.animations.find(a => a.name.includes("battle") || a.name.includes("idle") || a.name.includes("water") || a.name.includes("air")) || gltf.animations[0];
+            const idleClip = gltf.animations.find(a => 
+              a.name.includes("battle") || a.name.includes("idle") || a.name.includes("water") || a.name.includes("air")
+            ) || gltf.animations[0];
             if (idleClip) {
               const action = mixer.clipAction(idleClip);
               action.setEffectiveTimeScale(1.0);
               action.play();
+              hasNativeAnim = true;
             }
           } catch (animErr) {
             console.warn("Hero model animation fallback to rest pose:", animErr);
@@ -210,7 +263,7 @@ export default function HeroScene({
       }
     );
 
-    // Window resize
+    // Responsive window resize
     const handleResize = () => {
       if (!container) return;
       const w = container.clientWidth;
@@ -221,10 +274,19 @@ export default function HeroScene({
     };
     window.addEventListener("resize", handleResize);
 
+    // Pause rendering loop when component scrolled off-screen
+    const observer = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting;
+    }, { threshold: 0.1 });
+    observer.observe(container);
+
     // Animation Loop
     const clock = new THREE.Clock();
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
+
+      if (!isVisible) return; // Sleep when scrolled away to conserve GPU
+
       const delta = clock.getDelta();
       const elapsedTime = clock.getElapsedTime();
 
@@ -232,28 +294,40 @@ export default function HeroScene({
         mixer.update(delta);
       }
 
-      // Smooth model mouse tilt + gentle sci-fi hover bob (centered around baseRotY & basePosY)
+      // Smooth model drag rotation with lerp inertia
       if (modelGroup) {
-        const targetY = baseRotY + mouseOffsetRotY;
-        const targetX = mouseOffsetRotX;
-        modelGroup.rotation.y += (targetY - modelGroup.rotation.y) * 0.05;
-        modelGroup.rotation.x += (targetX - modelGroup.rotation.x) * 0.05;
-        modelGroup.position.y = basePosY + Math.sin(elapsedTime * 1.6) * 0.05;
+        // Slow auto-turntable spin when user is not actively dragging
+        if (!isDragging) {
+          targetRotY += 0.0035;
+        }
+        currentRotY += (targetRotY - currentRotY) * 0.08;
+        modelGroup.rotation.y = currentRotY;
+        modelGroup.rotation.x += (mouseOffsetRotX - modelGroup.rotation.x) * 0.06;
+
+        // Subtle procedural idle breathing oscillation (enhances models without skeletal clips)
+        const breathe = Math.sin(elapsedTime * 2.2) * (hasNativeAnim ? 0.02 : 0.04);
+        modelGroup.position.y = basePosY + breathe;
+
+        // Ground shadow scales inversely with hover bob
+        if (groundContact) {
+          const shadowScale = 1 - (breathe * 1.5);
+          groundContact.scale.set(shadowScale, shadowScale, shadowScale);
+        }
       }
 
       // Rotate cyber-rings
       if (cyberRing) {
-        cyberRing.rotation.z = elapsedTime * 0.3;
+        cyberRing.rotation.z = elapsedTime * 0.35;
       }
       if (cyberRingOuter) {
-        cyberRingOuter.rotation.z = -elapsedTime * 0.18;
+        cyberRingOuter.rotation.z = -elapsedTime * 0.2;
       }
 
       // Float particles
       const positions = particleGeo.attributes.position.array as Float32Array;
       for (let i = 1; i < particleCount * 3; i += 3) {
-        positions[i] += 0.006;
-        if (positions[i] > 4.5) {
+        positions[i] += 0.007;
+        if (positions[i] > 4.2) {
           positions[i] = 0.1;
         }
       }
@@ -266,12 +340,28 @@ export default function HeroScene({
 
     return () => {
       cancelAnimationFrame(animationFrameId);
-      window.removeEventListener("mousemove", handleMouseMove);
+      container.removeEventListener("pointerdown", onPointerDown);
+      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("pointerup", onPointerUp);
       window.removeEventListener("resize", handleResize);
+      observer.disconnect();
+
       if (mixer) mixer.stopAllAction();
-      if (container && renderer.domElement) {
+      if (container && renderer.domElement && container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);
       }
+      // Resource cleanup
+      stageGeo.dispose();
+      stageMat.dispose();
+      shadowGeo.dispose();
+      shadowTex.dispose();
+      shadowMat.dispose();
+      ringGeo.dispose();
+      ringMat.dispose();
+      outerRingGeo.dispose();
+      outerRingMat.dispose();
+      particleGeo.dispose();
+      particleMat.dispose();
       renderer.dispose();
     };
   }, [modelPath, rotY]);
@@ -303,6 +393,7 @@ export default function HeroScene({
         height: "100%", 
         position: "relative",
         cursor: "grab",
+        touchAction: "pan-y",
         opacity: isLoaded ? 1 : 0.4,
         transition: "opacity 0.4s ease"
       }} 

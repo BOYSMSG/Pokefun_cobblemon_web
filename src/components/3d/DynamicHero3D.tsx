@@ -241,6 +241,25 @@ export default function DynamicHero3D() {
         </button>
       </div>
 
+      {/* Subtle Holographic Projection Scanlines & Technical HUD Accents */}
+      <div 
+        style={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage: "linear-gradient(rgba(0, 201, 216, 0.035) 50%, transparent 50%)",
+          backgroundSize: "100% 4px",
+          pointerEvents: "none",
+          zIndex: 10,
+          borderRadius: "inherit"
+        }}
+      />
+      <div style={{ position: "absolute", top: 12, left: 16, fontSize: "0.62rem", color: "rgba(0, 201, 216, 0.6)", fontFamily: "monospace", fontWeight: 800, pointerEvents: "none", letterSpacing: "1px", zIndex: 12 }}>
+        [ARENA::3D_HOLOGRAM]
+      </div>
+      <div style={{ position: "absolute", top: 12, right: 16, fontSize: "0.62rem", color: "rgba(22, 119, 255, 0.6)", fontFamily: "monospace", fontWeight: 800, pointerEvents: "none", zIndex: 12 }}>
+        60 FPS • WEBGL
+      </div>
+
       {/* 3D WebGL Canvas */}
       <HeroSceneComponent 
         key={currentPokemon.path}
