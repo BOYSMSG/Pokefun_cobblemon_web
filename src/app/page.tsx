@@ -120,6 +120,9 @@ export default function HomePage() {
         {/* Readability Gradient Layer (Text contrast on left, reveals vibrant world on right) */}
         <div className="cinematic-hero-readability"></div>
 
+        {/* Seamless Side World Atmosphere Fade (Softens left and right edges so world never cuts off) */}
+        <div className="cinematic-hero-side-fade"></div>
+
         {/* Atmospheric Particle Layer */}
         <div className="cinematic-hero-particles"></div>
         <AtmosphereEngine />
@@ -208,8 +211,8 @@ export default function HomePage() {
                   <span>Java Edition 1.21.1 • Port: 25565</span>
                 </div>
                 <div className="gateway-footer-item">
-                  <i className="fa-solid fa-laptop" style={{ color: "#1677FF" }}></i>
-                  <span>Bedrock Connect Supported</span>
+                  <i className="fa-solid fa-server" style={{ color: "#1677FF" }}></i>
+                  <span>Direct IP Connect Supported</span>
                 </div>
               </div>
             </div>

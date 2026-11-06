@@ -214,28 +214,37 @@ export default function HeroScene({
     // Tactile 360° Drag & Pointer Interaction (Manual inspect only - no continuous auto-spin)
     let currentRotY = rotY;
     let targetRotY = rotY;
+    let currentRotX = 0;
+    let targetRotX = 0;
     let mouseOffsetRotX = 0;
     let mouseOffsetRotY = 0;
     let isDragging = false;
     let lastPointerX = 0;
+    let lastPointerY = 0;
 
     const onPointerDown = (e: PointerEvent) => {
       isDragging = true;
       lastPointerX = e.clientX;
+      lastPointerY = e.clientY;
       if (container) container.style.cursor = "grabbing";
     };
 
     const onPointerMove = (e: PointerEvent) => {
       if (isDragging) {
         const deltaX = e.clientX - lastPointerX;
+        const deltaY = e.clientY - lastPointerY;
         lastPointerX = e.clientX;
+        lastPointerY = e.clientY;
+        // Horizontal 360 drag rotation
         targetRotY += deltaX * 0.015;
+        // Vertical pitch/tilt rotation (clamped to approx 45 degrees so model tilts naturally without flipping)
+        targetRotX = THREE.MathUtils.clamp(targetRotX + deltaY * 0.012, -0.44, 0.38);
       } else {
         const rect = container.getBoundingClientRect();
-        const relX = (e.clientX - rect.left) / rect.width - 0.5; // -0.5 (left near < arrow) to +0.5 (right near > arrow)
-        const relY = -((e.clientY - rect.top) / rect.height - 0.5);
-        mouseOffsetRotX = relY * 0.1;
-        // Responsive body/gaze tracking: turns up to ~25 degrees following pointer
+        const relX = (e.clientX - rect.left) / rect.width - 0.5; // -0.5 (left arrow) to +0.5 (right arrow)
+        const relY = (e.clientY - rect.top) / rect.height - 0.5;   // -0.5 (top) to +0.5 (bottom)
+        // Responsive body/gaze tracking: tilts up/down and glances left/right following pointer
+        mouseOffsetRotX = -relY * 0.22;
         mouseOffsetRotY = relX * 0.45;
       }
     };
@@ -254,28 +263,37 @@ export default function HeroScene({
     loader.load(
       modelPath,
       (gltf) => {
-        // Auto-normalize scale and center so any Pokemon sits perfectly on the cyber pedestal
+        // Auto-normalize scale and grounding to match the approved Lapras golden standard
         const box = new THREE.Box3().setFromObject(gltf.scene);
         const size = box.getSize(new THREE.Vector3());
         const center = box.getCenter(new THREE.Vector3());
         
         const maxDim = Math.max(size.x, size.y, size.z);
-        const targetSize = 2.22; // Comfortable clearance on both desktop and mobile
-        const autoScale = maxDim > 0 ? targetSize / maxDim : 1.15;
+        const widthFootprint = Math.max(size.x, size.z);
+        const heightDim = size.y || 1;
+
+        // Balanced scaling: target height ~2.08, footprint ~2.3
+        const scaleForHeight = 2.12 / heightDim;
+        const scaleForWidth = 2.38 / (widthFootprint || 1);
+        let autoScale = Math.min(scaleForHeight, scaleForWidth);
+
+        // For slender humanoid/tall models, ensure generous body presence
+        if (widthFootprint < heightDim * 0.72) {
+          autoScale = Math.min(scaleForHeight * 1.08, 2.22 / heightDim);
+        }
+        // For compact/quadruped models like Pikachu, ensure solid presence
+        if (maxDim < 1.0) {
+          autoScale = 2.38 / maxDim;
+        }
         
         const wrapper = new THREE.Group();
         gltf.scene.scale.set(autoScale, autoScale, autoScale);
         gltf.scene.position.x = -center.x * autoScale;
         gltf.scene.position.z = -center.z * autoScale;
         
-        const bottomGroundedY = -box.min.y * autoScale;
-        const middlePodY = -center.y * autoScale + 0.95;
-        const centerAfterGrounded = (center.y - box.min.y) * autoScale;
-        if (centerAfterGrounded > 1.8 || box.min.y > 1.5) {
-          gltf.scene.position.y = middlePodY;
-        } else {
-          gltf.scene.position.y = bottomGroundedY;
-        }
+        // Exact Lapras Grounding: ensure lowest point of model rests right on the pedestal (y = 0.05)
+        const scaledBox = new THREE.Box3().setFromObject(gltf.scene);
+        gltf.scene.position.y = -scaledBox.min.y + 0.05;
         
         wrapper.add(gltf.scene);
         wrapper.rotation.y = rotY;

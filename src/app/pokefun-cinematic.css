@@ -41,14 +41,14 @@
 /* Real POKEFUN Minecraft World Background (Zoomed with subtle living world movement) */
 .cinematic-hero-world-img {
   position: absolute;
-  inset: -4%;
-  width: 108%;
-  height: 108%;
+  inset: -6%;
+  width: 112%;
+  height: 112%;
   object-fit: cover;
-  object-position: center 38%;
+  object-position: center 36%;
   z-index: -3;
   pointer-events: none;
-  transform: scale(1.04);
+  transform: scale(1.06);
   animation: subtle-world-float 26s ease-in-out infinite alternate;
 }
 
@@ -86,6 +86,20 @@
   pointer-events: none;
   background: url('/assets/pokefun/particle-overlay.svg') center/cover no-repeat;
   opacity: 0.55;
+}
+
+/* Seamless Side World Atmosphere Fade (Softens side borders so the world never looks cut) */
+.cinematic-hero-side-fade {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(to right, 
+    rgba(248, 251, 255, 0.45) 0%, 
+    transparent 5%, 
+    transparent 93%, 
+    rgba(248, 251, 255, 0.72) 100%
+  );
 }
 
 /* Two-Column Responsive Grid */
@@ -438,7 +452,8 @@
 .cinematic-hero-right {
   position: relative;
   width: 100%;
-  height: 520px;
+  height: 535px;
+  margin-top: -24px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -490,77 +505,77 @@
 }
 
 .stage-nav-prev {
-  left: 10px;
+  left: 55px;
 }
 
 .stage-nav-next {
-  right: 10px;
+  right: 55px;
 }
 
 /* Bottom Pokémon Battle Card */
 .cinematic-pokemon-card {
   position: absolute;
-  bottom: 12px;
+  bottom: 14px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 25;
   background: rgba(255, 255, 255, 0.96);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-radius: 18px;
+  border-radius: 16px;
   border: 1.5px solid rgba(0, 201, 216, 0.45);
-  box-shadow: 0 10px 30px rgba(0, 201, 216, 0.18);
-  padding: 10px 20px;
-  min-width: 300px;
-  max-width: 92%;
+  box-shadow: 0 8px 24px rgba(0, 201, 216, 0.16);
+  padding: 7px 16px;
+  min-width: 260px;
+  max-width: 90%;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
 }
 
 .pokemon-card-top-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 10px;
 }
 
 .pokemon-card-dex {
   font-family: monospace;
-  font-size: 0.74rem;
+  font-size: 0.68rem;
   font-weight: 800;
   color: #1677FF;
-  letter-spacing: 0.6px;
+  letter-spacing: 0.5px;
 }
 
 .pokemon-card-badge {
-  font-size: 0.68rem;
+  font-size: 0.62rem;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.6px;
-  padding: 2px 8px;
-  border-radius: 6px;
+  letter-spacing: 0.5px;
+  padding: 2px 7px;
+  border-radius: 5px;
   background: rgba(245, 158, 11, 0.12);
   color: #D97706;
   border: 1px solid rgba(245, 158, 11, 0.25);
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
 }
 
 .pokemon-card-bottom-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 14px;
+  gap: 12px;
 }
 
 .pokemon-card-name {
   font-family: 'Righteous', cursive, sans-serif;
-  font-size: 1.25rem;
+  font-size: 1.08rem;
   font-weight: 900;
   color: #0B1524;
-  letter-spacing: 0.4px;
+  letter-spacing: 0.3px;
 }
 
 .pokemon-card-types {
