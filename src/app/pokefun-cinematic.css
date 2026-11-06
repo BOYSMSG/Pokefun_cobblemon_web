@@ -2,7 +2,15 @@
    POKEFUN CINEMATIC HOMEPAGE STYLES (MATCHING REFERENCE B EXACTLY)
    ========================================================================== */
 
-/* Hero Container */
+/* Full-bleed Edge-to-Edge Container Override for Homepage */
+.site-main-viewport {
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+}
+
+/* Hero Section */
 .cinematic-hero-section {
   position: relative;
   isolation: isolate;
@@ -12,29 +20,43 @@
   background: #F8FBFF;
 }
 
-/* Real POKEFUN Minecraft World Background */
+/* Real POKEFUN Minecraft World Background (Zoomed with subtle living world movement) */
 .cinematic-hero-world-img {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  inset: -4%;
+  width: 108%;
+  height: 108%;
   object-fit: cover;
-  object-position: center 44%;
+  object-position: center 38%;
   z-index: -3;
   pointer-events: none;
+  transform: scale(1.04);
+  animation: subtle-world-float 26s ease-in-out infinite alternate;
 }
 
-/* Readability Gradient Layer (Preserves text contrast on left, reveals world on right) */
+@keyframes subtle-world-float {
+  0% {
+    transform: scale(1.04) translate(0, 0);
+  }
+  50% {
+    transform: scale(1.07) translate(-8px, -4px);
+  }
+  100% {
+    transform: scale(1.04) translate(6px, 3px);
+  }
+}
+
+/* Reduced Opacity Readability Gradient: City & Statues are vividly showing */
 .cinematic-hero-readability {
   position: absolute;
   inset: 0;
   z-index: -2;
   pointer-events: none;
   background: linear-gradient(90deg, 
-    rgba(248, 251, 255, 0.98) 0%, 
-    rgba(248, 251, 255, 0.92) 36%, 
-    rgba(248, 251, 255, 0.45) 62%, 
-    rgba(248, 251, 255, 0.08) 100%
+    rgba(248, 251, 255, 0.84) 0%, 
+    rgba(248, 251, 255, 0.68) 25%, 
+    rgba(248, 251, 255, 0.12) 48%, 
+    transparent 62%
   );
 }
 
@@ -45,44 +67,14 @@
   z-index: -1;
   pointer-events: none;
   background: url('/assets/pokefun/particle-overlay.svg') center/cover no-repeat;
-  opacity: 0.65;
-}
-
-/* Natural Corner Foliage */
-.cinematic-leaf {
-  position: absolute;
-  pointer-events: none;
-  z-index: 5; /* Positioned behind text and buttons so content is always 100% unobstructed */
-  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.10));
-}
-
-.leaf-top-left {
-  top: -30px;
-  left: -30px;
-  width: clamp(90px, 11vw, 140px);
-  opacity: 0.85;
-}
-
-.leaf-bottom-left {
-  bottom: 40px;
-  left: -30px;
-  width: clamp(90px, 11vw, 140px);
-  opacity: 0.80;
-  transform: rotate(35deg);
-}
-
-.leaf-bottom-right {
-  bottom: 40px;
-  right: -25px;
-  width: clamp(130px, 15vw, 210px);
-  transform: scaleX(-1) rotate(15deg);
+  opacity: 0.55;
 }
 
 /* Two-Column Responsive Grid */
 .cinematic-hero-container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 40px 32px 30px 32px;
+  padding: 30px 32px 30px 32px;
   display: grid;
   grid-template-columns: 1.08fr 0.92fr;
   gap: 40px;
@@ -98,27 +90,30 @@
   gap: 14px;
 }
 
-/* Edition Pill */
+/* Live Edition Pill Badge */
 .cinematic-edition-pill {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 7px 18px;
   border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.94);
   border: 1.5px solid rgba(0, 201, 216, 0.45);
   box-shadow: 0 4px 18px rgba(0, 201, 216, 0.15);
   backdrop-filter: blur(12px);
   width: fit-content;
 }
 
-.cinematic-edition-pill .pill-diamond {
-  color: #1677FF;
-  font-size: 0.85rem;
+.cinematic-edition-pill .pill-live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 10px #10b981;
 }
 
 .cinematic-edition-pill .pill-smp {
-  font-size: 0.76rem;
+  font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 0.8px;
   color: #0B1524;
@@ -130,7 +125,7 @@
 }
 
 .cinematic-edition-pill .pill-platform {
-  font-size: 0.76rem;
+  font-size: 0.78rem;
   font-weight: 800;
   color: #1677FF;
   letter-spacing: 0.5px;
@@ -145,6 +140,7 @@
   letter-spacing: 0.5px;
   color: #0B1524;
   margin: 0;
+  text-shadow: 0 2px 16px rgba(255, 255, 255, 0.85);
 }
 
 .cinematic-title-gradient {
@@ -160,22 +156,25 @@
   color: #0B1524;
   margin: 0;
   letter-spacing: 0.2px;
+  text-shadow: 0 2px 14px rgba(255, 255, 255, 0.85);
 }
 
 /* Description */
 .cinematic-description {
   font-size: clamp(0.96rem, 1.5vw, 1.08rem);
-  color: #3D567A;
+  color: #1E293B;
+  font-weight: 600;
   line-height: 1.6;
   max-width: 550px;
   margin: 0;
+  text-shadow: 0 1px 12px rgba(255, 255, 255, 0.9);
 }
 
 /* ==========================================================================
-   SERVER GATEWAY CARD (MATCHING REFERENCE B)
+   SERVER GATEWAY CARD
    ========================================================================== */
 .cinematic-gateway-card {
-  background: rgba(255, 255, 255, 0.94);
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-radius: 20px;
@@ -336,22 +335,24 @@
   gap: 6px;
 }
 
-/* Secondary Quick Buttons (Discord, Store, Wiki) */
+/* ==========================================================================
+   SECONDARY ACTION BUTTONS (DISCORD, STORE, WIKI, OWNER)
+   ========================================================================== */
 .cinematic-secondary-row {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
   max-width: 580px;
 }
 
 .cinematic-secondary-btn {
   text-decoration: none;
   border-radius: 14px;
-  padding: 10px 14px;
+  padding: 9px 12px;
   color: #FFFFFF;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
@@ -380,8 +381,13 @@
   box-shadow: 0 4px 18px rgba(0, 201, 216, 0.32);
 }
 
+.btn-owner {
+  background: linear-gradient(135deg, #38BDF8 0%, #0284C7 100%);
+  box-shadow: 0 4px 18px rgba(14, 165, 233, 0.35);
+}
+
 .btn-icon-wrap {
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -394,22 +400,22 @@
 }
 
 .btn-main-title {
-  font-size: 0.86rem;
+  font-size: 0.82rem;
   font-weight: 900;
   letter-spacing: 0.4px;
 }
 
 .btn-sub-title {
-  font-size: 0.68rem;
+  font-size: 0.65rem;
   font-weight: 700;
   opacity: 0.92;
   display: flex;
   align-items: center;
-  gap: 3px;
+  gap: 2px;
 }
 
 /* ==========================================================================
-   RIGHT COLUMN: LIVING POKEMON STAGE
+   RIGHT COLUMN: SEAMLESS LIVING POKEMON STAGE (NO RECTANGLE BOX)
    ========================================================================== */
 .cinematic-hero-right {
   position: relative;
@@ -418,12 +424,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 /* Circular Holographic Pedestal Base */
 .cinematic-pedestal-svg {
   position: absolute;
-  bottom: 30px;
+  bottom: 25px;
   left: 50%;
   transform: translateX(-50%);
   width: min(100%, 640px);
@@ -442,7 +451,7 @@
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.94);
   border: 2px solid rgba(0, 201, 216, 0.5);
   box-shadow: 0 6px 20px rgba(0, 201, 216, 0.25);
   color: #1677FF;
@@ -470,7 +479,7 @@
   right: 10px;
 }
 
-/* Bottom Pokémon Battle Card (Matching Reference B) */
+/* Bottom Pokémon Battle Card */
 .cinematic-pokemon-card {
   position: absolute;
   bottom: 12px;
@@ -552,19 +561,6 @@
   gap: 4px;
   color: #FFFFFF;
 }
-
-.type-water { background: #1677FF; }
-.type-dark { background: #1E293B; }
-.type-fire { background: #EF4444; }
-.type-grass { background: #10B981; }
-.type-electric { background: #F59E0B; }
-.type-psychic { background: #EC4899; }
-.type-fighting { background: #B45309; }
-.type-ghost { background: #7C3AED; }
-.type-dragon { background: #6366F1; }
-.type-normal { background: #64748B; }
-.type-fairy { background: #F472B6; }
-.type-default { background: #00C9D8; }
 
 .pokemon-card-drag-hint {
   font-size: 0.64rem;
@@ -660,80 +656,7 @@
 }
 
 /* ==========================================================================
-   MOBILE & TABLET RESPONSIVENESS
-   ========================================================================== */
-@media (max-width: 991px) {
-  .cinematic-hero-section {
-    min-height: auto;
-  }
-
-  .cinematic-hero-readability {
-    background: linear-gradient(180deg, 
-      rgba(248, 251, 255, 0.94) 0%, 
-      rgba(248, 251, 255, 0.88) 50%, 
-      rgba(248, 251, 255, 0.98) 100%
-    );
-  }
-
-  .cinematic-hero-container {
-    grid-template-columns: 1fr;
-    gap: 32px;
-    padding: 24px 16px 20px 16px;
-  }
-
-  .cinematic-hero-right {
-    height: 440px;
-    order: 2;
-  }
-
-  .cinematic-feature-strip {
-    grid-template-columns: repeat(2, 1fr);
-    margin-top: -20px;
-    gap: 12px;
-    padding: 0 16px;
-  }
-
-  .cinematic-feature-card:last-child {
-    grid-column: span 2;
-  }
-
-  .cinematic-gateway-main-row {
-    grid-template-columns: 1fr;
-  }
-
-  .cinematic-primary-cta {
-    justify-content: center;
-  }
-
-  .cinematic-secondary-row {
-    grid-template-columns: 1fr;
-  }
-
-  .leaf-top-left {
-    width: 110px;
-  }
-
-  .leaf-bottom-left, .leaf-bottom-right {
-    display: none;
-  }
-}
-
-@media (max-width: 480px) {
-  .cinematic-title {
-    font-size: 2.2rem;
-  }
-
-  .cinematic-feature-strip {
-    grid-template-columns: 1fr;
-  }
-
-  .cinematic-feature-card:last-child {
-    grid-column: span 1;
-  }
-}
-
-/* ==========================================================================
-   FLOATING PILL NAVIGATION (MATCHING REFERENCE B)
+   FLOATING PILL NAVIGATION
    ========================================================================== */
 .desktop-global-header {
   position: sticky !important;
@@ -782,12 +705,67 @@
   box-shadow: 0 4px 14px rgba(22, 119, 255, 0.3) !important;
 }
 
-.desktop-global-header .auth-btn-signin,
-.desktop-global-header .login-btn-top {
-  background: linear-gradient(135deg, #1677FF 0%, #00C9D8 100%) !important;
-  color: #FFFFFF !important;
-  border-radius: 9999px !important;
-  font-weight: 800 !important;
-  padding: 7px 20px !important;
-  box-shadow: 0 4px 16px rgba(0, 201, 216, 0.35) !important;
+/* ==========================================================================
+   MOBILE & TABLET RESPONSIVENESS
+   ========================================================================== */
+@media (max-width: 991px) {
+  .cinematic-hero-section {
+    min-height: auto;
+  }
+
+  .cinematic-hero-readability {
+    background: linear-gradient(180deg, 
+      rgba(248, 251, 255, 0.90) 0%, 
+      rgba(248, 251, 255, 0.82) 48%, 
+      rgba(248, 251, 255, 0.95) 100%
+    );
+  }
+
+  .cinematic-hero-container {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 24px 16px 20px 16px;
+  }
+
+  .cinematic-hero-right {
+    height: 440px;
+    order: 2;
+  }
+
+  .cinematic-feature-strip {
+    grid-template-columns: repeat(2, 1fr);
+    margin-top: -20px;
+    gap: 12px;
+    padding: 0 16px;
+  }
+
+  .cinematic-feature-card:last-child {
+    grid-column: span 2;
+  }
+
+  .cinematic-gateway-main-row {
+    grid-template-columns: 1fr;
+  }
+
+  .cinematic-primary-cta {
+    justify-content: center;
+  }
+
+  .cinematic-secondary-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .cinematic-title {
+    font-size: 2.2rem;
+  }
+
+  .cinematic-feature-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .cinematic-feature-card:last-child {
+    grid-column: span 1;
+  }
 }

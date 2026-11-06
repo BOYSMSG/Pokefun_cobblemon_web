@@ -91,6 +91,7 @@ export default function HomePage() {
       {/* Hide the sidebar on Homepage for full-width cinematic Cobblemon hero */}
       <style dangerouslySetInnerHTML={{__html: `
         .desktop-sidebar-container { display: none !important; }
+        .site-main-viewport { max-width: 100% !important; margin: 0 !important; padding: 0 !important; width: 100% !important; }
         .site-content-layout { display: block !important; width: 100% !important; max-width: 100% !important; }
         .site-page-content { width: 100% !important; max-width: 100% !important; }
         
@@ -123,10 +124,7 @@ export default function HomePage() {
         <div className="cinematic-hero-particles"></div>
         <AtmosphereEngine />
 
-        {/* Natural Corner Foliage Accents */}
-        <img src="/assets/pokefun/leaf-corner.svg" alt="" className="cinematic-leaf leaf-top-left" />
-        <img src="/assets/pokefun/leaf-corner.svg" alt="" className="cinematic-leaf leaf-bottom-left" />
-        <img src="/assets/pokefun/leaf-corner.svg" alt="" className="cinematic-leaf leaf-bottom-right" />
+
 
         {/* Two-Column Responsive Hero Container */}
         <div className="cinematic-hero-container">
@@ -136,10 +134,10 @@ export default function HomePage() {
             
             {/* Top Live Edition Pill Badge */}
             <div className="cinematic-edition-pill">
-              <span className="pill-diamond">❖</span>
-              <span className="pill-smp">COBBLEMON SMP 1.21.1</span>
+              <span className="pill-live-dot"></span>
+              <span className="pill-smp">COBBLEMON 1.21.1</span>
               <span className="pill-dot">•</span>
-              <span className="pill-platform">JAVA &amp; BEDROCK</span>
+              <span className="pill-platform">MINECRAFT JAVA EDITION</span>
             </div>
 
             {/* Main Cinematic Heading */}
@@ -263,6 +261,23 @@ export default function HomePage() {
                 <div className="btn-text-wrap">
                   <span className="btn-main-title">Wiki</span>
                   <span className="btn-sub-title">Guides &amp; Info ↗</span>
+                </div>
+              </a>
+
+              {/* Owner Profile */}
+              <a 
+                href="https://shifan.pokefun.in/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="cinematic-secondary-btn btn-owner"
+                title="Server Founder & Developer: Shifan"
+              >
+                <div className="btn-icon-wrap">
+                  <i className="fa-solid fa-crown"></i>
+                </div>
+                <div className="btn-text-wrap">
+                  <span className="btn-main-title">Owner</span>
+                  <span className="btn-sub-title">Profile ↗</span>
                 </div>
               </a>
             </div>

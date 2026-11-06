@@ -79,20 +79,7 @@ export default function HeroScene({
     frontFill.position.set(0, 3, 6);
     scene.add(frontFill);
 
-    // Sci-Fi Holographic Floor Grid / Crystal Ice Stage
-    const stageGeo = new THREE.CylinderGeometry(3.6, 3.8, 0.15, 64);
-    const stageMat = new THREE.MeshStandardMaterial({
-      color: 0xe0f7fa,
-      emissive: 0x00bcd4,
-      emissiveIntensity: 0.25,
-      roughness: 0.15,
-      metalness: 0.35,
-      transparent: true,
-      opacity: 0.82
-    });
-    const stageMesh = new THREE.Mesh(stageGeo, stageMat);
-    stageMesh.position.y = -0.08;
-    scene.add(stageMesh);
+// Seamless world floor (no opaque cylinder disc)
 
     // Ground Contact Shadow Disc (Makes Pokémon feel grounded on stage)
     const shadowGeo = new THREE.PlaneGeometry(3.2, 3.2);
@@ -385,8 +372,7 @@ export default function HeroScene({
         container.removeChild(renderer.domElement);
       }
       // Resource cleanup
-      stageGeo.dispose();
-      stageMat.dispose();
+
       shadowGeo.dispose();
       shadowTex.dispose();
       shadowMat.dispose();
