@@ -1,54 +1,194 @@
 /* ===================================================================
-   POKEFUN MODERN RESPONSIVE & MOBILE ENHANCEMENT STYLESHEET
-   Clean White & Electric Aqua Theme, Fluid Typography & No Overflow
+   POKEFUN MODERN GLOBAL STYLESHEET
+   Bundled directly into Next.js production build for 100% reliability
    =================================================================== */
 
-/* Prevent global horizontal scrollbars and text blowouts */
-html,
-body,
-.viewport {
-  max-width: 100vw !important;
-  overflow-x: hidden !important;
-  box-sizing: border-box !important;
+@import url('https://fonts.googleapis.com/css2?family=Karla:wght@400;500;600;700;800&family=Righteous&display=swap');
+
+:root {
+  --ghost-accent-color: #06b6d4;
+  --pokefun-cyan: #06b6d4;
+  --pokefun-blue: #0284c7;
+  --pokefun-gold: #f59e0b;
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: inherit;
+/* Universal Layout & Resets */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body, .viewport {
+  max-width: 100vw !important;
+  overflow-x: hidden !important;
+  margin: 0;
+  padding: 0;
+  background-color: #0b1329;
+  color: #f8fafc;
+  font-family: 'Karla', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
 /* ===================================================================
-   DESKTOP HERO STYLES (>= 992px)
+   DESKTOP TOP NAVIGATION BAR
+   =================================================================== */
+.desktop-global-header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: rgba(11, 19, 41, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(6, 182, 212, 0.2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.desktop-nav-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.nav-brand-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.nav-brand-logo {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 10px rgba(6, 182, 212, 0.6));
+}
+
+.nav-brand-text {
+  font-family: 'Righteous', cursive, sans-serif;
+  font-size: 1.35rem;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  background: linear-gradient(135deg, #38bdf8 0%, #22d3ee 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.nav-links-center {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  justify-content: flex-end;
+}
+
+.nav-links-center a {
+  padding: 6px 12px;
+  border-radius: 9999px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #cbd5e1;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.nav-links-center a:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
+}
+
+.nav-links-center a.active-pill {
+  background: rgba(6, 182, 212, 0.2) !important;
+  color: #22d3ee !important;
+  border: 1px solid rgba(6, 182, 212, 0.4);
+}
+
+.nav-gold-link {
+  color: #fbbf24 !important;
+  font-weight: 700 !important;
+}
+
+.nav-store-link {
+  background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  box-shadow: 0 2px 10px rgba(245, 158, 11, 0.35);
+}
+
+.nav-discord-link {
+  background: #5865f2 !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+}
+
+/* ===================================================================
+   MAIN PAGE VIEWPORT & LAYOUT
+   =================================================================== */
+.site-main-viewport {
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 20px;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 10;
+}
+
+.site-content-layout {
+  display: flex;
+  gap: 30px;
+  position: relative;
+  align-items: stretch;
+  width: 100%;
+}
+
+.desktop-sidebar-container {
+  flex-shrink: 0;
+  z-index: 50;
+}
+
+.desktop-sidebar-container:empty {
+  display: none !important;
+}
+
+.site-page-content {
+  flex-grow: 1;
+  min-width: 0;
+  position: relative;
+  z-index: 10;
+  width: 100%;
+}
+
+/* ===================================================================
+   HERO SECTION (CLEAN, PROPORTIONAL, NO SPLIT LOGO)
    =================================================================== */
 .hero-main-container {
   position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 220px;
-  color: white;
-  z-index: 10;
+  text-align: center;
   width: 100%;
-  padding: 20px 0 30px 0;
+  padding: 40px 16px 30px 16px;
+  background: radial-gradient(ellipse at 50% 20%, rgba(6, 182, 212, 0.18) 0%, rgba(11, 19, 41, 0) 70%);
+  margin-bottom: 20px;
 }
 
-.hero-left-widgets {
-  position: absolute;
-  left: -280px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 15px;
-  z-index: 20;
-}
-
+.hero-left-widgets,
 .hero-right-widget {
-  position: absolute;
-  right: 0;
-  display: flex;
-  align-items: center;
-  z-index: 20;
+  display: none !important;
 }
 
 .hero-center-brand {
@@ -56,42 +196,44 @@ body,
   flex-direction: column;
   align-items: center;
   text-align: center;
-  z-index: 15;
   width: 100%;
   max-width: 850px;
   margin: 0 auto;
 }
 
-.main-logo-img {
-  max-width: 320px;
-  height: auto;
-  mix-blend-mode: screen;
-  filter: drop-shadow(0 0 25px rgba(6, 182, 212, 0.6));
-  display: block;
-  margin: 0 auto;
+#logo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
 }
 
-/* Portfolio-Grade Hero Presentation */
+.main-logo-img {
+  max-width: 280px;
+  width: 100%;
+  height: auto;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 30px rgba(6, 182, 212, 0.7));
+}
+
 .hero-portfolio-box {
-  margin-top: 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 0 15px;
+  width: 100%;
 }
 
 .hero-status-pill {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 14px;
+  padding: 6px 16px;
   border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.95);
-  border: 1.5px solid rgba(6, 182, 212, 0.35);
-  box-shadow: 0 4px 16px rgba(6, 182, 212, 0.15);
-  margin-bottom: 14px;
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1.5px solid rgba(6, 182, 212, 0.4);
+  box-shadow: 0 4px 20px rgba(6, 182, 212, 0.2);
+  margin-bottom: 16px;
+  backdrop-filter: blur(12px);
 }
 
 .live-status-dot {
@@ -99,43 +241,48 @@ body,
   height: 8px;
   border-radius: 50%;
   background: #10b981;
-  box-shadow: 0 0 8px #10b981;
+  box-shadow: 0 0 10px #10b981;
   animation: pulse-live 2s infinite;
 }
 
+@keyframes pulse-live {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(1.2); }
+}
+
 .pill-badge-label {
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0.8px;
-  color: #0f172a;
+  color: #f8fafc;
 }
 
 .pill-sep {
-  color: #cbd5e1;
+  color: #64748b;
   font-weight: 900;
 }
 
 .pill-badge-sub {
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 800;
-  letter-spacing: 0.5px;
-  color: #0284c7;
+  letter-spacing: 0.6px;
+  color: #22d3ee;
 }
 
 .hero-main-title {
   font-family: 'Righteous', cursive, sans-serif;
-  font-size: clamp(2rem, 5vw, 3.8rem);
+  font-size: clamp(2rem, 5.2vw, 3.6rem);
   font-weight: 900;
   line-height: 1.15;
-  letter-spacing: 1.5px;
+  letter-spacing: 1.2px;
   color: #ffffff;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
-  margin: 0 0 12px 0;
+  text-shadow: 0 4px 25px rgba(0, 0, 0, 0.7);
+  margin: 0 0 14px 0;
   word-break: break-word;
 }
 
 .hero-gradient-text {
-  background: linear-gradient(135deg, #38bdf8 0%, #22d3ee 50%, #34d399 100%);
+  background: linear-gradient(135deg, #38bdf8 0%, #22d3ee 50%, #f59e0b 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
@@ -143,10 +290,10 @@ body,
 
 .hero-main-subtext {
   font-size: clamp(0.95rem, 2.5vw, 1.2rem);
-  color: #e2e8f0;
+  color: #cbd5e1;
   max-width: 680px;
-  margin: 0 auto 20px auto;
-  line-height: 1.55;
+  margin: 0 auto 24px auto;
+  line-height: 1.6;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
@@ -156,20 +303,22 @@ body,
   align-items: center;
   justify-content: center;
   gap: 12px;
+  width: 100%;
 }
 
 .hero-cta-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  padding: 12px 22px;
+  padding: 13px 24px;
   border-radius: 14px;
-  font-size: 0.9rem;
+  font-size: 0.92rem;
   font-weight: 800;
-  text-decoration: none !important;
   cursor: pointer;
   transition: all 0.2s ease;
   border: none;
+  text-decoration: none !important;
 }
 
 .hero-cta-btn:hover {
@@ -184,45 +333,45 @@ body,
   background: linear-gradient(135deg, #0284c7, #06b6d4);
   color: #ffffff !important;
   border: 1.5px solid rgba(255, 255, 255, 0.4);
-  box-shadow: 0 4px 18px rgba(6, 182, 212, 0.45);
+  box-shadow: 0 4px 20px rgba(6, 182, 212, 0.45);
 }
 
 .hero-cta-btn.discord-btn {
   background: #5865f2;
   color: #ffffff !important;
-  box-shadow: 0 4px 16px rgba(88, 101, 242, 0.35);
+  box-shadow: 0 4px 18px rgba(88, 101, 242, 0.35);
 }
 
 .hero-cta-btn.store-btn {
   background: linear-gradient(135deg, #f59e0b, #d97706);
   color: #ffffff !important;
-  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.35);
+  box-shadow: 0 4px 18px rgba(245, 158, 11, 0.35);
 }
 
 /* ===================================================================
-   COMMUNITY & LEADERBOARD PROMO CARDS (RESPONSIVE)
+   COMMUNITY & LEADERBOARD PROMO CARDS
    =================================================================== */
 .community-promo-card {
   background: linear-gradient(135deg, #4c1d95 0%, #065f46 100%);
-  border-radius: 20px;
+  border-radius: 24px;
   padding: 45px 30px;
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: 50px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
 }
 
 .community-promo-title {
-  font-size: clamp(1.6rem, 5vw, 3.2rem);
+  font-size: clamp(1.6rem, 5vw, 3rem);
   font-weight: 900;
-  color: white;
+  color: #ffffff;
   text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
   margin-bottom: 16px;
   word-break: break-word;
 }
 
 .community-promo-desc {
-  font-size: clamp(0.95rem, 2.5vw, 1.35rem);
+  font-size: clamp(0.95rem, 2.5vw, 1.3rem);
   color: #f3f4f6;
   text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
   max-width: 800px;
@@ -244,7 +393,7 @@ body,
   gap: 10px;
   padding: 14px 34px;
   border-radius: 30px;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 800;
   text-decoration: none !important;
   cursor: pointer;
@@ -269,14 +418,14 @@ body,
 }
 
 .leaderboard-promo-card {
-  margin-top: 20px;
+  margin-top: 30px;
   margin-bottom: 60px;
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(180, 83, 9, 0.2));
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.25), rgba(180, 83, 9, 0.25));
   padding: 45px 30px;
-  border-radius: 20px;
-  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 24px;
+  border: 1px solid rgba(245, 158, 11, 0.35);
   text-align: center;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.5);
 }
 
 .promo-crown-icon {
@@ -287,9 +436,9 @@ body,
 }
 
 .leaderboard-promo-title {
-  font-size: clamp(1.6rem, 5vw, 3.2rem);
+  font-size: clamp(1.6rem, 5vw, 3rem);
   font-weight: 900;
-  color: white;
+  color: #ffffff;
   margin-bottom: 14px;
   text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
   word-break: break-word;
@@ -310,7 +459,7 @@ body,
   padding: 14px 34px;
   border-radius: 40px;
   font-weight: 800;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   text-decoration: none !important;
   display: inline-flex;
   align-items: center;
@@ -323,129 +472,132 @@ body,
 }
 
 /* ===================================================================
+   FAKEMONS & FEATURE CARDS (CLEAN RESPONSIVE GRID)
+   =================================================================== */
+.fakemons-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.fakemon-card {
+  background: rgba(17, 24, 39, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  padding: 24px 18px;
+  text-align: center;
+  transition: all 0.25s ease;
+  color: #f8fafc;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.fakemon-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(6, 182, 212, 0.5);
+  box-shadow: 0 8px 25px rgba(6, 182, 212, 0.25);
+}
+
+.fakemon-card img {
+  width: 140px;
+  height: 140px;
+  object-fit: contain;
+  margin: 0 auto 15px auto;
+  display: block;
+}
+
+.fakemon-card h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 8px 0;
+}
+
+.fakemon-card p {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.section-title {
+  font-family: 'Righteous', cursive, sans-serif;
+  letter-spacing: 1.5px;
+  color: #ffffff;
+  text-shadow: 0 2px 10px rgba(6, 182, 212, 0.5);
+}
+
+/* ===================================================================
    MOBILE & TABLET VIEWPORT (< 992px)
-   USER RULE: HIDE STORE, DISCORD & PLAYERS FROM MOBILE HOME PAGE
-   MAKE HERO CLEAN, SLEEK & COMPACT LIKE PORTFOLIO SHIFAN.POKEFUN.IN
    =================================================================== */
 @media (max-width: 991px) {
-  /* HIDE DESKTOP-ONLY WIDGETS COMPLETELY FROM MOBILE HOME PAGE */
-  .desktop-only-widget,
-  .hero-left-widgets,
-  .hero-right-widget,
-  #store,
-  #players,
-  #discord {
-    display: none !important;
-  }
-
-  /* HIDE WAVY SVG SHAPES ON MOBILE TO PREVENT GIANT GAPS & NEGATIVE MARGINS */
-  .desktop-only-shape,
-  .custom-shape-divider-bottom-1675067978 {
-    display: none !important;
-  }
-
-  /* Hide old desktop header and toggle */
-  #nav.custom-global-nav,
+  /* HIDE ALL DESKTOP HEADERS, SIDEBARS & FLOATING WIDGETS ON MOBILE */
+  .desktop-global-header,
   #gh-header,
-  .gh-head,
+  #nav,
   .desktop-sidebar-container,
-  .global-sidebar-toggle {
+  .global-sidebar,
+  .global-sidebar-toggle,
+  .auth-widget-wrapper {
     display: none !important;
   }
 
-  /* Reset layout wrapper */
-  .viewport {
-    padding-top: 0 !important;
+  /* Reset layout */
+  .site-main-viewport {
+    padding: 0 14px !important;
   }
 
-  main[style*="max-width: 1400px"],
-  main {
-    margin: 10px auto 0 !important;
-    padding: 0 12px !important;
-    max-width: 100% !important;
-  }
-
-  /* Force main layout to single column */
-  main > div[style*="display: flex"] {
-    display: flex !important;
+  .site-content-layout {
     flex-direction: column !important;
     gap: 0 !important;
   }
 
-  /* Mobile Clean Hero Container */
+  /* Compact Mobile Hero (Centered, Clean, No Weird Space) */
   .hero-main-container {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    position: relative !important;
-    min-height: auto !important;
-    padding: 24px 14px 20px 14px !important;
-    gap: 8px !important;
-    width: 100% !important;
-    text-align: center !important;
-  }
-
-  .hero-center-brand {
-    max-width: 100% !important;
-  }
-
-  #logo {
-    position: static !important;
-    display: flex !important;
-    justify-content: center !important;
-    margin: 0 auto 6px auto !important;
+    padding: 24px 12px 16px 12px !important;
+    margin-bottom: 12px !important;
   }
 
   .main-logo-img {
-    max-width: 190px !important;
-    height: auto !important;
+    max-width: 180px !important;
     filter: drop-shadow(0 0 20px rgba(6, 182, 212, 0.7)) !important;
-  }
-
-  .hero-portfolio-box {
-    margin-top: 6px !important;
-    padding: 0 !important;
   }
 
   .hero-status-pill {
     padding: 5px 12px !important;
-    margin-bottom: 10px !important;
+    margin-bottom: 12px !important;
   }
 
-  .pill-badge-label {
-    font-size: 0.65rem !important;
-  }
-
+  .pill-badge-label,
   .pill-badge-sub {
-    font-size: 0.65rem !important;
+    font-size: 0.68rem !important;
   }
 
   .hero-main-title {
-    font-size: clamp(1.6rem, 5.8vw, 2.2rem) !important;
+    font-size: clamp(1.65rem, 6vw, 2.3rem) !important;
     line-height: 1.2 !important;
     letter-spacing: 0.5px !important;
-    margin-bottom: 8px !important;
+    margin-bottom: 10px !important;
   }
 
   .hero-main-subtext {
     font-size: 0.88rem !important;
     line-height: 1.5 !important;
-    margin-bottom: 16px !important;
-    padding: 0 6px !important;
+    margin-bottom: 18px !important;
+    padding: 0 4px !important;
   }
 
   .hero-cta-button-group {
-    width: 100% !important;
     gap: 8px !important;
   }
 
   .hero-cta-btn {
-    padding: 10px 16px !important;
+    padding: 11px 16px !important;
     font-size: 0.82rem !important;
     border-radius: 12px !important;
-    flex: 1 1 auto !important;
-    justify-content: center !important;
   }
 
   .hero-cta-btn.ip-btn {
@@ -453,11 +605,17 @@ body,
     flex-basis: 100% !important;
   }
 
+  .hero-cta-btn.discord-btn,
+  .hero-cta-btn.store-btn {
+    flex: 1 1 calc(50% - 6px) !important;
+  }
+
   /* Responsive Promo Cards */
-  .community-promo-card {
+  .community-promo-card,
+  .leaderboard-promo-card {
     padding: 22px 16px !important;
-    border-radius: 16px !important;
-    margin-bottom: 35px !important;
+    border-radius: 18px !important;
+    margin-bottom: 30px !important;
   }
 
   .community-promo-btns {
@@ -466,18 +624,7 @@ body,
     width: 100% !important;
   }
 
-  .promo-btn {
-    width: 100% !important;
-    padding: 12px 20px !important;
-    font-size: 0.95rem !important;
-  }
-
-  .leaderboard-promo-card {
-    padding: 22px 16px !important;
-    border-radius: 16px !important;
-    margin-bottom: 35px !important;
-  }
-
+  .promo-btn,
   .leaderboard-cta-btn {
     width: 100% !important;
     padding: 12px 20px !important;
@@ -485,7 +632,7 @@ body,
     justify-content: center !important;
   }
 
-  /* 2-Column Responsive Fakemons Feature Grid */
+  /* 2-Column Responsive Fakemons Grid on Mobile */
   .fakemons-grid {
     grid-template-columns: repeat(2, 1fr) !important;
     gap: 10px !important;
@@ -494,96 +641,28 @@ body,
   .fakemon-card {
     padding: 14px 10px !important;
     border-radius: 14px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    text-align: center !important;
   }
 
   .fakemon-card img {
-    width: 95px !important;
-    height: 95px !important;
-    object-fit: contain !important;
-    margin: 0 auto 8px !important;
+    width: 90px !important;
+    height: 90px !important;
+    margin-bottom: 8px !important;
   }
 
   .fakemon-card h3 {
     font-size: 0.92rem !important;
     margin-bottom: 4px !important;
-    font-weight: 700 !important;
   }
 
   .fakemon-card p {
     font-size: 0.72rem !important;
-    margin-top: 2px !important;
     line-height: 1.35 !important;
-    color: #94a3b8 !important;
-  }
-
-  /* Footer Responsiveness */
-  #footer {
-    padding: 25px 16px !important;
-  }
-
-  #footer .footer-col {
-    display: flex !important;
-    flex-direction: column !important;
-    text-align: center !important;
-    gap: 16px !important;
-  }
-
-  #footer .right ul {
-    justify-content: center !important;
-    margin: 0 !important;
   }
 }
 
-/* Extra small screens (< 380px) */
-@media (max-width: 379px) {
+/* Tablet (992px to 1200px) */
+@media (min-width: 992px) and (max-width: 1200px) {
   .fakemons-grid {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: repeat(3, 1fr);
   }
-}
-
-
-/* ===================================================================
-   GUARANTEED TEXT CONTRAST FOR WHITE & ELECTRIC AQUA MOBILE DRAWER
-   Overrides any conflicting Casper / Ghost stylesheet rules
-   =================================================================== */
-.mobile-aqua-drawer {
-  background: #ffffff !important;
-  color: #0f172a !important;
-}
-
-.mobile-aqua-drawer a,
-.mobile-aqua-drawer button {
-  text-decoration: none !important;
-}
-
-.mobile-aqua-drawer .aqua-nav-item {
-  color: #0f172a !important;
-  background: #ffffff !important;
-}
-
-.mobile-aqua-drawer .aqua-nav-item:hover,
-.mobile-aqua-drawer .aqua-nav-item:active {
-  background: #f0fdfa !important;
-  color: #0284c7 !important;
-}
-
-.mobile-aqua-drawer .aqua-nav-item .item-text {
-  color: #0f172a !important;
-  font-weight: 600 !important;
-}
-
-.mobile-aqua-drawer .aqua-nav-item .item-icon {
-  color: #0284c7 !important;
-}
-
-.mobile-aqua-drawer .aqua-nav-item.item-highlight .item-text {
-  color: #d97706 !important;
-}
-
-.mobile-aqua-drawer .aqua-nav-item.item-highlight .item-icon {
-  color: #f59e0b !important;
 }

@@ -1,3 +1,4 @@
+import "@/app/globals.css";
 import type { Metadata } from "next";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/react";
@@ -201,80 +202,50 @@ export default async function RootLayout({
           <ToastProvider>
             <div className="viewport">
               <MobileNavigation />
-              <div id="gh-header">
-              <div id="nav" className="custom-global-nav">
-                  <div className="container" style={{ position: "relative", display: "flex", flexWrap: "wrap", justifyContent: "center", alignItems: "center", gap: "6px 14px", maxWidth: "1400px", margin: "0 auto", padding: "0 10px" }}>
-                      <a href="/">Home</a>
-                      <a href="/community">Community</a>
-                      <a href="/community/reels">Reels</a>
-                      <a href="/messages" id="desktop-nav-messages" style={{ position: 'relative' }}>Messages</a>
-                      <a href="/leaderboard" style={{ color: '#fbbf24', fontWeight: 'bold' }}>
-                          <i className="fa-solid fa-trophy"></i> Leaderboards
-                      </a>
-                      <a href="/wiki">Wiki</a>
-                      <a href="/modpacks">Modpacks</a>
-                      <a href="/rules">Rules</a>
-                      <a href="/vote">Vote</a>
-                      <a href="https://store.pokefun.in" style={{ color: '#fbbf24', fontWeight: 'bold', textShadow: '0 0 10px rgba(251,191,36,0.5)' }}>
-                          <i className="fa-solid fa-cart-shopping"></i> Store
-                      </a>
-                      <a href="/showcase">Showcase</a>
-                      <a href="/team">Team</a>
-                      <a href="/changelogs">Changelogs</a>
-                      <a href="https://discord.gg/pokefun" target="_blank" rel="noopener noreferrer" className="discord-btn">
-                          <i className="fa-brands fa-discord"></i> Discord
-                      </a>
-                      <a href="/other" style={{ fontWeight: 'bold' }}>
-                          <i className="fa-solid fa-list"></i> Other Features
-                      </a>
-                  </div>
+              {/* Modern Desktop Navigation Bar */}
+              <div id="gh-header" className="desktop-global-header">
+                <nav id="nav" className="custom-global-nav">
+                    <div className="container desktop-nav-container">
+                        <a href="/" className="nav-brand-link">
+                            <img src="/images/pokefun_logo_transparent.png" alt="Pokefun" className="nav-brand-logo" />
+                            <span className="nav-brand-text">POKEFUN</span>
+                        </a>
+                        <div className="nav-links-center">
+                            <a href="/">Home</a>
+                            <a href="/community">Community</a>
+                            <a href="/community/reels">Reels</a>
+                            <a href="/messages" id="desktop-nav-messages">Messages</a>
+                            <a href="/leaderboard" className="nav-gold-link">
+                                <i className="fa-solid fa-trophy"></i> Leaderboards
+                            </a>
+                            <a href="/wiki">Wiki</a>
+                            <a href="/modpacks">Modpacks</a>
+                            <a href="/rules">Rules</a>
+                            <a href="/vote">Vote</a>
+                            <a href="https://store.pokefun.in" target="_blank" rel="noopener noreferrer" className="nav-store-link">
+                                <i className="fa-solid fa-cart-shopping"></i> Store
+                            </a>
+                            <a href="/showcase">Showcase</a>
+                            <a href="/team">Team</a>
+                            <a href="/changelogs">Changelogs</a>
+                            <a href="https://discord.gg/pokefun" target="_blank" rel="noopener noreferrer" className="nav-discord-link">
+                                <i className="fa-brands fa-discord"></i> Discord
+                            </a>
+                        </div>
+                    </div>
+                </nav>
               </div>
-              <header id="gh-head" className="gh-head has-cover">
-                  <nav className="gh-head-inner inner gh-container">
-                      <div className="gh-head-brand hidden-desktop">
-                          <a className="gh-burger" role="button">
-                              <div className="gh-burger-box">
-                                  <div className="gh-burger-inner"></div>
-                              </div>
-                          </a>
-                      </div>
-                      <div className="gh-head-menu">
-                          <ul className="nav">
-                              <li><a href="/">Home</a></li>
-                              <li><a href="/community">Community</a></li>
-                              <li><a href="/community/reels">Reels</a></li>
-                              <li><a href="/messages" id="mobile-nav-messages">Messages</a></li>
-                              <li><a href="/wiki">Wiki</a></li>
-                              <li><a href="/modpacks">Modpacks</a></li>
-                              <li><a href="/rules">Rules</a></li>
-                              <li><a href="/vote">Vote</a></li>
-                              <li><a href="https://store.pokefun.in">Store</a></li>
-                              <li><a href="/showcase">Showcase</a></li>
-                              <li><a href="/team">Team</a></li>
-                              <li><a href="/changelogs">Changelogs</a></li>
-                              <li><a href="https://discord.com/invite/NtE8QBkmwR" target="_blank" rel="noopener noreferrer" style={{ color: '#5865F2' }}><i className="fa-brands fa-discord"></i> Discord</a></li>
-                              <li><a href="/gym_apply">Gym Apply</a></li>
-                              <li><a href="/gym_battle">Gym Battle</a></li>
-                              <li><a href="/Polls">Polls</a></li>
-                              <li><a href="/giveaways">Giveaways</a></li>
-                              <li><a href="/tournaments">Tournaments</a></li>
-                              <li><a href="/events">Events</a></li>
-                          </ul>
-                      </div>
-                  </nav>
-              </header>
-            </div>
             
-            <main style={{ maxWidth: "1400px", margin: "-250px auto 0", width: "100%", padding: "0 20px", boxSizing: "border-box", position: "relative", zIndex: 10 }}>
-               <div style={{ display: "flex", gap: "30px", position: "relative", alignItems: "stretch" }}>
-                   <div className="desktop-sidebar-container" style={{ flexShrink: 0, zIndex: 50, marginTop: "280px" }}>
-                       <GlobalSidebar />
-                   </div>
-                   <div style={{ flexGrow: 1, minWidth: 0, position: "relative", zIndex: 10 }}>
-                       {children}
-                   </div>
-               </div>
-            </main>
+              <main className="site-main-viewport">
+                 <div className="site-content-layout">
+                     <div className="desktop-sidebar-container">
+                         <GlobalSidebar />
+                     </div>
+                     <div className="site-page-content">
+                         {children}
+                     </div>
+                 </div>
+              </main>
 
             <section id="footer">
                 <div className="inner">
