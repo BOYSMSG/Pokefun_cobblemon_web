@@ -70,35 +70,42 @@ export default function HeroScene({
     renderer.toneMappingExposure = 1.35;
     container.appendChild(renderer.domElement);
 
-    // Studio Lighting for Electric Sci-Fi Aqua Look
-    const ambientLight = new THREE.AmbientLight(0xf0faff, 2.3);
-    scene.add(ambientLight);
+    // Unified Stage Root (Positions Model, Platform & Shadow slightly right on desktop)
+    const stageRoot = new THREE.Group();
+    stageRoot.position.x = isMobile ? 0 : 0.28;
+    scene.add(stageRoot);
 
-    const keyLight = new THREE.DirectionalLight(0x00c9d8, 3.4);
-    keyLight.position.set(5, 8, 6);
-    scene.add(keyLight);
+    // Natural Outdoor Lighting for Minecraft Environmental Integration
+    // 1. Warm Sun Key Light (matches outdoor Minecraft sunlight)
+    const sunKey = new THREE.DirectionalLight(0xfff6e5, 2.2);
+    sunKey.position.set(5, 7, 5);
+    scene.add(sunKey);
 
-    const rimLightBlue = new THREE.DirectionalLight(0x1677ff, 2.8);
-    rimLightBlue.position.set(-6, 5, -4);
-    scene.add(rimLightBlue);
+    // 2. Soft Sky Ambient Light (preserves vivid Cobblemon pixel textures)
+    const skyAmbient = new THREE.AmbientLight(0xe8f4ff, 1.8);
+    scene.add(skyAmbient);
 
-    const frontFill = new THREE.DirectionalLight(0xffffff, 2.0);
-    frontFill.position.set(0, 3, 6);
-    scene.add(frontFill);
+    // 3. Subtle Cyan Ground Under-Glow from holographic platform
+    const platformBounce = new THREE.DirectionalLight(0x00c9d8, 0.85);
+    platformBounce.position.set(0, -1, 3);
+    scene.add(platformBounce);
 
-// Seamless world floor (no opaque cylinder disc)
+    // 4. Subtle Sky Rim Light (clean silhouette against background)
+    const skyRim = new THREE.DirectionalLight(0x60a5fa, 1.35);
+    skyRim.position.set(-5, 4, -4);
+    scene.add(skyRim);
 
-    // Glowing Cyan Radial Floor Disc (Illuminates ground beneath Pokemon)
-    const shadowGeo = new THREE.PlaneGeometry(4.2, 4.2);
+    // Ground Contact Shadow: Ambient Occlusion firmly anchoring feet
+    const shadowGeo = new THREE.PlaneGeometry(3.8, 3.8);
     const shadowCanvas = document.createElement("canvas");
     shadowCanvas.width = 256;
     shadowCanvas.height = 256;
     const sCtx = shadowCanvas.getContext("2d");
     if (sCtx) {
       const grad = sCtx.createRadialGradient(128, 128, 0, 128, 128, 128);
-      grad.addColorStop(0, "rgba(0, 245, 255, 0.65)");
-      grad.addColorStop(0.35, "rgba(0, 201, 216, 0.35)");
-      grad.addColorStop(0.7, "rgba(22, 119, 255, 0.12)");
+      grad.addColorStop(0, "rgba(8, 18, 32, 0.48)");       // Realistic ground shadow
+      grad.addColorStop(0.32, "rgba(10, 24, 42, 0.24)");
+      grad.addColorStop(0.65, "rgba(0, 201, 216, 0.08)");  // Soft cyan bounce halo
       grad.addColorStop(1, "rgba(0, 0, 0, 0)");
       sCtx.fillStyle = grad;
       sCtx.fillRect(0, 0, 256, 256);
@@ -107,50 +114,64 @@ export default function HeroScene({
     const shadowMat = new THREE.MeshBasicMaterial({
       map: shadowTex,
       transparent: true,
-      opacity: 0.85,
+      opacity: 0.88,
       depthWrite: false
     });
     groundContact = new THREE.Mesh(shadowGeo, shadowMat);
     groundContact.rotation.x = -Math.PI / 2;
     groundContact.position.y = 0.01;
-    scene.add(groundContact);
+    stageRoot.add(groundContact);
 
-    // Concentric Neon Cyber-Rings (Inner, Middle, Outer)
-    const ringGeo = new THREE.RingGeometry(2.1, 2.22, 64);
-    const ringMat = new THREE.MeshBasicMaterial({
+    // Holographic Platform with Layered Depth & Refined Rings (Delicate, not overly bright)
+    // Ring 1: Outer Precision Rim
+    const outerRingGeo = new THREE.RingGeometry(2.38, 2.405, 64);
+    const outerRingMat = new THREE.MeshBasicMaterial({
       color: 0x00e5ff,
       side: THREE.DoubleSide,
       transparent: true,
-      opacity: 0.95
-    });
-    cyberRing = new THREE.Mesh(ringGeo, ringMat);
-    cyberRing.rotation.x = -Math.PI / 2;
-    cyberRing.position.y = 0.02;
-    scene.add(cyberRing);
-
-    const outerRingGeo = new THREE.RingGeometry(3.05, 3.16, 64);
-    const outerRingMat = new THREE.MeshBasicMaterial({
-      color: 0x1677ff,
-      side: THREE.DoubleSide,
-      transparent: true,
-      opacity: 0.85
+      opacity: 0.58
     });
     cyberRingOuter = new THREE.Mesh(outerRingGeo, outerRingMat);
     cyberRingOuter.rotation.x = -Math.PI / 2;
     cyberRingOuter.position.y = 0.02;
-    scene.add(cyberRingOuter);
+    stageRoot.add(cyberRingOuter);
 
-    // Sleek Low-Profile Holographic Emitter Collar (Matching Reference B Greninja: Base rim only, never blocks body)
+    // Ring 2: Mid Concentric Energy Track
+    const midRingGeo = new THREE.RingGeometry(1.78, 1.795, 64);
+    const midRingMat = new THREE.MeshBasicMaterial({
+      color: 0x00c9d8,
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.42
+    });
+    cyberRing = new THREE.Mesh(midRingGeo, midRingMat);
+    cyberRing.rotation.x = -Math.PI / 2;
+    cyberRing.position.y = 0.02;
+    stageRoot.add(cyberRing);
+
+    // Ring 3: Inner Core Focus Ring
+    const innerRingGeo = new THREE.RingGeometry(1.08, 1.092, 64);
+    const innerRingMat = new THREE.MeshBasicMaterial({
+      color: 0x1677ff,
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.32
+    });
+    const innerRing = new THREE.Mesh(innerRingGeo, innerRingMat);
+    innerRing.rotation.x = -Math.PI / 2;
+    innerRing.position.y = 0.02;
+    stageRoot.add(innerRing);
+
+    // Sleek Low-Profile Holographic Emitter Lip (height 0.10 units only, hugs ground)
     const cylCanvas = document.createElement("canvas");
     cylCanvas.width = 512;
     cylCanvas.height = 128;
     const cCtx = cylCanvas.getContext("2d");
     if (cCtx) {
       const cGrad = cCtx.createLinearGradient(0, 0, 0, 128);
-      cGrad.addColorStop(0, "rgba(0, 245, 255, 0.85)");    // Glowing top emitter lip
-      cGrad.addColorStop(0.3, "rgba(0, 201, 216, 0.28)");  // Soft translucent energetic wash
-      cGrad.addColorStop(0.8, "rgba(22, 119, 255, 0.15)");
-      cGrad.addColorStop(1, "rgba(22, 119, 255, 0.75)");   // Ground anchor rim
+      cGrad.addColorStop(0, "rgba(0, 245, 255, 0.70)");
+      cGrad.addColorStop(0.4, "rgba(0, 201, 216, 0.18)");
+      cGrad.addColorStop(1, "rgba(22, 119, 255, 0.50)");
       cCtx.fillStyle = cGrad;
       cCtx.fillRect(0, 0, 512, 128);
     }
@@ -158,47 +179,46 @@ export default function HeroScene({
     cylTex.wrapS = THREE.RepeatWrapping;
     cylTex.wrapT = THREE.ClampToEdgeWrapping;
 
-    // Sleek, low-profile collar: height 0.16 units, hugging the stage floor
-    const holoCylGeo = new THREE.CylinderGeometry(2.78, 2.78, 0.16, 64, 1, true);
+    const holoCylGeo = new THREE.CylinderGeometry(2.39, 2.39, 0.10, 64, 1, true);
     const holoCylMat = new THREE.MeshBasicMaterial({
       map: cylTex,
       transparent: true,
-      opacity: 0.35,
+      opacity: 0.22,
       side: THREE.DoubleSide,
       blending: THREE.AdditiveBlending,
       depthWrite: false
     });
     const holoCylinder = new THREE.Mesh(holoCylGeo, holoCylMat);
-    holoCylinder.position.y = 0.08;
-    scene.add(holoCylinder);
+    holoCylinder.position.y = 0.05;
+    stageRoot.add(holoCylinder);
 
-    // Glowing Precision Emitter Lip on the low-profile rim
-    const topRimGeo = new THREE.RingGeometry(2.76, 2.80, 64);
+    // Glowing Emitter Top Lip
+    const topRimGeo = new THREE.RingGeometry(2.38, 2.40, 64);
     const topRimMat = new THREE.MeshBasicMaterial({
       color: 0x00ffff,
       side: THREE.DoubleSide,
       transparent: true,
-      opacity: 0.85,
+      opacity: 0.55,
       blending: THREE.AdditiveBlending
     });
     const topRim = new THREE.Mesh(topRimGeo, topRimMat);
     topRim.rotation.x = -Math.PI / 2;
-    topRim.position.y = 0.16;
-    scene.add(topRim);
+    topRim.position.y = 0.10;
+    stageRoot.add(topRim);
 
-    // 4 Cardinal Emitter Nodes (Esports Stage Design)
-    const nodeGeo = new THREE.SphereGeometry(0.045, 16, 16);
+    // 4 Cardinal Emitter Nodes (Refined size & opacity)
+    const nodeGeo = new THREE.SphereGeometry(0.035, 16, 16);
     const nodeMat = new THREE.MeshBasicMaterial({ color: 0x00e5ff });
     const nodes = [
-      [2.78, 0.04, 0],
-      [-2.78, 0.04, 0],
-      [0, 0.04, 2.78],
-      [0, 0.04, -2.78]
+      [2.39, 0.02, 0],
+      [-2.39, 0.02, 0],
+      [0, 0.02, 2.39],
+      [0, 0.02, -2.39]
     ];
     nodes.forEach(([x, y, z]) => {
       const node = new THREE.Mesh(nodeGeo, nodeMat);
       node.position.set(x, y, z);
-      scene.add(node);
+      stageRoot.add(node);
     });
 
     // Floating Luminous Sci-Fi Energy Particles
@@ -282,18 +302,18 @@ export default function HeroScene({
         const widthFootprint = Math.max(size.x, size.z);
         const heightDim = size.y || 1;
 
-        // Balanced scaling: target height ~2.08, footprint ~2.3
-        const scaleForHeight = 2.12 / heightDim;
-        const scaleForWidth = 2.38 / (widthFootprint || 1);
+        // Balanced scaling: Reduced by ~12-15% for optimal hero proportions
+        const scaleForHeight = 1.84 / heightDim;
+        const scaleForWidth = 2.06 / (widthFootprint || 1);
         let autoScale = Math.min(scaleForHeight, scaleForWidth);
 
-        // For slender humanoid/tall models, ensure generous body presence
+        // For slender humanoid/tall models (Lucario, Braixen, Meowscarada), refined proportional height
         if (widthFootprint < heightDim * 0.72) {
-          autoScale = Math.min(scaleForHeight * 1.08, 2.22 / heightDim);
+          autoScale = Math.min(scaleForHeight * 1.02, 1.88 / heightDim);
         }
         // For compact/quadruped models like Pikachu, ensure solid presence
         if (maxDim < 1.0) {
-          autoScale = 2.38 / maxDim;
+          autoScale = 2.06 / maxDim;
         }
         
         const wrapper = new THREE.Group();
@@ -314,7 +334,7 @@ export default function HeroScene({
         wrapper.position.y = basePosY;
         
         modelGroup = wrapper;
-        scene.add(modelGroup);
+        stageRoot.add(modelGroup);
 
         if (gltf.animations && gltf.animations.length > 0) {
           try {
@@ -471,10 +491,18 @@ export default function HeroScene({
       shadowGeo.dispose();
       shadowTex.dispose();
       shadowMat.dispose();
-      ringGeo.dispose();
-      ringMat.dispose();
       outerRingGeo.dispose();
       outerRingMat.dispose();
+      midRingGeo.dispose();
+      midRingMat.dispose();
+      innerRingGeo.dispose();
+      innerRingMat.dispose();
+      holoCylGeo.dispose();
+      holoCylMat.dispose();
+      topRimGeo.dispose();
+      topRimMat.dispose();
+      nodeGeo.dispose();
+      nodeMat.dispose();
       particleGeo.dispose();
       particleMat.dispose();
       renderer.dispose();

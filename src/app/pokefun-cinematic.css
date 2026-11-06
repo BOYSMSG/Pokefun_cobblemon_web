@@ -75,9 +75,10 @@
   z-index: -2;
   pointer-events: none;
   background: linear-gradient(90deg, 
-    rgba(248, 251, 255, 0.84) 0%, 
-    rgba(248, 251, 255, 0.68) 25%, 
-    rgba(248, 251, 255, 0.12) 48%, 
+    rgba(248, 251, 255, 0.82) 0%, 
+    rgba(248, 251, 255, 0.60) 22%, 
+    rgba(248, 251, 255, 0.16) 40%, 
+    rgba(248, 251, 255, 0.02) 52%, 
     transparent 62%
   );
 }
@@ -508,10 +509,10 @@
 /* Bottom Pokémon Battle Card */
 .cinematic-pokemon-card {
   position: absolute;
-  bottom: 12px;
-  left: 50%;
+  bottom: 22px;
+  left: 53%;
   transform: translateX(-50%);
-  z-index: 25;
+  z-index: 30;
   background: rgba(255, 255, 255, 0.96);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -524,6 +525,15 @@
   display: flex;
   flex-direction: column;
   gap: 3px;
+}
+
+@media (max-width: 768px) {
+  .cinematic-pokemon-card {
+    bottom: 12px;
+    left: 50%;
+    width: calc(100% - 36px);
+    max-width: 320px;
+  }
 }
 
 .pokemon-card-top-row {
