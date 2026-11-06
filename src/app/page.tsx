@@ -132,28 +132,8 @@ export default function HomePage() {
           {/* Left Column: Brand, Headline, CTAs */}
           <div className="hero-text-column">
             
-            {/* Sleek Brand Lockup: Integrated Logo + Live Edition Badge */}
-            <div style={{ display: "flex", alignItems: "center", gap: "16px", flexWrap: "wrap", marginBottom: "4px" }}>
-              <div style={{ position: "relative" }}>
-                <div style={{
-                  position: "absolute",
-                  inset: "-6px",
-                  background: "radial-gradient(circle, rgba(0, 201, 216, 0.45) 0%, transparent 70%)",
-                  filter: "blur(12px)",
-                  pointerEvents: "none"
-                }}></div>
-                <img 
-                  src="/images/pokefun_logo_transparent.png" 
-                  alt="Pokefun Cobblemon SMP" 
-                  style={{
-                    width: "56px",
-                    height: "auto",
-                    display: "block",
-                    filter: "drop-shadow(0 4px 12px rgba(0, 201, 216, 0.4))"
-                  }}
-                />
-              </div>
-
+            {/* Live Edition Pill Badge */}
+            <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "8px" }}>
               <div style={{
                 display: "inline-flex",
                 alignItems: "center",

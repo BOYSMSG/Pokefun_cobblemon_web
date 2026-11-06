@@ -45,9 +45,10 @@ export default function HeroScene({
     // Camera setup - looking from +Z towards origin
     const width = container.clientWidth || window.innerWidth;
     const height = container.clientHeight || 520;
-    const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
-    camera.position.set(0, 1.8, 5.2);
-    camera.lookAt(0, 0.9, 0);
+    const isMobile = width < 768;
+    const camera = new THREE.PerspectiveCamera(isMobile ? 38 : 36, width / height, 0.1, 100);
+    camera.position.set(0, isMobile ? 1.75 : 1.65, isMobile ? 5.8 : 5.3);
+    camera.lookAt(0, isMobile ? 0.9 : 0.85, 0);
 
     // Renderer with transparent canvas so CSS sci-fi background shows cleanly
     const renderer = new THREE.WebGLRenderer({
@@ -210,8 +211,8 @@ export default function HeroScene({
         const center = box.getCenter(new THREE.Vector3());
         
         const maxDim = Math.max(size.x, size.y, size.z);
-        const targetSize = 2.4;
-        const autoScale = maxDim > 0 ? targetSize / maxDim : 1.2;
+        const targetSize = 2.22; // Comfortable clearance on both desktop and mobile
+        const autoScale = maxDim > 0 ? targetSize / maxDim : 1.15;
         
         const wrapper = new THREE.Group();
         gltf.scene.scale.set(autoScale, autoScale, autoScale);
@@ -219,7 +220,7 @@ export default function HeroScene({
         gltf.scene.position.z = -center.z * autoScale;
         
         const bottomGroundedY = -box.min.y * autoScale;
-        const middlePodY = -center.y * autoScale + 1.1;
+        const middlePodY = -center.y * autoScale + 0.95;
         const centerAfterGrounded = (center.y - box.min.y) * autoScale;
         if (centerAfterGrounded > 1.8 || box.min.y > 1.5) {
           gltf.scene.position.y = middlePodY;
@@ -241,12 +242,20 @@ export default function HeroScene({
         if (gltf.animations && gltf.animations.length > 0) {
           try {
             mixer = new THREE.AnimationMixer(gltf.scene);
-            const idleClip = gltf.animations.find(a => 
-              a.name.includes("battle") || a.name.includes("idle") || a.name.includes("water") || a.name.includes("air")
-            ) || gltf.animations[0];
-            if (idleClip) {
-              const action = mixer.clipAction(idleClip);
-              action.setEffectiveTimeScale(1.0);
+            const clips = gltf.animations;
+            // Prioritize battle_idle (animated tails, wings, alert posture) over slow ground_idle
+            const chosenClip = 
+              clips.find(a => a.name === "battle_idle") ||
+              clips.find(a => a.name.includes("battle") && !a.name.includes("quirk")) ||
+              clips.find(a => a.name.includes("air")) ||
+              clips.find(a => a.name.includes("water") && !a.name.includes("swim")) ||
+              clips.find(a => a.name === "ground_idle") ||
+              clips.find(a => a.name.includes("idle")) ||
+              clips[0];
+
+            if (chosenClip) {
+              const action = mixer.clipAction(chosenClip);
+              action.setEffectiveTimeScale(1.18); // Energetic, lively tempo
               action.play();
               hasNativeAnim = true;
             }
@@ -268,7 +277,10 @@ export default function HeroScene({
       if (!container) return;
       const w = container.clientWidth;
       const h = container.clientHeight;
+      const mob = w < 768;
+      camera.fov = mob ? 38 : 36;
       camera.aspect = w / h;
+      camera.position.set(0, mob ? 1.75 : 1.65, mob ? 5.8 : 5.3);
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
     };
@@ -294,7 +306,7 @@ export default function HeroScene({
         mixer.update(delta);
       }
 
-      // Smooth model drag rotation with lerp inertia
+      // Smooth model drag rotation with lerp inertia & living movements
       if (modelGroup) {
         // Slow auto-turntable spin when user is not actively dragging
         if (!isDragging) {
@@ -302,16 +314,39 @@ export default function HeroScene({
         }
         currentRotY += (targetRotY - currentRotY) * 0.08;
         modelGroup.rotation.y = currentRotY;
-        modelGroup.rotation.x += (mouseOffsetRotX - modelGroup.rotation.x) * 0.06;
 
-        // Subtle procedural idle breathing oscillation (enhances models without skeletal clips)
-        const breathe = Math.sin(elapsedTime * 2.2) * (hasNativeAnim ? 0.02 : 0.04);
-        modelGroup.position.y = basePosY + breathe;
+        // Dynamic Living Creature Movement (Tail sway, breathing, lively posture)
+        if (hasNativeAnim) {
+          // Living float & organic creature micro-tilt
+          const aliveFloat = Math.sin(elapsedTime * 2.2) * 0.038;
+          const aliveTiltZ = Math.sin(elapsedTime * 1.5) * 0.016;
+          const alivePitchX = Math.cos(elapsedTime * 1.8) * 0.012;
+          modelGroup.position.y = basePosY + aliveFloat;
+          modelGroup.rotation.z = aliveTiltZ;
+          modelGroup.rotation.x += (mouseOffsetRotX + alivePitchX - modelGroup.rotation.x) * 0.06;
 
-        // Ground shadow scales inversely with hover bob
-        if (groundContact) {
-          const shadowScale = 1 - (breathe * 1.5);
-          groundContact.scale.set(shadowScale, shadowScale, shadowScale);
+          if (groundContact) {
+            const shadowScale = 1 - (aliveFloat * 1.8);
+            groundContact.scale.set(shadowScale, shadowScale, shadowScale);
+          }
+        } else {
+          // For models without embedded skeletal tracks, provide a rich organic alive idle
+          const breathY = Math.sin(elapsedTime * 2.4) * 0.065;
+          const swayZ = Math.sin(elapsedTime * 1.6) * 0.035;
+          const pitchX = Math.cos(elapsedTime * 1.9) * 0.025;
+          modelGroup.position.y = basePosY + breathY;
+          modelGroup.rotation.z = swayZ;
+          modelGroup.rotation.x += (mouseOffsetRotX + pitchX - modelGroup.rotation.x) * 0.06;
+
+          // Organic breathing scale
+          const breathScaleY = 1 + Math.sin(elapsedTime * 2.4) * 0.024;
+          const breathScaleXZ = 1 - Math.sin(elapsedTime * 2.4) * 0.012;
+          modelGroup.scale.set(breathScaleXZ, breathScaleY, breathScaleXZ);
+
+          if (groundContact) {
+            const shadowScale = 1 - (breathY * 2.0);
+            groundContact.scale.set(shadowScale, shadowScale, shadowScale);
+          }
         }
       }
 
