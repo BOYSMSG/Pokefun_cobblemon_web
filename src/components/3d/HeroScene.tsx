@@ -166,10 +166,11 @@ export default function HeroScene({
     const particles = new THREE.Points(particleGeo, particleMat);
     scene.add(particles);
 
-    // Tactile 360° Drag & Pointer Interaction
+    // Tactile 360° Drag & Pointer Interaction (Manual inspect only - no continuous auto-spin)
     let currentRotY = rotY;
     let targetRotY = rotY;
     let mouseOffsetRotX = 0;
+    let mouseOffsetRotY = 0;
     let isDragging = false;
     let lastPointerX = 0;
 
@@ -187,7 +188,8 @@ export default function HeroScene({
       } else {
         const mouseX = (e.clientX / window.innerWidth) * 2 - 1;
         const mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
-        mouseOffsetRotX = mouseY * 0.12;
+        mouseOffsetRotX = mouseY * 0.08;
+        mouseOffsetRotY = mouseX * 0.12;
       }
     };
 
@@ -308,11 +310,8 @@ export default function HeroScene({
 
       // Smooth model drag rotation with lerp inertia & living movements
       if (modelGroup) {
-        // Slow auto-turntable spin when user is not actively dragging
-        if (!isDragging) {
-          targetRotY += 0.0035;
-        }
-        currentRotY += (targetRotY - currentRotY) * 0.08;
+        // Manual 360° inspection: No continuous auto-spin so Pokémon stays facing forward proudly
+        currentRotY += (targetRotY + mouseOffsetRotY - currentRotY) * 0.08;
         modelGroup.rotation.y = currentRotY;
 
         // Dynamic Living Creature Movement (Tail sway, breathing, lively posture)
