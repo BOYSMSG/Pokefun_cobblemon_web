@@ -237,14 +237,14 @@ export default function HeroScene({
         lastPointerY = e.clientY;
         // Horizontal 360 drag rotation
         targetRotY += deltaX * 0.015;
-        // Vertical pitch/tilt rotation (clamped to approx 45 degrees so model tilts naturally without flipping)
-        targetRotX = THREE.MathUtils.clamp(targetRotX + deltaY * 0.012, -0.44, 0.38);
+        // 2X Vertical pitch/tilt rotation (approx 60-70 degree full range as requested)
+        targetRotX = THREE.MathUtils.clamp(targetRotX + deltaY * 0.024, -0.72, 0.65);
       } else {
         const rect = container.getBoundingClientRect();
         const relX = (e.clientX - rect.left) / rect.width - 0.5; // -0.5 (left arrow) to +0.5 (right arrow)
         const relY = (e.clientY - rect.top) / rect.height - 0.5;   // -0.5 (top) to +0.5 (bottom)
-        // Responsive body/gaze tracking: tilts up/down and glances left/right following pointer
-        mouseOffsetRotX = -relY * 0.22;
+        // 2X Responsive body/gaze tracking up & down: tilts expressively following cursor
+        mouseOffsetRotX = -relY * 0.46;
         mouseOffsetRotY = relX * 0.45;
       }
     };

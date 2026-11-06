@@ -41,11 +41,14 @@
 /* Real POKEFUN Minecraft World Background (Zoomed with subtle living world movement) */
 .cinematic-hero-world-img {
   position: absolute;
-  inset: -6%;
+  top: -5%;
+  bottom: -5%;
+  left: -4%;
+  right: -8%;
   width: 112%;
-  height: 112%;
+  height: 110%;
   object-fit: cover;
-  object-position: center 36%;
+  object-position: 76% 36%;
   z-index: -3;
   pointer-events: none;
   transform: scale(1.06);
@@ -88,19 +91,7 @@
   opacity: 0.55;
 }
 
-/* Seamless Side World Atmosphere Fade (Softens side borders so the world never looks cut) */
-.cinematic-hero-side-fade {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background: linear-gradient(to right, 
-    rgba(248, 251, 255, 0.45) 0%, 
-    transparent 5%, 
-    transparent 93%, 
-    rgba(248, 251, 255, 0.72) 100%
-  );
-}
+
 
 /* Two-Column Responsive Grid */
 .cinematic-hero-container {

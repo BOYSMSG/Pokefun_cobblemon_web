@@ -116,19 +116,29 @@ export default function MobileNavigation() {
           ============================================================== */}
       <nav className="mobile-aqua-header">
         <div className="mobile-aqua-inner">
-          {/* Brand */}
-          <Link href="/" className="mobile-aqua-brand">
-            <img
-              src="/images/logo.png"
-              alt="Pokefun Logo"
-              className="mobile-aqua-logo"
-              onError={(e) => {
-                e.currentTarget.src = "/images/pokefun_logo_transparent.png";
-              }}
-            />
-            <div className="mobile-aqua-brand-text">
-              <span className="mobile-aqua-title">POKEFUN</span>
-              <span className="mobile-aqua-subtitle">COBBLEMON SMP</span>
+          {/* Brand - Clean Hexagonal Logo Badge Matching Desktop Exactly */}
+          <Link href="/" className="mobile-aqua-brand" title="Pokefun Home" style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none" }}>
+            <div style={{
+              width: "36px",
+              height: "36px",
+              borderRadius: "10px",
+              background: "rgba(0, 201, 216, 0.12)",
+              border: "1.5px solid rgba(0, 201, 216, 0.4)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              boxShadow: "0 0 14px rgba(0, 201, 216, 0.25)",
+              flexShrink: 0
+            }}>
+              <img
+                src="/images/pokefun_icon_small.png"
+                alt="Pokefun Logo"
+                style={{ width: "26px", height: "26px", objectFit: "contain" }}
+              />
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", lineHeight: 1.1 }}>
+              <span style={{ fontFamily: "'Righteous', cursive, sans-serif", fontSize: "1.15rem", fontWeight: 900, color: "#1677FF", letterSpacing: "0.5px" }}>POKEFUN</span>
+              <span style={{ fontSize: "0.62rem", fontWeight: 800, color: "#00C9D8", letterSpacing: "1px" }}>COBBLEMON SMP</span>
             </div>
           </Link>
 
