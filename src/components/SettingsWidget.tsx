@@ -13,8 +13,8 @@ export default function SettingsWidget() {
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme === "dark") {
-      setIsDarkMode(true);
-      document.documentElement.classList.add("dark-mode");
+      // locked light
+      // locked light
     } else {
       setIsDarkMode(false);
       document.documentElement.classList.remove("dark-mode");
@@ -85,9 +85,9 @@ export default function SettingsWidget() {
       localStorage.setItem("theme", "light");
       setIsDarkMode(false);
     } else {
-      document.documentElement.classList.add("dark-mode");
+      // locked light
       localStorage.setItem("theme", "dark");
-      setIsDarkMode(true);
+      // locked light
     }
   };
 

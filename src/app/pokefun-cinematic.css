@@ -41,17 +41,18 @@
 /* Real POKEFUN Minecraft World Background (Zoomed with subtle living world movement) */
 .cinematic-hero-world-img {
   position: absolute;
-  top: -5%;
-  bottom: -5%;
-  left: -4%;
-  right: -8%;
-  width: 112%;
-  height: 110%;
+  top: -6%;
+  bottom: -6%;
+  left: -8%;
+  width: 126% !important;
+  max-width: none !important;
+  height: 112%;
+  min-width: 126% !important;
   object-fit: cover;
-  object-position: 76% 36%;
+  object-position: 78% 36%;
   z-index: -3;
   pointer-events: none;
-  transform: scale(1.06);
+  transform: scale(1.05);
   animation: subtle-world-float 26s ease-in-out infinite alternate;
 }
 

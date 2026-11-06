@@ -72,16 +72,12 @@ export default async function RootLayout({
         />
         <meta name="HandheldFriendly" content="True" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-        {/* CRITICAL ZERO-LATENCY STATIC HYDRATION & THEME GUARD */}
+        {/* PERMANENT LIGHT THEME LOCK */}
         <script dangerouslySetInnerHTML={{ __html: `
           (function() {
             try {
-              var saved = localStorage.getItem('theme');
-              if (saved === 'dark') {
-                document.documentElement.classList.add('dark-mode');
-              } else if (saved === 'light') {
-                document.documentElement.classList.remove('dark-mode');
-              }
+              localStorage.setItem('theme', 'light');
+              document.documentElement.classList.remove('dark-mode');
             } catch(e) {}
           })();
         `}} />

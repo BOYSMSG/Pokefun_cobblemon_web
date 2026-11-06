@@ -177,7 +177,7 @@ export default function AIChatWidget() {
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme === "dark") {
       setIsDarkMode(true);
-      document.documentElement.classList.add("dark-mode");
+      // locked light
     } else {
       setIsDarkMode(false);
       document.documentElement.classList.remove("dark-mode");
@@ -263,7 +263,7 @@ export default function AIChatWidget() {
       localStorage.setItem("theme", "light");
       setIsDarkMode(false);
     } else {
-      document.documentElement.classList.add("dark-mode");
+      // locked light
       localStorage.setItem("theme", "dark");
       setIsDarkMode(true);
     }
