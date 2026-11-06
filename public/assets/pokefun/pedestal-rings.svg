@@ -1,55 +1,49 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 320" fill="none">
   <defs>
-    <!-- Cyan glow filters -->
-    <filter id="pedestalGlow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="8" result="blur" />
+    <!-- Soft emissive glow -->
+    <filter id="softEmissive" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
       <feMerge>
         <feMergeNode in="blur" />
         <feMergeNode in="SourceGraphic" />
       </feMerge>
     </filter>
-    <linearGradient id="ringGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#00C9D8" stop-opacity="0.3" />
-      <stop offset="30%" stop-color="#00E5FF" stop-opacity="0.95" />
-      <stop offset="50%" stop-color="#FFFFFF" stop-opacity="1" />
-      <stop offset="70%" stop-color="#00E5FF" stop-opacity="0.95" />
-      <stop offset="100%" stop-color="#00C9D8" stop-opacity="0.3" />
+
+    <!-- Refined gradient for outer energy boundary -->
+    <linearGradient id="pedestalRim" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00C9D8" stop-opacity="0.25" />
+      <stop offset="25%" stop-color="#00E5FF" stop-opacity="0.9" />
+      <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.95" />
+      <stop offset="75%" stop-color="#00E5FF" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#00C9D8" stop-opacity="0.25" />
     </linearGradient>
-    <linearGradient id="ringGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#1677FF" stop-opacity="0.2" />
-      <stop offset="50%" stop-color="#00C9D8" stop-opacity="0.85" />
-      <stop offset="100%" stop-color="#1677FF" stop-opacity="0.2" />
-    </linearGradient>
-    <radialGradient id="floorAura" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#00E5FF" stop-opacity="0.45" />
-      <stop offset="40%" stop-color="#00C9D8" stop-opacity="0.25" />
-      <stop offset="75%" stop-color="#1677FF" stop-opacity="0.08" />
+
+    <!-- Subdued radial stage floor light -->
+    <radialGradient id="stageFloor" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00E5FF" stop-opacity="0.3" />
+      <stop offset="45%" stop-color="#00C9D8" stop-opacity="0.14" />
+      <stop offset="80%" stop-color="#1677FF" stop-opacity="0.04" />
       <stop offset="100%" stop-color="#000000" stop-opacity="0" />
     </radialGradient>
   </defs>
 
-  <!-- Ambient Floor Aura -->
-  <ellipse cx="450" cy="195" rx="380" ry="78" fill="url(#floorAura)" />
+  <!-- Ambient Stage Light -->
+  <ellipse cx="450" cy="195" rx="360" ry="74" fill="url(#stageFloor)" />
 
-  <!-- Outer Luminous Ring with Glow -->
-  <ellipse cx="450" cy="195" rx="360" ry="74" stroke="url(#ringGrad1)" stroke-width="4.5" filter="url(#pedestalGlow)" opacity="0.95" />
+  <!-- Outer Luminous Platform Ring -->
+  <ellipse cx="450" cy="195" rx="340" ry="70" stroke="url(#pedestalRim)" stroke-width="3" filter="url(#softEmissive)" opacity="0.9" />
 
-  <!-- Middle Concentric Ring (Dashed Cyber Ticks) -->
-  <ellipse cx="450" cy="195" rx="295" ry="60" stroke="url(#ringGrad2)" stroke-width="2.5" stroke-dasharray="16 8 4 8" opacity="0.8" />
+  <!-- Inner Precision Cyber Ring -->
+  <ellipse cx="450" cy="195" rx="275" ry="56" stroke="#00C9D8" stroke-width="1.5" stroke-dasharray="12 6" opacity="0.65" />
 
-  <!-- Inner Cyber Ring -->
-  <ellipse cx="450" cy="195" rx="220" ry="44" stroke="#00E5FF" stroke-width="2" stroke-dasharray="40 12" opacity="0.85" />
+  <!-- Core Stage Ring -->
+  <ellipse cx="450" cy="195" rx="190" ry="38" stroke="#00E5FF" stroke-width="1.5" opacity="0.5" />
 
-  <!-- Bright Core Ellipse -->
-  <ellipse cx="450" cy="195" rx="140" ry="28" stroke="#FFFFFF" stroke-width="3" filter="url(#pedestalGlow)" opacity="0.9" />
-
-  <!-- Orbiting Cyan Energy Nodes (Matching Reference B) -->
-  <g fill="#FFFFFF" filter="url(#pedestalGlow)">
-    <circle cx="95" cy="193" r="6" fill="#00E5FF" />
-    <circle cx="805" cy="197" r="6" fill="#00E5FF" />
-    <circle cx="210" cy="152" r="4.5" fill="#FFFFFF" />
-    <circle cx="690" cy="238" r="4.5" fill="#FFFFFF" />
-    <circle cx="450" cy="121" r="5" fill="#00E5FF" />
-    <circle cx="450" cy="269" r="5" fill="#00E5FF" />
+  <!-- 4 Balanced Compass Nodes (Esports Stage Design) -->
+  <g fill="#FFFFFF" filter="url(#softEmissive)">
+    <circle cx="110" cy="195" r="4.5" fill="#00E5FF" />
+    <circle cx="790" cy="195" r="4.5" fill="#00E5FF" />
+    <circle cx="450" cy="125" r="4" fill="#00E5FF" />
+    <circle cx="450" cy="265" r="4" fill="#00E5FF" />
   </g>
 </svg>

@@ -13,44 +13,17 @@ export interface PokemonHeroItem {
 }
 
 // 32 Iconic Cobblemon Models: Official Cobblemon + DNA Fusions + Classic Favorites
+// Exactly the 9 Approved Pokémon for Home Showcase & Random Selection
 export const POKEMON_ROSTER: PokemonHeroItem[] = [
-  // --- Official Cobblemon Originals ---
-  { id: "greninja", name: "Greninja", type: "Water / Dark", badge: "Fan Favorite", path: "/models/official-greninja.glb", rotY: Math.PI + 0.25 },
-  { id: "pikachu", name: "Pikachu", type: "Electric", badge: "Mascot Cobblemon", path: "/models/official-pikachu.glb", rotY: Math.PI + 0.25 },
-  { id: "charizard", name: "Charizard", type: "Fire / Flying", badge: "Official Cobblemon", path: "/models/official-charizard.glb", rotY: Math.PI + 0.25 },
-  { id: "lucario", name: "Lucario", type: "Fighting / Steel", badge: "Aura Cobblemon", path: "/models/official-lucario.glb", rotY: Math.PI + 0.25 },
-  { id: "eevee", name: "Eevee", type: "Normal", badge: "Fan Favorite", path: "/models/official-eevee.glb", rotY: Math.PI + 0.25 },
-  { id: "gengar", name: "Gengar", type: "Ghost / Poison", badge: "Shadow Cobblemon", path: "/models/official-gengar.glb", rotY: Math.PI + 0.25 },
-  { id: "blastoise", name: "Blastoise", type: "Water", badge: "Official Cobblemon", path: "/models/official-blastoise.glb", rotY: Math.PI + 0.25 },
-  { id: "mewtwo", name: "Mewtwo", type: "Psychic", badge: "Legendary Cobblemon", path: "/models/official-mewtwo.glb", rotY: Math.PI + 0.25 },
-  { id: "garchomp", name: "Garchomp", type: "Dragon / Ground", badge: "Apex Cobblemon", path: "/models/official-garchomp.glb", rotY: Math.PI + 0.25 },
   { id: "gyarados", name: "Gyarados", type: "Water / Flying", badge: "Atrocious Cobblemon", path: "/models/official-gyarados.glb", rotY: Math.PI + 0.25 },
-  { id: "snorlax", name: "Snorlax", type: "Normal", badge: "Sleeping Cobblemon", path: "/models/official-snorlax.glb", rotY: Math.PI + 0.25 },
-  { id: "lapras", name: "Lapras", type: "Water / Ice", badge: "Transport Cobblemon", path: "/models/official-lapras.glb", rotY: Math.PI + 0.25 },
-
-  // --- Custom DNA & Starlight Fusions ---
-  { id: "umbrizard", name: "Umbrizard", type: "Dark / Fire", badge: "Custom DNA Fusion", path: "/models/fusion-umbrizard.glb", rotY: Math.PI + 0.25 },
-  { id: "venustoise", name: "Venustoise", type: "Grass / Water", badge: "Custom DNA Fusion", path: "/models/fusion-venustoise.glb", rotY: Math.PI + 0.25 },
-  { id: "giraruledge", name: "Giraruledge", type: "Ghost / Dragon", badge: "Starlight Fusion", path: "/models/fusion-giraruledge.glb", rotY: Math.PI + 0.25 },
-  { id: "miraiceus", name: "Miraiceus", type: "Normal / Electric", badge: "Legendary Fusion", path: "/models/fusion-miraiceus.glb", rotY: Math.PI + 0.25 },
-  { id: "necgross", name: "Necgross", type: "Psychic / Steel", badge: "Ultra Fusion", path: "/models/fusion-necgross.glb", rotY: Math.PI + 0.25 },
-  { id: "darkzor", name: "Darkzor", type: "Bug / Dark", badge: "Starlight Fusion", path: "/models/fusion-darkzor.glb", rotY: Math.PI + 0.25 },
-  { id: "togechu", name: "Togechu", type: "Electric / Fairy", badge: "Custom DNA Fusion", path: "/models/fusion-togechu.glb", rotY: Math.PI + 0.25 },
-  { id: "bulbakoal", name: "Bulbakoal", type: "Grass / Fire", badge: "Custom DNA Fusion", path: "/models/fusion-bulbakoal.glb", rotY: Math.PI + 0.25 },
-  { id: "eterneon", name: "Eterneon", type: "Psychic / Dragon", badge: "Custom DNA Fusion", path: "/models/fusion-eterneon.glb", rotY: Math.PI + 0.25 },
-  { id: "dragovoir", name: "Dragovoir", type: "Dragon / Fairy", badge: "Custom DNA Fusion", path: "/models/fusion-dragovoir.glb", rotY: Math.PI + 0.25 },
-  { id: "luxpa", name: "Luxpa", type: "Electric / Dark", badge: "Custom DNA Fusion", path: "/models/fusion-luxpa.glb", rotY: Math.PI + 0.25 },
-  { id: "armartina", name: "Armartina", type: "Fire / Ghost", badge: "Starlight Fusion", path: "/models/fusion-armartina.glb", rotY: Math.PI + 0.25 },
-  { id: "espevoir", name: "Espevoir", type: "Psychic / Fairy", badge: "Starlight Fusion", path: "/models/fusion-espevoir.glb", rotY: Math.PI + 0.25 },
-
-  // --- Classic Cobblemon Favorites (Excluded from random selection: indices 25..31) ---
-  { id: "dragonite", name: "Dragonite", type: "Dragon / Flying", badge: "Classic Cobblemon", path: "/models/pokemon-dragonite.glb", rotY: Math.PI + 0.25 },
-  { id: "salamence", name: "Salamence", type: "Dragon / Flying", badge: "Classic Cobblemon", path: "/models/pokemon-salamence.glb", rotY: Math.PI + 0.25 },
-  { id: "gardevoir", name: "Gardevoir", type: "Psychic / Fairy", badge: "Classic Cobblemon", path: "/models/pokemon-gardevoir.glb", rotY: Math.PI + 0.25 },
-  { id: "flygon", name: "Flygon", type: "Ground / Dragon", badge: "Classic Cobblemon", path: "/models/pokemon-flygon.glb", rotY: Math.PI + 0.25 },
-  { id: "meowscarada", name: "Meowscarada", type: "Grass / Dark", badge: "Paldea Starter", path: "/models/pokemon-meowscarada.glb", rotY: Math.PI + 0.25 },
+  { id: "garchomp", name: "Garchomp", type: "Dragon / Ground", badge: "Apex Cobblemon", path: "/models/official-garchomp.glb", rotY: Math.PI + 0.25 },
+  { id: "lucario", name: "Lucario", type: "Fighting / Steel", badge: "Aura Cobblemon", path: "/models/official-lucario.glb", rotY: Math.PI + 0.25 },
   { id: "braixen", name: "Braixen", type: "Fire", badge: "Kalos Starter", path: "/models/pokemon-braixen.glb", rotY: Math.PI + 0.25 },
-  { id: "serperior", name: "Serperior", type: "Grass", badge: "Unova Royal", path: "/models/pokemon-serperior.glb", rotY: Math.PI + 0.25 },
+  { id: "meowscarada", name: "Meowscarada", type: "Grass / Dark", badge: "Paldea Starter", path: "/models/pokemon-meowscarada.glb", rotY: Math.PI + 0.25 },
+  { id: "luxpa", name: "Luxpa", type: "Electric / Dark", badge: "Custom DNA Fusion", path: "/models/fusion-luxpa.glb", rotY: Math.PI + 0.25 },
+  { id: "necgross", name: "Necgross", type: "Psychic / Steel", badge: "Ultra Fusion", path: "/models/fusion-necgross.glb", rotY: Math.PI + 0.25 },
+  { id: "venustoise", name: "Venustoise", type: "Grass / Water", badge: "Custom DNA Fusion", path: "/models/fusion-venustoise.glb", rotY: Math.PI + 0.25 },
+  { id: "umbrizard", name: "Umbrizard", type: "Dark / Fire", badge: "Custom DNA Fusion", path: "/models/fusion-umbrizard.glb", rotY: Math.PI + 0.25 },
 ];
 
 const HeroSceneComponent = dynamic(() => import("@/components/3d/HeroScene"), {
@@ -100,8 +73,9 @@ export default function DynamicHero3D() {
   const [arrowDirection, setArrowDirection] = useState<number>(0);
 
   // STRICT RULE: Indices 25..31 have exactly 0% probability of random selection
+    // Strictly selects only from the 9 curated showcase Pokémon
   const getRandomShowcaseIndex = (excludeIndex?: number): number => {
-    const poolLimit = Math.min(25, POKEMON_ROSTER.length);
+    const poolLimit = POKEMON_ROSTER.length; // Exactly 9
     let idx = Math.floor(Math.random() * poolLimit);
     if (excludeIndex !== undefined && idx === excludeIndex && poolLimit > 1) {
       idx = (idx + 1) % poolLimit;
@@ -124,8 +98,9 @@ export default function DynamicHero3D() {
         }
       }
     }
-    // Default to Greninja (index 0) to match Reference B
-    setCurrentIndex(0);
+    // Pick a curated starting Pokémon from the approved 9
+    const initialRandom = Math.floor(Math.random() * POKEMON_ROSTER.length);
+    setCurrentIndex(initialRandom);
   }, []);
 
   const handleNext = (e: React.MouseEvent) => {
@@ -151,12 +126,7 @@ export default function DynamicHero3D() {
   return (
     <div style={{ width: "100%", height: "100%", position: "relative" }}>
       
-      {/* Concentric Neon Holographic Pedestal SVG Layer */}
-      <img 
-        src="/assets/pokefun/pedestal-rings.svg" 
-        alt="" 
-        className="cinematic-pedestal-svg" 
-      />
+{/* 3D Hardware-Accelerated Stage rendered directly in HeroScene */}
 
       {/* Floating Side Nav Arrow (Previous Pokémon) - triggers model look-at */}
       <button 

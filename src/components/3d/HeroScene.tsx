@@ -140,56 +140,66 @@ export default function HeroScene({
     cyberRingOuter.position.y = 0.02;
     scene.add(cyberRingOuter);
 
-    // 3D Translucent Holographic Glass Cylinder Forcefield (Matching Reference B)
+    // Sleek Low-Profile Holographic Emitter Collar (Matching Reference B Greninja: Base rim only, never blocks body)
     const cylCanvas = document.createElement("canvas");
     cylCanvas.width = 512;
-    cylCanvas.height = 256;
+    cylCanvas.height = 128;
     const cCtx = cylCanvas.getContext("2d");
     if (cCtx) {
-      const cGrad = cCtx.createLinearGradient(0, 0, 0, 256);
-      cGrad.addColorStop(0, "rgba(0, 255, 255, 0.95)");     // Glowing top rim
-      cGrad.addColorStop(0.08, "rgba(0, 229, 255, 0.45)");  // Upper energy glow
-      cGrad.addColorStop(0.5, "rgba(0, 201, 216, 0.14)");   // Translucent glass field
-      cGrad.addColorStop(0.92, "rgba(0, 201, 216, 0.45)");  // Lower energy glow
-      cGrad.addColorStop(1, "rgba(22, 119, 255, 0.95)");    // Glowing bottom rim
+      const cGrad = cCtx.createLinearGradient(0, 0, 0, 128);
+      cGrad.addColorStop(0, "rgba(0, 245, 255, 0.85)");    // Glowing top emitter lip
+      cGrad.addColorStop(0.3, "rgba(0, 201, 216, 0.28)");  // Soft translucent energetic wash
+      cGrad.addColorStop(0.8, "rgba(22, 119, 255, 0.15)");
+      cGrad.addColorStop(1, "rgba(22, 119, 255, 0.75)");   // Ground anchor rim
       cCtx.fillStyle = cGrad;
-      cCtx.fillRect(0, 0, 512, 256);
-
-      cCtx.fillStyle = "rgba(255, 255, 255, 0.2)";
-      for (let x = 0; x < 512; x += 32) {
-        cCtx.fillRect(x, 0, 2, 256);
-      }
+      cCtx.fillRect(0, 0, 512, 128);
     }
     const cylTex = new THREE.CanvasTexture(cylCanvas);
     cylTex.wrapS = THREE.RepeatWrapping;
     cylTex.wrapT = THREE.ClampToEdgeWrapping;
 
-    const holoCylGeo = new THREE.CylinderGeometry(3.1, 3.1, 0.82, 64, 1, true);
+    // Sleek, low-profile collar: height 0.16 units, hugging the stage floor
+    const holoCylGeo = new THREE.CylinderGeometry(2.78, 2.78, 0.16, 64, 1, true);
     const holoCylMat = new THREE.MeshBasicMaterial({
       map: cylTex,
       transparent: true,
-      opacity: 0.75,
+      opacity: 0.35,
       side: THREE.DoubleSide,
       blending: THREE.AdditiveBlending,
       depthWrite: false
     });
     const holoCylinder = new THREE.Mesh(holoCylGeo, holoCylMat);
-    holoCylinder.position.y = 0.42;
+    holoCylinder.position.y = 0.08;
     scene.add(holoCylinder);
 
-    // Glowing Top Rim on the Cylinder
-    const topRimGeo = new THREE.RingGeometry(3.08, 3.14, 64);
+    // Glowing Precision Emitter Lip on the low-profile rim
+    const topRimGeo = new THREE.RingGeometry(2.76, 2.80, 64);
     const topRimMat = new THREE.MeshBasicMaterial({
       color: 0x00ffff,
       side: THREE.DoubleSide,
       transparent: true,
-      opacity: 0.95,
+      opacity: 0.85,
       blending: THREE.AdditiveBlending
     });
     const topRim = new THREE.Mesh(topRimGeo, topRimMat);
     topRim.rotation.x = -Math.PI / 2;
-    topRim.position.y = 0.83;
+    topRim.position.y = 0.16;
     scene.add(topRim);
+
+    // 4 Cardinal Emitter Nodes (Esports Stage Design)
+    const nodeGeo = new THREE.SphereGeometry(0.045, 16, 16);
+    const nodeMat = new THREE.MeshBasicMaterial({ color: 0x00e5ff });
+    const nodes = [
+      [2.78, 0.04, 0],
+      [-2.78, 0.04, 0],
+      [0, 0.04, 2.78],
+      [0, 0.04, -2.78]
+    ];
+    nodes.forEach(([x, y, z]) => {
+      const node = new THREE.Mesh(nodeGeo, nodeMat);
+      node.position.set(x, y, z);
+      scene.add(node);
+    });
 
     // Floating Luminous Sci-Fi Energy Particles
     const particleCount = 65;
