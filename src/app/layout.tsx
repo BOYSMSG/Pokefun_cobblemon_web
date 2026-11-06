@@ -49,7 +49,7 @@ const jsonLd = {
   "genre": ["Role-playing game", "Massively multiplayer online game"],
   "playMode": "MultiPlayer",
   "applicationCategory": "Game",
-  "gamePlatform": ["PC", "Minecraft Java Edition", "Minecraft Bedrock Edition"],
+  "gamePlatform": ["PC", "Minecraft Java Edition"],
   "publisher": {
     "@type": "Organization",
     "name": "Pokefun"
@@ -103,16 +103,11 @@ export default async function RootLayout({
               display: none !important;
             }
           }
-          /* Instant Light Theme */
-          html:not(.dark-mode), html:not(.dark-mode) body, html:not(.dark-mode) .viewport {
+          /* Instant White & Electric Aqua / Ice Sci-Fi Theme */
+          html, body, .viewport {
             background-color: #F8FBFF !important;
+            background: #F8FBFF !important;
             color: #0B1524 !important;
-          }
-          /* Instant Dark Theme (Deep Black & Electric Aqua) */
-          html.dark-mode, html.dark-mode body, html.dark-mode .viewport {
-            background-color: #0B0E14 !important;
-            background: #0B0E14 !important;
-            color: #F8FAFC !important;
           }
         `}} />
         <link rel="stylesheet" href="/css/custom.css" />
@@ -133,7 +128,7 @@ export default async function RootLayout({
                     <div className="container desktop-nav-container">
                         <a href="/" className="nav-brand-link" title="Pokefun Home">
                             <div className="nav-brand-logo-badge">
-                                <img src="/images/pokefun_logo_transparent.png" alt="Pokefun Logo" className="nav-brand-logo" />
+                                <img src="/images/pokefun_icon_small.png" alt="Pokefun Logo" style={{ width: "32px", height: "32px", objectFit: "contain" }} className="nav-brand-logo" />
                             </div>
                             <span className="nav-brand-text">POKEFUN</span>
                         </a>
@@ -141,9 +136,7 @@ export default async function RootLayout({
                             <a href="/" className="nav-link-item">Home</a>
                             <a href="/community" className="nav-link-item">Community</a>
                             <a href="/community/reels" className="nav-link-item">Reels</a>
-                            <a href="/leaderboard" className="nav-link-item">
-                                <i className="fa-solid fa-trophy" style={{ marginRight: '6px', opacity: 0.85 }}></i> Leaderboards
-                            </a>
+                            <a href="/showcase" className="nav-link-item">Showcase</a>
                             <a href="/wiki" className="nav-link-item">Wiki</a>
                             <a href="/vote" className="nav-link-item">Vote</a>
                             <a href="https://store.pokefun.in" target="_blank" rel="noopener noreferrer" className="nav-store-pill">
@@ -157,6 +150,10 @@ export default async function RootLayout({
                                     <i className="fa-solid fa-chevron-down nav-dropdown-arrow"></i>
                                 </button>
                                 <div className="nav-dropdown-menu">
+                                    <a href="/leaderboard" className="dropdown-link-item">
+                                        <i className="fa-solid fa-trophy dropdown-link-icon" style={{ color: '#f59e0b' }}></i>
+                                        <span>Leaderboards</span>
+                                    </a>
                                     <a href="/messages" className="dropdown-link-item">
                                         <i className="fa-solid fa-envelope dropdown-link-icon"></i>
                                         <span>Messages</span>
@@ -168,10 +165,6 @@ export default async function RootLayout({
                                     <a href="/rules" className="dropdown-link-item">
                                         <i className="fa-solid fa-scale-balanced dropdown-link-icon"></i>
                                         <span>Rules</span>
-                                    </a>
-                                    <a href="/showcase" className="dropdown-link-item">
-                                        <i className="fa-solid fa-images dropdown-link-icon"></i>
-                                        <span>Showcase</span>
                                     </a>
                                     <a href="/team" className="dropdown-link-item">
                                         <i className="fa-solid fa-users dropdown-link-icon"></i>
@@ -189,7 +182,8 @@ export default async function RootLayout({
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        <AuthWidget />
+                                            </div>
                 </nav>
               </header>
             
@@ -211,7 +205,7 @@ export default async function RootLayout({
                             <h1>2026 © <strong>Pokefun</strong></h1>
                             <p>
                                 We are not affiliated with or endorsed by Mojang, AB or Pokemon.<br/>
-                                <small>Updated for Pokefun | <a href="/rules">Rules</a> | <a href="/team">Staff Team</a></small>
+                                <small>Updated for Pokefun | <a href="/rules">Rules</a> | <a href="/team">Staff Team</a> | <a href="https://shifan.pokefun.in/" target="_blank" rel="noopener noreferrer" style={{ color: "#1677FF", fontWeight: 700 }}>Owner Profile</a></small>
                             </p>
                             <p style={{ marginTop: '10px', fontSize: '14px', color: '#666' }}>
                                 New videos, guides, and features come fast on Discord and YouTube! Must join!
@@ -233,12 +227,7 @@ export default async function RootLayout({
           <Script src="/js/jquery-3.5.1.min.js" strategy="beforeInteractive" />
           <Script src="/js/jquery-ui.js" strategy="lazyOnload" />
           <Script src="/js/casper.js" strategy="lazyOnload" />
-          <Script src="/js/tsparticles.preset.stars.bundle.min.js" strategy="lazyOnload" />
           <Script id="init-scripts" strategy="lazyOnload">{`
-            if (typeof tsParticles !== 'undefined') {
-              tsParticles.load("tsparticles", { preset: "stars" });
-            }
-            
             // Set active navigation link
             const path = window.location.pathname;
             document.querySelectorAll('#nav a, .nav a').forEach(link => {
@@ -275,8 +264,7 @@ export default async function RootLayout({
           `}</Script>
           <PushManager />
           <WelcomeLoginModal />
-          <AuthWidget />
-          <AIChatWidget />
+                    <AIChatWidget />
           <Analytics />
           <Script 
             async 

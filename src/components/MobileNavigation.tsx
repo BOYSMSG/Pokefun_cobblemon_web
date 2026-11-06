@@ -6,13 +6,26 @@ import { usePathname } from "next/navigation";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 export default function MobileNavigation() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('menu') === 'open';
+    }
+    return false;
+  });
   const [playerCount, setPlayerCount] = useState<number | null>(null);
   const { data: session } = useSession();
   const pathname = usePathname();
 
-  // Close drawer on route change
+  // Close drawer on route change (or open if query param ?menu=open)
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('menu') === 'open') {
+        setIsOpen(true);
+        return;
+      }
+    }
     setIsOpen(false);
   }, [pathname]);
 
@@ -58,12 +71,12 @@ export default function MobileNavigation() {
         { title: "Store & Ranks", path: "https://store.pokefun.in", icon: "fa-solid fa-cart-shopping", highlight: true, external: true },
         { title: "Community Feed", path: "/community", icon: "fa-solid fa-users" },
         { title: "Reels", path: "/community/reels", icon: "fa-solid fa-play" },
-        { title: "Leaderboards", path: "/leaderboard", icon: "fa-solid fa-trophy", highlight: true },
-        { title: "Messages", path: "/messages", icon: "fa-solid fa-comment-dots" },
+        { title: "Showcase", path: "/showcase", icon: "fa-solid fa-star", highlight: true },
         { title: "Wiki & Pokédex", path: "/wiki", icon: "fa-solid fa-book" },
-        { title: "Modpacks", path: "/modpacks", icon: "fa-solid fa-download" },
         { title: "Vote for Rewards", path: "/vote", icon: "fa-solid fa-check-to-slot" },
-        { title: "Showcase", path: "/showcase", icon: "fa-solid fa-star" },
+        { title: "Leaderboards", path: "/leaderboard", icon: "fa-solid fa-trophy" },
+        { title: "Messages", path: "/messages", icon: "fa-solid fa-comment-dots" },
+        { title: "Modpacks", path: "/modpacks", icon: "fa-solid fa-download" },
       ],
     },
     {
@@ -331,7 +344,7 @@ export default function MobileNavigation() {
         {/* Drawer Footer */}
         <div className="drawer-aqua-footer">
           <span>2026 © Pokefun Network</span>
-          <span className="footer-cyan">Cobblemon 1.21.1 • Java &amp; Bedrock</span>
+          <span className="footer-cyan">Cobblemon 1.21.1 • Java Edition</span>
         </div>
       </aside>
 
@@ -526,12 +539,16 @@ export default function MobileNavigation() {
             box-shadow: -10px 0 40px rgba(15, 23, 42, 0.15);
             z-index: 1999;
             transform: translateX(100%);
-            transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.28s ease;
             overflow: hidden;
+            visibility: hidden;
+            pointer-events: none;
           }
 
           .mobile-aqua-drawer.drawer-visible {
             transform: translateX(0);
+            visibility: visible;
+            pointer-events: auto;
           }
 
           /* Drawer Header */

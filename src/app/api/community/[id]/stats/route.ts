@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import mongoose from 'mongoose';
 import connectDB from '@/lib/mongoose';
 import Post from '@/models/Post';
 import User from '@/models/User';
@@ -6,6 +7,9 @@ import User from '@/models/User';
 export async function GET(req: Request, props: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await props.params;
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+      return NextResponse.json({ error: "Invalid post ID" }, { status: 400 });
+    }
     await connectDB();
     
     const post = await Post.findById(id).lean();

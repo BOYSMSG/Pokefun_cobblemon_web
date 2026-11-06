@@ -47,16 +47,16 @@ export default function LeaderboardPage() {
   const [sortBy, setSortBy] = useState('');
 
   const mainTabs = [
-    { id: 'ranked', label: 'Pokefun Ranked (elo)', icon: 'fa-trophy', color: '#f59e0b' },
-    { id: 'other', label: 'Other Leaderboards', icon: 'fa-list-ul', color: '#3b82f6' }
+    { id: 'ranked', label: 'Cobblemon Ranked (Elo)', icon: 'fa-solid fa-trophy', color: '#f59e0b' },
+    { id: 'other', label: 'Activity & PvE Ranks', icon: 'fa-solid fa-layer-group', color: '#0ea5e9' }
   ];
 
   const subTabs = [
-    { id: 'pokedex', label: 'Pokedex', icon: 'fa-book', color: '#10b981' },
-    { id: 'dungeon', label: 'Dungeons', icon: 'fa-skull', color: '#8b5cf6' },
-    { id: 'alphazone', label: 'AlphaZone', icon: 'fa-fire', color: '#ef4444' },
-    { id: 'raid', label: 'Raids', icon: 'fa-meteor', color: '#ec4899' },
-    { id: 'battletower', label: 'BattleTower', icon: 'fa-chess-rook', color: '#6366f1' },
+    { id: 'pokedex', label: 'Pokédex', icon: 'fa-solid fa-book', color: '#10b981' },
+    { id: 'dungeon', label: 'Dungeons', icon: 'fa-solid fa-skull', color: '#8b5cf6' },
+    { id: 'alphazone', label: 'AlphaZone', icon: 'fa-solid fa-fire', color: '#ef4444' },
+    { id: 'raid', label: 'Raids', icon: 'fa-solid fa-meteor', color: '#ec4899' },
+    { id: 'battletower', label: 'BattleTower', icon: 'fa-solid fa-chess-rook', color: '#6366f1' },
   ];
 
   const currentFetchMode = activeMainTab === 'ranked' ? 'ranked' : activeSubTab;
@@ -81,177 +81,181 @@ export default function LeaderboardPage() {
       });
   }, [currentFetchMode]);
 
-  const activeColumns = MODE_COLUMNS[currentFetchMode] || [{ label: 'Score', key: sortBy, color: '#10b981' }];
+  const activeColumns = MODE_COLUMNS[currentFetchMode] || [];
 
   return (
-    <div className="inner" style={{ paddingTop: '60px', paddingBottom: '80px', maxWidth: '1400px', margin: '0 auto', minHeight: '80vh', paddingLeft: '20px', paddingRight: '20px' }}>
+    <div className="max-w-6xl mx-auto px-4 py-12 text-slate-100 min-h-[85vh]">
       
-      <div style={{ textAlign: 'center', marginBottom: '50px' }}>
-        <h1 style={{ fontSize: '4rem', fontWeight: 800, marginBottom: '15px', color: 'white', textShadow: '0 0 25px rgba(255,255,255,0.2)' }}>
-          <i className="fa-solid fa-crown" style={{ color: '#fbbf24', marginRight: '20px' }}></i>
-          Server Leaderboards
+      {/* Header */}
+      <div className="text-center mb-10">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-950/60 border border-amber-500/30 text-amber-400 text-xs font-black uppercase tracking-wider mb-3">
+          <i className="fa-solid fa-crown"></i>
+          <span>Official Hall of Fame</span>
+        </div>
+        <h1 className="text-4xl md:text-5xl font-black text-white tracking-tight mb-3">
+          Global Leaderboards
         </h1>
-        <p style={{ fontSize: '1.4rem', color: 'gray' }}>See who reigns supreme across all Pokefun game modes.</p>
+        <p className="text-slate-400 text-sm md:text-base max-w-xl mx-auto leading-relaxed">
+          Track top ranked trainers across competitive Elo, dungeon clears, raid masteries, and Pokédex completion.
+        </p>
       </div>
 
       {/* Main Tabs */}
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginBottom: '30px', flexWrap: 'wrap' }}>
+      <div className="flex justify-center gap-3 mb-6">
         {mainTabs.map(tab => (
           <button
             key={tab.id}
             onClick={() => setActiveMainTab(tab.id)}
-            style={{
-              padding: '16px 35px',
-              borderRadius: '40px',
-              border: activeMainTab === tab.id ? `3px solid ${tab.color}` : '3px solid transparent',
-              background: activeMainTab === tab.id ? `${tab.color}22` : 'rgba(255,255,255,0.05)',
-              color: activeMainTab === tab.id ? tab.color : '#d1d5db',
-              fontSize: '1.3rem',
-              fontWeight: 'bold',
-              cursor: 'pointer',
-              transition: '0.3s',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              boxShadow: activeMainTab === tab.id ? `0 0 20px ${tab.color}40` : 'none'
-            }}
+            className={`px-5 py-3 rounded-2xl text-xs md:text-sm font-bold flex items-center gap-2.5 transition-all shadow-md ${
+              activeMainTab === tab.id
+                ? "bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 shadow-amber-500/20 scale-105"
+                : "bg-slate-900/80 text-slate-400 hover:text-white border border-slate-800"
+            }`}
           >
-            <i className={`fa-solid ${tab.icon}`}></i> {tab.label}
+            <i className={tab.icon}></i>
+            <span>{tab.label}</span>
           </button>
         ))}
       </div>
 
-      {/* Sub Tabs for Other Leaderboards */}
+      {/* Sub Tabs */}
       {activeMainTab === 'other' && (
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '15px', marginBottom: '40px', flexWrap: 'wrap', animation: 'fadeIn 0.3s ease-out' }}>
+        <div className="flex justify-center gap-2 mb-8 flex-wrap">
           {subTabs.map(tab => (
             <button
               key={tab.id}
               onClick={() => setActiveSubTab(tab.id)}
-              style={{
-                padding: '12px 25px',
-                borderRadius: '30px',
-                border: activeSubTab === tab.id ? `2px solid ${tab.color}` : '2px solid transparent',
-                background: activeSubTab === tab.id ? `${tab.color}22` : 'rgba(255,255,255,0.05)',
-                color: activeSubTab === tab.id ? tab.color : 'gray',
-                fontSize: '1.1rem',
-                fontWeight: '600',
-                cursor: 'pointer',
-                transition: 'all 0.2s',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px'
-              }}
-              onMouseOver={e => { if(activeSubTab !== tab.id) e.currentTarget.style.color = 'white'; }}
-              onMouseOut={e => { if(activeSubTab !== tab.id) e.currentTarget.style.color = 'gray'; }}
+              className={`px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 transition-all ${
+                activeSubTab === tab.id
+                  ? "bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/20 font-black"
+                  : "bg-slate-900/70 text-slate-400 hover:text-white border border-slate-800"
+              }`}
             >
-              <i className={`fa-solid ${tab.icon}`}></i> {tab.label}
+              <i className={tab.icon}></i>
+              <span>{tab.label}</span>
             </button>
           ))}
         </div>
       )}
 
-      {/* Leaderboard Table Area */}
-      <div style={{ background: '#111827', borderRadius: '24px', border: '1px solid rgba(255,255,255,0.1)', overflow: 'hidden', boxShadow: '0 15px 50px rgba(0,0,0,0.6)', overflowX: 'auto' }}>
-        
+      {/* Top 3 Podium (If data available) */}
+      {!loading && leaderboardData.length >= 3 && (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          {/* Silver #2 */}
+          <div className="order-2 md:order-1 p-5 rounded-3xl bg-slate-900/80 border border-slate-600/40 text-center flex flex-col items-center justify-center backdrop-blur-md shadow-xl">
+            <span className="text-2xl font-black text-slate-300 mb-1">#2</span>
+            <img 
+              src={`https://mc-heads.net/avatar/${leaderboardData[1].name || leaderboardData[1].player_name || 'steve'}/64`}
+              alt="Rank 2"
+              className="w-14 h-14 rounded-xl border-2 border-slate-400 my-2 shadow"
+            />
+            <span className="font-bold text-white text-base">{leaderboardData[1].name || leaderboardData[1].player_name || 'Trainer'}</span>
+            <span className="text-xs text-cyan-400 font-mono mt-1">
+              {activeColumns[0] ? `${activeColumns[0].label}: ${leaderboardData[1][activeColumns[0].key] || 0}` : ''}
+            </span>
+          </div>
+
+          {/* Gold #1 */}
+          <div className="order-1 md:order-2 p-6 rounded-3xl bg-gradient-to-b from-amber-950/60 to-slate-900/90 border-2 border-amber-500/50 text-center flex flex-col items-center justify-center backdrop-blur-md shadow-2xl scale-105">
+            <i className="fa-solid fa-crown text-amber-400 text-2xl mb-1"></i>
+            <span className="text-3xl font-black text-amber-400">#1</span>
+            <img 
+              src={`https://mc-heads.net/avatar/${leaderboardData[0].name || leaderboardData[0].player_name || 'steve'}/72`}
+              alt="Rank 1"
+              className="w-16 h-16 rounded-xl border-2 border-amber-400 my-2 shadow-lg shadow-amber-500/30"
+            />
+            <span className="font-extrabold text-white text-lg">{leaderboardData[0].name || leaderboardData[0].player_name || 'Trainer'}</span>
+            <span className="text-xs text-amber-300 font-black font-mono mt-1">
+              {activeColumns[0] ? `${activeColumns[0].label}: ${leaderboardData[0][activeColumns[0].key] || 0}` : ''}
+            </span>
+          </div>
+
+          {/* Bronze #3 */}
+          <div className="order-3 p-5 rounded-3xl bg-slate-900/80 border border-amber-800/40 text-center flex flex-col items-center justify-center backdrop-blur-md shadow-xl">
+            <span className="text-2xl font-black text-amber-700 mb-1">#3</span>
+            <img 
+              src={`https://mc-heads.net/avatar/${leaderboardData[2].name || leaderboardData[2].player_name || 'steve'}/64`}
+              alt="Rank 3"
+              className="w-14 h-14 rounded-xl border-2 border-amber-700 my-2 shadow"
+            />
+            <span className="font-bold text-white text-base">{leaderboardData[2].name || leaderboardData[2].player_name || 'Trainer'}</span>
+            <span className="text-xs text-cyan-400 font-mono mt-1">
+              {activeColumns[0] ? `${activeColumns[0].label}: ${leaderboardData[2][activeColumns[0].key] || 0}` : ''}
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* Main Table */}
+      <div className="rounded-3xl bg-slate-900/80 border border-slate-800 overflow-hidden shadow-2xl backdrop-blur-md overflow-x-auto">
         {loading ? (
-          <div style={{ padding: '120px', textAlign: 'center', color: 'gray', fontSize: '1.4rem' }}>
-            <i className="fa-solid fa-circle-notch fa-spin" style={{ fontSize: '2.5rem', marginBottom: '20px', color: '#3b82f6' }}></i>
-            <br />Loading live stats from game servers...
+          <div className="py-24 text-center text-slate-400">
+            <i className="fa-solid fa-circle-notch fa-spin text-3xl text-cyan-400 mb-3 block"></i>
+            <span>Loading stats from game servers...</span>
           </div>
         ) : leaderboardData.length === 0 ? (
-          <div style={{ padding: '100px', textAlign: 'center', color: 'gray' }}>
-            <i className="fa-solid fa-ghost" style={{ fontSize: '4rem', marginBottom: '20px', opacity: 0.5 }}></i>
-            <p style={{ fontSize: '1.4rem' }}>No data found for this category yet.</p>
+          <div className="py-24 text-center text-slate-400">
+            <i className="fa-solid fa-ghost text-4xl text-slate-600 mb-3 block"></i>
+            <p className="text-base font-bold text-slate-300">No data found for this category yet.</p>
           </div>
         ) : (
-          <table style={{ width: '100%', minWidth: '800px', borderCollapse: 'collapse', textAlign: 'left' }}>
+          <table className="w-full min-w-[700px] text-left border-collapse">
             <thead>
-              <tr style={{ background: 'rgba(0,0,0,0.5)', color: 'gray', textTransform: 'uppercase', fontSize: '1.1rem', letterSpacing: '1px' }}>
-                <th style={{ padding: '25px 30px', borderBottom: '2px solid rgba(255,255,255,0.05)', width: '10%' }}>Rank</th>
-                <th style={{ padding: '25px 30px', borderBottom: '2px solid rgba(255,255,255,0.05)', width: '35%' }}>Player</th>
+              <tr className="bg-slate-950/80 text-[11px] font-black uppercase tracking-wider text-slate-400 border-b border-slate-800">
+                <th className="py-4 px-6 w-16 text-center">Rank</th>
+                <th className="py-4 px-6">Trainer</th>
                 {activeColumns.map(col => (
-                  <th key={col.key} style={{ padding: '25px 20px', borderBottom: '2px solid rgba(255,255,255,0.05)', textAlign: 'center', color: 'white' }}>
+                  <th key={col.key} className="py-4 px-5 text-center text-white">
                     {col.label}
                   </th>
                 ))}
               </tr>
             </thead>
-            <tbody>
-              {leaderboardData.map((player, index) => {
-                
+            <tbody className="divide-y divide-slate-800/60 text-sm">
+              {leaderboardData.map((player, idx) => {
                 const playerName = player.name || player.player_name || player.uuid || "Unknown Player";
-
-                let rankIcon = null;
-                let rowBg = 'transparent';
-                let rankColor = 'gray';
-
-                if (index === 0) {
-                  rankIcon = <><span style={{ fontSize: '1.2rem', marginRight: '5px' }}>#1</span><i className="fa-solid fa-medal" style={{ color: '#fbbf24', fontSize: '2rem' }}></i></>;
-                  rowBg = 'linear-gradient(90deg, rgba(251,191,36,0.1), transparent)';
-                  rankColor = '#fbbf24';
-                } else if (index === 1) {
-                  rankIcon = <><span style={{ fontSize: '1.2rem', marginRight: '5px' }}>#2</span><i className="fa-solid fa-medal" style={{ color: '#9ca3af', fontSize: '2rem' }}></i></>;
-                  rowBg = 'linear-gradient(90deg, rgba(156,163,175,0.1), transparent)';
-                  rankColor = '#9ca3af';
-                } else if (index === 2) {
-                  rankIcon = <><span style={{ fontSize: '1.2rem', marginRight: '5px' }}>#3</span><i className="fa-solid fa-medal" style={{ color: '#b45309', fontSize: '2rem' }}></i></>;
-                  rowBg = 'linear-gradient(90deg, rgba(180,83,9,0.1), transparent)';
-                  rankColor = '#b45309';
-                }
-
-                const avatarUrl = player.socials?.image || `https://minotar.net/helm/${playerName}/60.png`;
-
                 return (
-                  <tr key={index} style={{ 
-                    background: rowBg,
-                    borderBottom: '1px solid rgba(255,255,255,0.05)',
-                    transition: 'background 0.2s',
-                  }} className="leaderboard-row">
-                    <td style={{ padding: '25px 30px', fontWeight: 'bold', color: rankColor, fontSize: index < 3 ? '1.5rem' : '1.3rem', verticalAlign: 'middle' }}>
-                      <div style={{ display: 'flex', alignItems: 'center' }}>
-                        {rankIcon || `#${index + 1}`}
+                  <tr 
+                    key={idx}
+                    className={`transition-colors hover:bg-slate-800/50 ${
+                      idx === 0 ? "bg-amber-500/5" : idx === 1 ? "bg-slate-300/5" : idx === 2 ? "bg-amber-700/5" : ""
+                    }`}
+                  >
+                    <td className="py-4 px-6 font-black text-center">
+                      {idx === 0 ? (
+                        <span className="text-amber-400 font-extrabold flex items-center justify-center gap-1">
+                          <i className="fa-solid fa-medal text-amber-400"></i> #1
+                        </span>
+                      ) : idx === 1 ? (
+                        <span className="text-slate-300 font-extrabold flex items-center justify-center gap-1">
+                          <i className="fa-solid fa-medal text-slate-300"></i> #2
+                        </span>
+                      ) : idx === 2 ? (
+                        <span className="text-amber-600 font-extrabold flex items-center justify-center gap-1">
+                          <i className="fa-solid fa-medal text-amber-600"></i> #3
+                        </span>
+                      ) : (
+                        <span className="text-slate-500 font-mono">#{idx + 1}</span>
+                      )}
+                    </td>
+
+                    <td className="py-4 px-6">
+                      <div className="flex items-center gap-3">
+                        <img 
+                          src={`https://mc-heads.net/avatar/${playerName}/32`}
+                          alt={playerName}
+                          className="w-8 h-8 rounded-lg bg-slate-800 border border-slate-700 shrink-0"
+                          onError={(e) => { e.currentTarget.src = "/images/pokefun_logo_transparent.png"; }}
+                        />
+                        <span className="font-bold text-white tracking-wide">{playerName}</span>
                       </div>
                     </td>
-                    <td style={{ padding: '25px 30px', verticalAlign: 'middle' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-                        <img src={avatarUrl} alt={playerName} style={{ width: '60px', height: '60px', borderRadius: '12px', boxShadow: '0 4px 10px rgba(0,0,0,0.3)', objectFit: 'cover' }} onError={(e) => { e.currentTarget.src = `https://minotar.net/helm/${playerName}/60.png`; }} />
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                          
-                          {player.webUsername ? (
-                            <Link href={`/profile/${player.webUsername}`} style={{ textDecoration: 'none' }}>
-                              <span style={{ fontSize: '1.4rem', fontWeight: 800, color: 'white', letterSpacing: '0.5px' }} className="hover-link">{playerName}</span>
-                            </Link>
-                          ) : (
-                            <span style={{ fontSize: '1.4rem', fontWeight: 800, color: 'white', letterSpacing: '0.5px' }}>{playerName}</span>
-                          )}
 
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                            {player.socials?.discord && <i className="fa-brands fa-discord" style={{ color: '#5865F2', fontSize: '1.1rem' }} title="Discord Linked"></i>}
-                            {player.socials?.youtube && <i className="fa-brands fa-youtube" style={{ color: '#FF0000', fontSize: '1.1rem' }} title="YouTube Linked"></i>}
-                            {player.socials?.instagram && <i className="fa-brands fa-instagram" style={{ color: '#E1306C', fontSize: '1.1rem' }} title="Instagram Linked"></i>}
-                            
-                            {player.webUsername && (
-                              <Link href={`/profile/${player.webUsername}`} style={{ textDecoration: 'none' }}>
-                                <span style={{ fontSize: '0.75rem', background: '#3b82f622', color: '#60a5fa', padding: '3px 8px', borderRadius: '10px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '5px', whiteSpace: 'nowrap' }}>
-                                  <i className="fa-solid fa-link"></i> VIEW PROFILE
-                                </span>
-                              </Link>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    
-                    {activeColumns.map(col => {
-                      const val = player[col.key] || 0;
-                      return (
-                        <td key={col.key} style={{ padding: '25px 20px', textAlign: 'center', fontWeight: 'bold', fontSize: '1.4rem', color: col.color, verticalAlign: 'middle' }}>
-                          {val.toLocaleString()}
-                        </td>
-                      );
-                    })}
-
+                    {activeColumns.map(col => (
+                      <td key={col.key} className="py-4 px-5 text-center font-mono font-bold" style={{ color: col.color }}>
+                        {player[col.key] !== undefined ? player[col.key] : 0}
+                      </td>
+                    ))}
                   </tr>
                 );
               })}
@@ -260,19 +264,6 @@ export default function LeaderboardPage() {
         )}
       </div>
 
-      <style>{`
-        .leaderboard-row:hover {
-          background: rgba(255,255,255,0.08) !important;
-        }
-        .hover-link:hover {
-          color: #3b82f6 !important;
-          text-decoration: underline;
-        }
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(-10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-      `}</style>
     </div>
   );
 }

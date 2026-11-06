@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import mongoose from 'mongoose';
 import connectDB from '@/lib/mongoose';
 import Post from '@/models/Post';
 import User from '@/models/User';
@@ -8,6 +9,9 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 export async function GET(req: Request, props: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await props.params;
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+      return NextResponse.json({ error: "Invalid post ID" }, { status: 400 });
+    }
     const session = await getServerSession(authOptions);
     const myEmail = session?.user?.email;
 
@@ -62,6 +66,9 @@ export async function GET(req: Request, props: { params: Promise<{ id: string }>
 export async function DELETE(req: Request, props: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await props.params;
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+      return NextResponse.json({ error: "Invalid post ID" }, { status: 400 });
+    }
     const session = await getServerSession(authOptions);
     
     if (!session?.user?.email) {
@@ -116,6 +123,9 @@ export async function DELETE(req: Request, props: { params: Promise<{ id: string
 export async function PUT(req: Request, props: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await props.params;
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+      return NextResponse.json({ error: "Invalid post ID" }, { status: 400 });
+    }
     const session = await getServerSession(authOptions);
     
     if (!session?.user?.email) {

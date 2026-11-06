@@ -1,143 +1,177 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 
 export default function AuthWidget() {
   const { data: session } = useSession();
   const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  if (!session) {
+    return (
+      <div className="auth-navbar-item" style={{ display: "inline-flex", alignItems: "center", marginLeft: "12px", flexShrink: 0 }}>
+        <Link
+          href="/login"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "8px",
+            padding: "8px 20px",
+            borderRadius: "9999px",
+            background: "linear-gradient(135deg, #1677FF 0%, #00C9D8 100%)",
+            color: "#FFFFFF",
+            fontSize: "0.85rem",
+            fontWeight: 800,
+            letterSpacing: "0.5px",
+            textDecoration: "none",
+            boxShadow: "0 4px 15px rgba(0, 201, 216, 0.3)",
+            transition: "all 0.2s ease",
+            whiteSpace: "nowrap"
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = "translateY(-1px)";
+            e.currentTarget.style.boxShadow = "0 6px 20px rgba(0, 201, 216, 0.45)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = "none";
+            e.currentTarget.style.boxShadow = "0 4px 15px rgba(0, 201, 216, 0.3)";
+          }}
+        >
+          <i className="fa-solid fa-arrow-right-to-bracket" style={{ fontSize: "0.88rem" }}></i>
+          <span>Sign In</span>
+        </Link>
+      </div>
+    );
+  }
 
   return (
-    <>
-      <div className="auth-widget-wrapper" style={{
-        position: "fixed",
-        top: "20px",
-        right: "30px",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "flex-end",
-        gap: "15px",
-        zIndex: 9999
-      }}>
-        {/* Main Toggle Button */}
-        <button 
-          onClick={() => setIsOpen(!isOpen)}
-          style={{
-            background: session ? "linear-gradient(135deg, #8b5cf6, #3b82f6)" : "linear-gradient(135deg, #10b981, #059669)",
-            color: "white",
-            border: "none",
-            borderRadius: "30px",
-            padding: "12px 25px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "10px",
-            fontSize: "1.1rem",
-            fontWeight: "bold",
-            cursor: "pointer",
-            boxShadow: "0 4px 15px rgba(0,0,0,0.4)",
-            transition: "transform 0.2s"
-          }}
-          title={session ? "Account Menu" : "Login / Sign Up"}
-          onMouseOver={(e) => e.currentTarget.style.transform = "scale(1.05)"}
-          onMouseOut={(e) => e.currentTarget.style.transform = "scale(1)"}
-        >
-          {session ? (
-            <>
-              <img src={session.user?.image || "/images/default-avatar.png"} style={{ width: "30px", height: "30px", borderRadius: "50%", objectFit: "cover" }} />
-              {session.user?.name}
-            </>
-          ) : (
-            <>
-              <i className="fa-solid fa-user-circle" style={{ fontSize: "1.5rem" }}></i>
-              Sign Up / Login
-            </>
-          )}
-        </button>
+    <div ref={dropdownRef} className="auth-navbar-item" style={{ position: "relative", display: "inline-flex", alignItems: "center", marginLeft: "12px", flexShrink: 0 }}>
+      {/* Logged in User Pill Button */}
+      <button 
+        onClick={() => setIsOpen(!isOpen)}
+        style={{
+          background: "#FFFFFF",
+          color: "#0B1524",
+          border: "1.5px solid rgba(0, 201, 216, 0.35)",
+          borderRadius: "9999px",
+          padding: "4px 14px 4px 4px",
+          display: "flex",
+          alignItems: "center",
+          gap: "8px",
+          fontSize: "0.85rem",
+          fontWeight: 700,
+          cursor: "pointer",
+          boxShadow: "0 2px 10px rgba(0, 201, 216, 0.12)",
+          transition: "all 0.2s ease"
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.borderColor = "#00C9D8";
+          e.currentTarget.style.boxShadow = "0 4px 14px rgba(0, 201, 216, 0.25)";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.borderColor = "rgba(0, 201, 216, 0.35)";
+          e.currentTarget.style.boxShadow = "0 2px 10px rgba(0, 201, 216, 0.12)";
+        }}
+      >
+        <img 
+          src={session.user?.image || "/images/default-avatar.png"} 
+          alt={session.user?.name || "User"}
+          style={{ width: "28px", height: "28px", borderRadius: "50%", objectFit: "cover", border: "1px solid rgba(0, 201, 216, 0.4)" }} 
+        />
+        <span style={{ maxWidth: "120px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+          {session.user?.name || "Trainer"}
+        </span>
+        <i className="fa-solid fa-chevron-down" style={{ fontSize: "0.68rem", color: "#64748B", transition: "transform 0.2s ease", transform: isOpen ? "rotate(180deg)" : "none" }}></i>
+      </button>
 
-        {/* Menu Options */}
+      {/* Modern Sci-Fi Dropdown Menu */}
+      {isOpen && (
         <div style={{
-          display: isOpen ? "flex" : "none",
+          position: "absolute",
+          top: "calc(100% + 10px)",
+          right: 0,
+          display: "flex",
           flexDirection: "column",
-          gap: "10px",
-          background: "#1c1f21",
-          padding: "15px",
-          borderRadius: "20px",
-          boxShadow: "0 10px 25px rgba(0,0,0,0.6)",
-          animation: "fadeInDown 0.3s ease",
-          minWidth: "220px"
+          gap: "6px",
+          background: "#FFFFFF",
+          padding: "14px",
+          borderRadius: "18px",
+          border: "1.5px solid rgba(0, 201, 216, 0.25)",
+          boxShadow: "0 12px 35px rgba(22, 119, 255, 0.12)",
+          minWidth: "220px",
+          zIndex: 10000,
+          animation: "fadeInDown 0.2s ease"
         }}>
-          {session ? (
-            <>
-              <div style={{ textAlign: "center", marginBottom: "10px", borderBottom: "1px solid rgba(255,255,255,0.1)", paddingBottom: "10px" }}>
-                <img src={session.user?.image || "/images/default-avatar.png"} style={{ width: "50px", height: "50px", borderRadius: "50%", marginBottom: "5px" }} />
-                <h4 style={{ margin: 0, color: "white", fontSize: "1rem" }}>{session.user?.name}</h4>
-                <span style={{ color: '#8b5cf6', fontSize: '0.8rem', fontWeight: 'bold' }}>{session.user?.email}</span>
-              </div>
-              <a href="/profile" className="auth-menu-btn" style={{ background: "#10b981" }}>
-                <i className="fa-solid fa-user"></i> My Profile
-              </a>
-              <a href="/studio" className="auth-menu-btn" style={{ background: "#ef4444" }}>
-                <i className="fa-brands fa-youtube"></i> Creator Studio
-              </a>
-              <button onClick={() => signOut()} className="auth-menu-btn" style={{ background: "#333" }}>
-                <i className="fa-solid fa-sign-out"></i> Logout
-              </button>
-            </>
-          ) : (
-            <>
-              <div style={{ textAlign: "center", marginBottom: "10px", color: "white" }}>
-                <h4 style={{ margin: 0 }}>Join Pokefun</h4>
-                <p style={{ fontSize: "0.8rem", color: "gray", margin: "5px 0 0 0" }}>Create account instantly</p>
-              </div>
-              <button onClick={() => signIn('discord')} className="auth-menu-btn" style={{ background: "#5865F2" }}>
-                <i className="fa-brands fa-discord"></i> Create Account / Login (Discord)
-              </button>
-              <button onClick={() => signIn('google')} className="auth-menu-btn" style={{ background: "#db4437" }}>
-                <i className="fa-brands fa-google"></i> Create Account / Login (Gmail)
-              </button>
-              <a href="/admin" className="auth-menu-btn" style={{ background: "transparent", border: "1px solid #444", color: "gray" }}>
-                Admin Login
-              </a>
-            </>
-          )}
+          {/* User Header */}
+          <div style={{ display: "flex", alignItems: "center", gap: "10px", paddingBottom: "10px", borderBottom: "1px solid rgba(0, 201, 216, 0.15)", marginBottom: "4px" }}>
+            <img src={session.user?.image || "/images/default-avatar.png"} alt="User" style={{ width: "36px", height: "36px", borderRadius: "50%", objectFit: "cover" }} />
+            <div style={{ display: "flex", flexDirection: "column", overflow: "hidden" }}>
+              <span style={{ fontWeight: 800, fontSize: "0.88rem", color: "#0B1524", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{session.user?.name}</span>
+              <span style={{ color: "#1677FF", fontSize: "0.74rem", fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{session.user?.email}</span>
+            </div>
+          </div>
+
+          <Link href="/profile" onClick={() => setIsOpen(false)} className="auth-menu-link">
+            <i className="fa-solid fa-user" style={{ color: "#1677FF", width: "16px" }}></i>
+            <span>My Profile</span>
+          </Link>
+          <Link href="/studio" onClick={() => setIsOpen(false)} className="auth-menu-link">
+            <i className="fa-solid fa-clapperboard" style={{ color: "#00C9D8", width: "16px" }}></i>
+            <span>Creator Studio</span>
+          </Link>
+          <Link href="/messages" onClick={() => setIsOpen(false)} className="auth-menu-link">
+            <i className="fa-solid fa-envelope" style={{ color: "#f59e0b", width: "16px" }}></i>
+            <span>Messages</span>
+          </Link>
+          
+          <div style={{ height: "1px", background: "rgba(0, 201, 216, 0.12)", margin: "4px 0" }}></div>
+
+          <button 
+            onClick={() => { setIsOpen(false); signOut(); }} 
+            className="auth-menu-link" 
+            style={{ width: "100%", background: "none", border: "none", cursor: "pointer", color: "#ef4444" }}
+          >
+            <i className="fa-solid fa-arrow-right-from-bracket" style={{ color: "#ef4444", width: "16px" }}></i>
+            <span>Sign Out</span>
+          </button>
         </div>
-      </div>
-      
+      )}
+
       <style>{`
-        @media (max-width: 991px) {
-          .auth-widget-wrapper {
-            display: none !important;
-          }
-        }
-        .auth-menu-btn {
+        .auth-menu-link {
           display: flex;
           align-items: center;
           gap: 10px;
-          color: white;
-          border: none;
-          padding: 12px 15px;
-          border-radius: 12px;
-          cursor: pointer;
-          font-size: 14px;
-          font-weight: bold;
-          transition: 0.2s;
+          padding: 8px 12px;
+          border-radius: 10px;
+          color: #0B1524;
+          font-size: 0.85rem;
+          font-weight: 600;
           text-decoration: none;
-          justify-content: flex-start;
+          transition: all 0.15s ease;
         }
-        .auth-menu-btn i {
-          width: 20px;
-          text-align: center;
-        }
-        .auth-menu-btn:hover {
-          transform: translateY(-2px);
-          filter: brightness(1.2);
+        .auth-menu-link:hover {
+          background: rgba(22, 119, 255, 0.08);
+          color: #1677FF;
         }
         @keyframes fadeInDown {
-          from { opacity: 0; transform: translateY(-10px); }
+          from { opacity: 0; transform: translateY(-8px); }
           to { opacity: 1; transform: translateY(0); }
         }
       `}</style>
-    </>
+    </div>
   );
 }

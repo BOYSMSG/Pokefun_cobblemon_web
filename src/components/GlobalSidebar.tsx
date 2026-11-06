@@ -1,235 +1,179 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 export default function GlobalSidebar() {
   const pathname = usePathname();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  // Hide the global sidebar only on the store page (it has its own custom shop layout)
-  if (pathname && (pathname.startsWith('/store') || pathname.startsWith('https://store.pokefun.in'))) {
-    return null;
-  }
 
   const mainLinks = [
-    { title: "Home", path: "/" },
-    { title: "Profile", path: "/profile" },
-    { title: "Messages", path: "/messages" },
-    { title: "Community", path: "/community" },
-    { title: "Reels", path: "/community/reels" },
-    { title: "Wiki", path: "/wiki" },
-    { title: "Modpacks", path: "/modpacks" },
-    { title: "Showcase", path: "/showcase" },
-    { title: "Vote", path: "/vote" },
-    { title: "Rewards", path: "/rewards" },
-    { title: "Store", path: "https://store.pokefun.in" },
-  ];
-
-  const infoLinks = [
-    { title: "Rules", path: "/rules" },
-    { title: "Staff Team", path: "/team" },
-    { title: "Changelogs", path: "/changelogs" },
-    { title: "Discord", path: "https://discord.com/invite/NtE8QBkmwR", external: true },
+    { title: "Home", href: "/", icon: "fa-solid fa-house" },
+    { title: "Staff Team", href: "/team", icon: "fa-solid fa-users" },
+    { title: "Messages", href: "/messages", icon: "fa-solid fa-envelope" },
+    { title: "Community", href: "/community", icon: "fa-solid fa-comments" },
+    { title: "Reels", href: "/community/reels", icon: "fa-solid fa-film" },
+    { title: "Modpacks", href: "/modpacks", icon: "fa-solid fa-box-archive" },
+    { title: "Announcements", href: "/announcements", icon: "fa-solid fa-bullhorn" },
+    { title: "Rewards", href: "/rewards", icon: "fa-solid fa-gift" },
+    { title: "Store", href: "https://store.pokefun.in", icon: "fa-solid fa-cart-shopping", external: true },
   ];
 
   const otherLinks = [
-    { title: "Gym Apply", path: "/gym_apply" },
-    { title: "Gym Battle", path: "/gym_battle" },
-    { title: "Polls", path: "/polls" },
-    { title: "Giveaways", path: "/giveaways" },
-    { title: "Tournaments", path: "/tournaments" },
-    { title: "Events", path: "/events" },
+    { title: "Gym Apply", href: "/gym_apply", icon: "fa-solid fa-shield-halved" },
+    { title: "Gym Battle", href: "/gym_battle", icon: "fa-solid fa-trophy" },
+    { title: "Polls", href: "/polls", icon: "fa-solid fa-square-poll-vertical" },
+    { title: "Giveaways", href: "/giveaways", icon: "fa-solid fa-gem" },
+    { title: "Tournaments", href: "/tournaments", icon: "fa-solid fa-award" },
+    { title: "Events", href: "/events", icon: "fa-solid fa-calendar-days" },
   ];
 
   const guideLinks = [
-    { title: "CobbleLeague Phone", path: "/wiki/guides/cobbleleague-phone" },
-    { title: "NPCs & Gyms Guide", path: "/wiki/guides/npc" },
-    { title: "Introduction", path: "/wiki/guides" },
-    { title: "Server Features", path: "/wiki/guides/features" },
-    { title: "AlphaZone Guide", path: "/wiki/guides/alphazone" },
-    { title: "Battle Tower", path: "/wiki/guides/battletower" },
-    { title: "Cobble Bosses", path: "/wiki/guides/cobblebosses" },
-    { title: "Dungeon Guide", path: "/wiki/guides/dungeon" },
-    { title: "Fusions Guide", path: "/wiki/guides/fusion" },
-    { title: "Raid Guide", path: "/wiki/guides/raid" },
-    { title: "Ranked Guide", path: "/wiki/guides/ranked" },
+    { title: "CobbleLeague & Phone", href: "/wiki/guides/cobbleleague-phone", icon: "fa-solid fa-mobile-screen" },
+    { title: "Raids & Dungeons", href: "/wiki/guides/raid", icon: "fa-solid fa-dungeon" },
+    { title: "Cobble Bosses", href: "/wiki/guides/cobblebosses", icon: "fa-solid fa-skull" },
+    { title: "DNA Fusion System", href: "/wiki/guides/fusion", icon: "fa-solid fa-dna" },
+    { title: "AlphaZone Guide", href: "/wiki/guides/alphazone", icon: "fa-solid fa-compass" },
+    { title: "Gyms & Badges", href: "/wiki/guides/gyms", icon: "fa-solid fa-shield-halved" },
+    { title: "Battle Tower", href: "/wiki/guides/battletower", icon: "fa-solid fa-tower-observation" },
+    { title: "CobbleRanked Battles", href: "/wiki/guides/ranked", icon: "fa-solid fa-ranking-star" },
+    { title: "Legendaries Guide", href: "/wiki/guides/legendaries", icon: "fa-solid fa-dragon" },
+    { title: "Land Claims", href: "/wiki/guides/claims", icon: "fa-solid fa-map-location-dot" },
+    { title: "All Wiki Guides →", href: "/wiki/guides", icon: "fa-solid fa-book-open" },
+  ];
+
+  const infoLinks = [
+    { title: "Rules", href: "/rules", icon: "fa-solid fa-scale-balanced" },
+    { title: "Staff Team", href: "/team", icon: "fa-solid fa-user-shield" },
+    { title: "Changelogs", href: "/changelogs", icon: "fa-solid fa-clock-rotate-left" },
+    { title: "Discord", href: "https://discord.gg/pokefun", icon: "fa-brands fa-discord", external: true },
   ];
 
   const renderLink = (link: any) => {
-    const isActive = pathname === link.path;
-    const linkStyle = {
-      display: "block",
-      padding: "8px 14px",
-      borderRadius: "10px",
-      color: isActive ? "#0284c7" : "#334155",
-      background: isActive ? "linear-gradient(135deg, rgba(22, 119, 255, 0.1), rgba(0, 201, 216, 0.16))" : "transparent",
-      fontWeight: isActive ? 700 : 500,
-      border: isActive ? "1px solid rgba(0, 201, 216, 0.35)" : "1px solid transparent",
-      textDecoration: "none",
-      fontSize: "0.92rem",
-      transition: "all 0.2s ease",
-      marginBottom: "3px"
-    };
+    const isActive = pathname === link.href;
 
     if (link.external) {
       return (
-        <a 
-          key={link.title} 
-          href={link.path} 
-          target="_blank" 
-          rel="noopener noreferrer" 
-          style={linkStyle}
-          className="global-sidebar-navlink"
-          onMouseEnter={(e) => {
-            if (!isActive) {
-              e.currentTarget.style.background = "rgba(0, 201, 216, 0.08)";
-              e.currentTarget.style.color = "#0284c7";
-            }
+        <a
+          key={link.title}
+          href={link.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+            padding: "8px 12px",
+            borderRadius: "10px",
+            fontSize: "0.85rem",
+            fontWeight: 600,
+            color: "#3D567A",
+            textDecoration: "none",
+            transition: "all 0.2s"
           }}
-          onMouseLeave={(e) => {
-            if (!isActive) {
-              e.currentTarget.style.background = "transparent";
-              e.currentTarget.style.color = "#334155";
-            }
+          onMouseOver={(e) => {
+            e.currentTarget.style.color = "#1677FF";
+            e.currentTarget.style.background = "rgba(22, 119, 255, 0.06)";
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.color = "#94a3b8";
+            e.currentTarget.style.background = "transparent";
           }}
         >
-          {link.title}
+          {link.icon && <i className={link.icon} style={{ width: "16px", textAlign: "center", opacity: 0.85 }}></i>}
+          <span>{link.title}</span>
+          <i className="fa-solid fa-arrow-up-right-from-square" style={{ fontSize: "10px", marginLeft: "auto", opacity: 0.5 }}></i>
         </a>
       );
     }
 
     return (
-      <Link 
-        key={link.path} 
-        href={link.path}
-        onClick={() => setSidebarOpen(false)}
-        style={linkStyle}
-        className="global-sidebar-navlink"
-        onMouseEnter={(e) => {
+      <Link
+        key={link.title}
+        href={link.href}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "10px",
+          padding: "8px 12px",
+          borderRadius: "10px",
+          fontSize: "0.85rem",
+          fontWeight: 600,
+          color: isActive ? "#1677FF" : "#3D567A",
+          background: isActive ? "linear-gradient(135deg, rgba(22, 119, 255, 0.1), rgba(0, 201, 216, 0.16))" : "transparent",
+          border: isActive ? "1px solid rgba(0, 201, 216, 0.35)" : "1px solid transparent",
+          textDecoration: "none",
+          transition: "all 0.2s"
+        }}
+        onMouseOver={(e) => {
           if (!isActive) {
-            e.currentTarget.style.background = "rgba(0, 201, 216, 0.08)";
-            e.currentTarget.style.color = "#0284c7";
+            e.currentTarget.style.color = "#1677FF";
+            e.currentTarget.style.background = "rgba(22, 119, 255, 0.06)";
           }
         }}
-        onMouseLeave={(e) => {
+        onMouseOut={(e) => {
           if (!isActive) {
+            e.currentTarget.style.color = "#94a3b8";
             e.currentTarget.style.background = "transparent";
-            e.currentTarget.style.color = "#334155";
           }
         }}
       >
-        {link.title}
+        {link.icon && <i className={link.icon} style={{ width: "16px", textAlign: "center", opacity: 0.85 }}></i>}
+        <span>{link.title}</span>
       </Link>
     );
   };
 
   return (
-    <>
-      <div 
-        className="global-sidebar-toggle"
-        style={{ display: "none", padding: "10px", position: "fixed", bottom: "20px", right: "20px", zIndex: 9999 }}
-      >
-        <button 
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-          style={{ background: "linear-gradient(135deg, #1677FF, #00C9D8)", color: "white", border: "none", width: "50px", height: "50px", borderRadius: "25px", cursor: "pointer", boxShadow: "0 4px 15px rgba(0, 201, 216, 0.35)" }}
-        >
-          <i className={`fa-solid ${sidebarOpen ? 'fa-xmark' : 'fa-bars'}`} style={{ fontSize: "1.5rem" }}></i>
-        </button>
+    <aside style={{
+      width: "100%",
+      maxWidth: "270px",
+      borderRadius: "18px",
+      background: "rgba(255, 255, 255, 0.95)",
+      border: "1.5px solid rgba(0, 201, 216, 0.25)",
+      backdropFilter: "blur(16px)",
+      padding: "20px 16px",
+      boxShadow: "0 10px 30px rgba(0, 201, 216, 0.08)",
+      color: "#0B1524"
+    }}>
+      
+      {/* Brand header in sidebar */}
+      <div style={{ display: "flex", alignItems: "center", gap: "12px", paddingBottom: "14px", marginBottom: "16px", borderBottom: "1px solid rgba(0, 201, 216, 0.15)" }}>
+        <img 
+          src="/images/pokefun_logo_transparent.png" 
+          alt="POKEFUN" 
+          style={{ width: "32px", height: "32px", objectFit: "contain", flexShrink: 0 }}
+        />
+        <div>
+          <span style={{ fontWeight: 800, fontSize: "0.95rem", letterSpacing: "1px", color: "#0B1524", display: "block" }}>POKEFUN</span>
+          <span style={{ fontSize: "0.7rem", fontWeight: 700, color: "#00C9D8", textTransform: "uppercase" }}>Java SMP Network</span>
+        </div>
       </div>
 
-      <aside 
-        className={`global-sidebar ${sidebarOpen ? "open" : ""}`}
-        style={{ 
-          width: "270px", 
-          background: "rgba(255, 255, 255, 0.95)",
-          backdropFilter: "blur(16px)",
-          border: "1.5px solid rgba(0, 201, 216, 0.22)", 
-          borderRadius: "20px",
-          padding: "24px 16px",
-          position: "sticky",
-          top: "80px",
-          height: "fit-content",
-          maxHeight: "calc(100vh - 100px)",
-          overflowY: "auto",
-          flexShrink: 0,
-          zIndex: 100,
-          boxShadow: "0 8px 30px rgba(22, 119, 255, 0.06)",
-          transition: "transform 0.3s ease"
-        }}
-      >
-        <div style={{ marginBottom: "22px", padding: "0 8px" }}>
-           <h2 style={{ fontSize: "0.8rem", fontWeight: 800, color: "#0B1524", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "8px" }}>
-             Main Menu
-           </h2>
-           <nav>
-             {mainLinks.map(renderLink)}
-           </nav>
-        </div>
+      {/* Main Navigation */}
+      <div style={{ marginBottom: "18px" }}>
+        <h4 style={{ fontSize: "0.72rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "1px", color: "#00C9D8", margin: "0 0 8px 8px" }}>Navigation</h4>
+        {mainLinks.map(renderLink)}
+      </div>
 
-        <div style={{ marginBottom: "22px", padding: "0 8px" }}>
-           <h2 style={{ fontSize: "0.8rem", fontWeight: 800, color: "#0B1524", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "8px" }}>
-             Community & Info
-           </h2>
-           <nav>
-             {infoLinks.map(renderLink)}
-           </nav>
-        </div>
+      {/* Server & Activities */}
+      <div style={{ marginBottom: "18px" }}>
+        <h4 style={{ fontSize: "0.72rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "1px", color: "#00C9D8", margin: "0 0 8px 8px" }}>Activities</h4>
+        {otherLinks.map(renderLink)}
+      </div>
 
-        <div style={{ marginBottom: "22px", padding: "0 8px" }}>
-           <h2 style={{ fontSize: "0.8rem", fontWeight: 800, color: "#0B1524", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "8px" }}>
-             Other Features
-           </h2>
-           <nav>
-             {otherLinks.map(renderLink)}
-           </nav>
-        </div>
+      {/* Wiki Guides */}
+      <div style={{ marginBottom: "18px" }}>
+        <h4 style={{ fontSize: "0.72rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "1px", color: "#00C9D8", margin: "0 0 8px 8px" }}>Cobblemon Guides</h4>
+        {guideLinks.map(renderLink)}
+      </div>
 
-        <div style={{ marginBottom: "22px", padding: "0 8px" }}>
-           <h2 style={{ fontSize: "0.8rem", fontWeight: 800, color: "#0B1524", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "8px" }}>
-             FAQ & Guides
-           </h2>
-           <nav>
-             {guideLinks.map(renderLink)}
-           </nav>
-        </div>
-      </aside>
+      {/* Info & Legal */}
+      <div>
+        <h4 style={{ fontSize: "0.72rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: "1px", color: "#00C9D8", margin: "0 0 8px 8px" }}>Information</h4>
+        {infoLinks.map(renderLink)}
+      </div>
 
-      <style jsx>{`
-        /* Custom scrollbar for sidebar */
-        .global-sidebar::-webkit-scrollbar {
-          width: 8px;
-        }
-        .global-sidebar::-webkit-scrollbar-track {
-          background: rgba(0, 0, 0, 0.2);
-          border-radius: 10px;
-        }
-        .global-sidebar::-webkit-scrollbar-thumb {
-          background: rgba(255, 255, 255, 0.2);
-          border-radius: 10px;
-        }
-        .global-sidebar::-webkit-scrollbar-thumb:hover {
-          background: rgba(255, 255, 255, 0.4);
-        }
-
-        @media (max-width: 1000px) {
-          .global-sidebar-toggle {
-            display: block !important;
-          }
-          .global-sidebar {
-            position: fixed !important;
-            left: 20px;
-            top: 80px;
-            bottom: 80px;
-            height: auto;
-            transform: translateX(-150%);
-          }
-          .global-sidebar.open {
-            transform: translateX(0);
-          }
-        }
-      `}</style>
-    </>
+    </aside>
   );
 }

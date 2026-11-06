@@ -195,22 +195,27 @@ export default function AIChatWidget() {
       // Music is now OFF by default. User can turn it on via the settings widget.
     }
 
-    // Load Google Translate script
+    // Load Google Translate script safely
     const addGoogleTranslateScript = () => {
-      if (!document.getElementById("google-translate-script")) {
-        const script = document.createElement("script");
-        script.id = "google-translate-script";
-        script.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
-        script.async = true;
-        document.body.appendChild(script);
-        
-        (window as any).googleTranslateElementInit = () => {
-          new (window as any).google.translate.TranslateElement(
-            { pageLanguage: 'en', autoDisplay: true },
-            'google_translate_element_ai_hub'
-          );
-        };
-      }
+      try {
+        if (typeof window !== "undefined" && !document.getElementById("google-translate-script") && !(window as any).google?.translate) {
+          const script = document.createElement("script");
+          script.id = "google-translate-script";
+          script.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+          script.async = true;
+          (window as any).googleTranslateElementInit = () => {
+            try {
+              if ((window as any).google?.translate?.TranslateElement) {
+                new (window as any).google.translate.TranslateElement(
+                  { pageLanguage: 'en', autoDisplay: false },
+                  'google_translate_element_ai_hub'
+                );
+              }
+            } catch (err) {}
+          };
+          document.body.appendChild(script);
+        }
+      } catch (err) {}
     };
     addGoogleTranslateScript();
     
@@ -301,14 +306,14 @@ export default function AIChatWidget() {
   return (
     <>
       <audio ref={audioRef} loop preload="none" />
-      <div style={{
+      <div className="pokefun-floating-fab-container" style={{
         position: "fixed",
-        bottom: "30px",
-        right: "30px",
+        bottom: "24px",
+        right: "24px",
         display: "flex",
         flexDirection: "column",
         alignItems: "flex-end",
-        gap: "15px",
+        gap: "12px",
         zIndex: 9999
       }}>
         
@@ -555,33 +560,50 @@ export default function AIChatWidget() {
         {!activeWindow && (
           <button 
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            style={{
-              background: "linear-gradient(135deg, #10b981, #059669)",
-              color: "white",
-              border: "none",
-              borderRadius: "50%",
-              width: "60px",
-              height: "60px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: "25px",
-              cursor: "pointer",
-              boxShadow: "0 4px 15px rgba(16, 185, 129, 0.4)",
-              transition: "transform 0.3s",
-              transform: isMenuOpen ? "rotate(45deg)" : "none"
-            }}
-            title="Pokefun Menu"
+            className="pokefun-floating-fab-btn"
+            title="Pokéfun Assistant & Menu"
+            aria-label="Menu"
           >
-            <i className={`fa-solid ${isMenuOpen ? "fa-plus" : "fa-cog"}`}></i>
+            <i className={`fa-solid ${isMenuOpen ? "fa-xmark" : "fa-sparkles"}`} style={{ transition: "0.25s transform ease", transform: isMenuOpen ? "rotate(90deg)" : "none" }}></i>
             {unreadCount > 0 && !isMenuOpen && (
-              <div style={{ position: 'absolute', top: 0, right: 0, width: '18px', height: '18px', background: 'red', borderRadius: '50%', border: '3px solid #111' }}></div>
+              <div style={{ position: 'absolute', top: 0, right: 0, width: '14px', height: '14px', background: '#ef4444', borderRadius: '50%', border: '2px solid #ffffff' }}></div>
             )}
           </button>
         )}
       </div>
 
       <style>{`
+        .pokefun-floating-fab-btn {
+          background: linear-gradient(135deg, #1677FF 0%, #00C9D8 100%);
+          color: #FFFFFF;
+          border: 1.5px solid rgba(255, 255, 255, 0.7);
+          border-radius: 50%;
+          width: 50px;
+          height: 50px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 20px;
+          cursor: pointer;
+          box-shadow: 0 4px 18px rgba(0, 201, 216, 0.4);
+          transition: transform 0.22s ease, box-shadow 0.22s ease;
+          position: relative;
+        }
+        .pokefun-floating-fab-btn:hover {
+          transform: scale(1.08);
+          box-shadow: 0 8px 25px rgba(0, 201, 216, 0.55);
+        }
+        @media (max-width: 768px) {
+          .pokefun-floating-fab-container {
+            bottom: 16px !important;
+            right: 16px !important;
+          }
+          .pokefun-floating-fab-btn {
+            width: 42px;
+            height: 42px;
+            font-size: 17px;
+          }
+        }
         .fab-btn {
           display: flex;
           align-items: center;

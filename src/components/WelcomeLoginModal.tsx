@@ -4,94 +4,87 @@ import React, { useState, useEffect } from "react";
 import { signIn, useSession } from "next-auth/react";
 
 export default function WelcomeLoginModal() {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    // Only show the modal if the user is fully unauthenticated
-    // and hasn't previously dismissed it in this browser.
-    if (status === "unauthenticated") {
-      const hasDismissed = localStorage.getItem("dismissedLoginModal");
-      if (!hasDismissed) {
-        // Show after a short delay for better UX
-        const timer = setTimeout(() => setShowModal(true), 1500);
-        return () => clearTimeout(timer);
-      }
-    }
-  }, [status]);
+    // Listen for contextual login events (e.g. when unauthenticated user attempts an action)
+    const handleTrigger = () => setShowModal(true);
+    window.addEventListener("open-login-modal", handleTrigger);
+    return () => window.removeEventListener("open-login-modal", handleTrigger);
+  }, []);
 
   const handleDismiss = () => {
-    localStorage.setItem("dismissedLoginModal", "true");
     setShowModal(false);
   };
 
-  if (!showModal) return null;
+  if (!showModal || session) return null;
 
   return (
-    <div style={{
-      position: "fixed",
-      inset: 0,
-      background: "rgba(0,0,0,0.8)",
-      backdropFilter: "blur(5px)",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      zIndex: 999999
-    }}>
-      <div style={{
-        background: "linear-gradient(to bottom right, #1f2937, #111827)",
-        padding: "40px",
-        borderRadius: "20px",
-        border: "1px solid rgba(255,255,255,0.1)",
-        boxShadow: "0 25px 50px -12px rgba(0,0,0,0.5)",
-        textAlign: "center",
-        maxWidth: "450px",
-        width: "90%",
-        animation: "scaleIn 0.3s ease-out"
-      }}>
-        
-        <i className="fa-solid fa-gamepad" style={{ fontSize: "4rem", color: "#10b981", marginBottom: "20px" }}></i>
-        
-        <h2 style={{ fontSize: "2rem", fontWeight: 800, color: "white", margin: "0 0 10px 0" }}>Welcome to Pokefun!</h2>
-        <p style={{ color: "gray", fontSize: "1.1rem", marginBottom: "30px" }}>
-          Join the community to post reels, like videos, and access the Creator Studio!
-        </p>
+    <div 
+      className="fixed inset-0 z-[999999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fadeIn"
+      onClick={handleDismiss}
+    >
+      <div 
+        className="relative w-full max-w-md p-8 overflow-hidden text-center rounded-3xl bg-slate-900/90 border border-cyan-500/30 shadow-[0_25px_60px_-15px_rgba(0,201,216,0.3)] animate-scaleUp"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Glow backdrop behind logo */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-48 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
 
-        <div style={{ display: "flex", flexDirection: "column", gap: "15px", marginBottom: "30px" }}>
-          <button onClick={() => signIn('discord')} style={{
-            background: "#5865F2", color: "white", padding: "15px", borderRadius: "12px",
-            fontSize: "1.1rem", fontWeight: "bold", border: "none", cursor: "pointer",
-            display: "flex", alignItems: "center", justifyContent: "center", gap: "10px",
-            transition: "0.2s"
-          }} onMouseOver={(e) => e.currentTarget.style.filter = "brightness(1.2)"} onMouseOut={(e) => e.currentTarget.style.filter = "brightness(1)"}>
-            <i className="fa-brands fa-discord"></i> Create Account / Login (Discord)
+        {/* Close Button */}
+        <button
+          onClick={handleDismiss}
+          className="absolute top-4 right-4 w-9 h-9 flex items-center justify-center rounded-full bg-slate-800/80 text-slate-400 hover:text-white hover:bg-slate-700/80 transition-all text-sm font-bold"
+          aria-label="Close"
+        >
+          ✕
+        </button>
+
+        {/* Logo & Header */}
+        <div className="mb-6 flex flex-col items-center">
+          <img 
+            src="/images/pokefun_logo_transparent.png" 
+            alt="POKEFUN" 
+            className="w-36 h-auto drop-shadow-[0_4px_20px_rgba(0,201,216,0.4)] mb-3"
+          />
+          <span className="px-3 py-1 text-xs font-extrabold tracking-wider text-cyan-400 bg-cyan-950/60 border border-cyan-500/30 rounded-full uppercase">
+            Cobblemon Network
+          </span>
+          <h2 className="text-2xl font-extrabold text-white mt-3">
+            Join POKEFUN
+          </h2>
+          <p className="text-slate-400 text-sm mt-1">
+            Sign in to access your profile, post reels, claim daily rewards, and connect with the community.
+          </p>
+        </div>
+
+        {/* OAuth Buttons */}
+        <div className="flex flex-col gap-3 mb-4">
+          <button 
+            onClick={() => signIn('discord')} 
+            className="w-full py-3.5 px-4 rounded-xl font-bold text-white bg-[#5865F2] hover:bg-[#4752c4] transition-all flex items-center justify-center gap-3 shadow-lg shadow-[#5865F2]/25 hover:-translate-y-0.5 active:translate-y-0"
+          >
+            <i className="fa-brands fa-discord text-xl"></i>
+            <span>Continue with Discord</span>
           </button>
           
-          <button onClick={() => signIn('google')} style={{
-            background: "#db4437", color: "white", padding: "15px", borderRadius: "12px",
-            fontSize: "1.1rem", fontWeight: "bold", border: "none", cursor: "pointer",
-            display: "flex", alignItems: "center", justifyContent: "center", gap: "10px",
-            transition: "0.2s"
-          }} onMouseOver={(e) => e.currentTarget.style.filter = "brightness(1.2)"} onMouseOut={(e) => e.currentTarget.style.filter = "brightness(1)"}>
-            <i className="fa-brands fa-google"></i> Create Account / Login (Gmail)
+          <button 
+            onClick={() => signIn('google')} 
+            className="w-full py-3.5 px-4 rounded-xl font-bold text-white bg-[#EA4335] hover:bg-[#d33426] transition-all flex items-center justify-center gap-3 shadow-lg shadow-[#EA4335]/25 hover:-translate-y-0.5 active:translate-y-0"
+          >
+            <i className="fa-brands fa-google text-lg"></i>
+            <span>Continue with Google</span>
           </button>
         </div>
 
-        <button onClick={handleDismiss} style={{
-          background: "transparent", color: "#8b5cf6", border: "none", textDecoration: "underline",
-          cursor: "pointer", fontSize: "2.5rem", fontWeight: "bold", marginTop: "10px"
-        }} onMouseOver={(e) => e.currentTarget.style.color = "white"} onMouseOut={(e) => e.currentTarget.style.color = "#8b5cf6"}>
-          Continue without logging in
-        </button>
-
+        <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-500">
+          <a href="/login" className="hover:text-cyan-400 transition-colors">Admin Login</a>
+          <button onClick={handleDismiss} className="hover:text-slate-300 transition-colors font-medium">
+            Explore as Guest →
+          </button>
+        </div>
       </div>
-
-      <style>{`
-        @keyframes scaleIn {
-          from { transform: scale(0.9); opacity: 0; }
-          to { transform: scale(1); opacity: 1; }
-        }
-      `}</style>
     </div>
   );
 }
