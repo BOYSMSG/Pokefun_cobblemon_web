@@ -10,6 +10,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { ToastProvider } from "@/components/Toast";
 import PushManager from "@/components/PushManager";
+import MobileNavigation from "@/components/MobileNavigation";
 
 export const metadata: Metadata = {
   title: "Pokefun | Best Cobblemon SMP Minecraft Server",
@@ -82,7 +83,7 @@ export default async function RootLayout({
           }}
         />
         <meta name="HandheldFriendly" content="True" />
-        <meta name="viewport" content="width=1200" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
         <link rel="stylesheet" href="/css/screen.css" />
         <link rel="stylesheet" href="/css/custom.css" />
         <link rel="stylesheet" type="text/css" href="/css/style.css" />
@@ -130,10 +131,6 @@ export default async function RootLayout({
           }
         `}</style>
         <style>{`
-          .gh-head-menu .nav a { font-size: 2.5rem !important; }
-          .desktop-sidebar-container a, .desktop-sidebar-container span { font-size: 2.5rem !important; }
-          .desktop-sidebar-container h2 { font-size: 1.8rem !important; }
-
           .custom-global-nav {
              padding: 0 150px 0 15px;
           }
@@ -203,6 +200,7 @@ export default async function RootLayout({
         <Providers>
           <ToastProvider>
             <div className="viewport">
+              <MobileNavigation />
               <div id="gh-header">
               <div id="nav" className="custom-global-nav">
                   <div className="container" style={{ position: "relative", display: "flex", flexWrap: "wrap", justifyContent: "center", alignItems: "center", gap: "6px 14px", maxWidth: "1400px", margin: "0 auto", padding: "0 10px" }}>

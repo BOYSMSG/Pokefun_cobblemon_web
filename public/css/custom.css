@@ -1,0 +1,295 @@
+/* ===================================================================
+   POKEFUN MODERN RESPONSIVE & MOBILE ENHANCEMENT STYLESHEET
+   Clean, fluid layouts for phones, tablets & desktop viewports
+   =================================================================== */
+
+/* Prevent global horizontal scrollbars and text blowouts on mobile */
+html,
+body,
+.viewport {
+  max-width: 100vw !important;
+  overflow-x: hidden !important;
+  box-sizing: border-box !important;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+/* ===================================================================
+   TABLET & MOBILE BREAKPOINT (< 992px)
+   =================================================================== */
+@media (max-width: 991px) {
+  /* Hide the old desktop top bar and buggy ghost header on mobile */
+  #nav.custom-global-nav,
+  #gh-header,
+  .gh-head {
+    display: none !important;
+  }
+
+  /* Reset layout wrapper so it flows naturally */
+  .viewport {
+    padding-top: 0 !important;
+  }
+
+  main[style*="max-width: 1400px"],
+  main {
+    margin: 10px auto 0 !important;
+    padding: 0 12px !important;
+    max-width: 100% !important;
+  }
+
+  /* Force main flex layout to single column on mobile */
+  main > div[style*="display: flex"] {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0 !important;
+  }
+
+  /* Hide the 300px desktop sidebar on mobile since drawer replaces it */
+  .desktop-sidebar-container {
+    display: none !important;
+  }
+
+  /* Hide old floating toggle button */
+  .global-sidebar-toggle {
+    display: none !important;
+  }
+
+  /* =================================================================
+     HOMEPAGE HERO WIDGETS RESPONSIVE STACK
+     ================================================================= */
+  .p-body-inner {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    position: relative !important;
+    min-height: auto !important;
+    padding: 15px 0 25px 0 !important;
+    gap: 16px !important;
+    width: 100% !important;
+  }
+
+  /* Reset hero left widgets from absolute positioning */
+  .hero-left-widgets {
+    position: static !important;
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 10px !important;
+  }
+
+  .hero-left-widgets > div[style*="display: flex"] {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 10px !important;
+    align-items: center !important;
+  }
+
+  /* Hero Info Cards (Store, Players, Discord) */
+  .info-card,
+  #store,
+  #players,
+  #discord {
+    width: 100% !important;
+    max-width: 360px !important;
+    margin: 0 auto !important;
+    box-sizing: border-box !important;
+    padding: 12px 18px !important;
+    border-radius: 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+  }
+
+  #discord {
+    position: static !important;
+  }
+
+  /* Center Logo on mobile */
+  #logo {
+    position: static !important;
+    order: -1 !important; /* Put logo at top */
+    margin-bottom: 8px !important;
+  }
+
+  #logo img {
+    max-width: 220px !important;
+    height: auto !important;
+  }
+
+  /* Wave dividers: prevent 100vw horizontal overflow */
+  .custom-shape-divider-bottom-1675067978 {
+    width: 100% !important;
+    margin-left: 0 !important;
+    overflow: hidden !important;
+    margin-top: -60px !important;
+  }
+
+  .custom-shape-divider-bottom-1675067978 svg {
+    width: 100% !important;
+    height: 60px !important;
+  }
+}
+
+/* ===================================================================
+   MOBILE TYPOGRAPHY & CARD GRIDS (< 768px)
+   =================================================================== */
+@media (max-width: 768px) {
+  /* Fluid text scaling so words never clip or overflow */
+  h1 {
+    font-size: clamp(1.8rem, 6vw, 2.8rem) !important;
+    line-height: 1.2 !important;
+    word-break: break-word !important;
+  }
+
+  h2 {
+    font-size: clamp(1.4rem, 5vw, 2.2rem) !important;
+    line-height: 1.25 !important;
+    word-break: break-word !important;
+  }
+
+  h3 {
+    font-size: clamp(1.15rem, 4.2vw, 1.8rem) !important;
+    line-height: 1.3 !important;
+    word-break: break-word !important;
+  }
+
+  p {
+    font-size: 0.92rem !important;
+    line-height: 1.55 !important;
+    word-break: break-word !important;
+  }
+
+  .section-title {
+    font-size: 1.35rem !important;
+    margin-bottom: 20px !important;
+  }
+
+  /* Community Hub Promo Box */
+  div[style*="linear-gradient(135deg, #4c1d95"] {
+    padding: 24px 16px !important;
+    border-radius: 16px !important;
+    margin-bottom: 40px !important;
+  }
+
+  div[style*="linear-gradient(135deg, #4c1d95"] h3 {
+    font-size: 1.5rem !important;
+    margin-bottom: 12px !important;
+  }
+
+  div[style*="linear-gradient(135deg, #4c1d95"] p {
+    font-size: 0.9rem !important;
+    margin-bottom: 20px !important;
+  }
+
+  /* Stack promo buttons cleanly on mobile */
+  div[style*="linear-gradient(135deg, #4c1d95"] div[style*="display: flex"] {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    width: 100% !important;
+  }
+
+  div[style*="linear-gradient(135deg, #4c1d95"] button {
+    width: 100% !important;
+    padding: 13px 20px !important;
+    font-size: 1rem !important;
+  }
+
+  /* Leaderboard Promo Box */
+  div[style*="linear-gradient(135deg, rgba(245, 158, 11"] {
+    padding: 24px 16px !important;
+    border-radius: 16px !important;
+    margin-bottom: 40px !important;
+  }
+
+  div[style*="linear-gradient(135deg, rgba(245, 158, 11"] i.fa-crown {
+    font-size: 2.5rem !important;
+    margin-bottom: 12px !important;
+  }
+
+  div[style*="linear-gradient(135deg, rgba(245, 158, 11"] h2 {
+    font-size: 1.6rem !important;
+    margin-bottom: 10px !important;
+  }
+
+  div[style*="linear-gradient(135deg, rgba(245, 158, 11"] p {
+    font-size: 0.9rem !important;
+    margin-bottom: 20px !important;
+  }
+
+  div[style*="linear-gradient(135deg, rgba(245, 158, 11"] a {
+    width: 100% !important;
+    padding: 13px 20px !important;
+    font-size: 1rem !important;
+    box-sizing: border-box !important;
+    text-align: center !important;
+  }
+
+  /* 2-Column Responsive Feature & Fakemon Cards Grid */
+  .fakemons-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+
+  .fakemon-card {
+    padding: 14px 10px !important;
+    border-radius: 14px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  .fakemon-card img {
+    width: 100px !important;
+    height: 100px !important;
+    object-fit: contain !important;
+    margin: 0 auto 8px !important;
+  }
+
+  .fakemon-card h3 {
+    font-size: 0.92rem !important;
+    margin-bottom: 4px !important;
+    font-weight: 700 !important;
+  }
+
+  .fakemon-card p {
+    font-size: 0.72rem !important;
+    margin-top: 2px !important;
+    line-height: 1.35 !important;
+    color: #94a3b8 !important;
+  }
+
+  /* Footer Responsiveness */
+  #footer {
+    padding: 30px 16px !important;
+  }
+
+  #footer .footer-col {
+    display: flex !important;
+    flex-direction: column !important;
+    text-align: center !important;
+    gap: 20px !important;
+  }
+
+  #footer .right ul {
+    justify-content: center !important;
+    margin: 0 !important;
+  }
+}
+
+/* Extra small devices (< 380px) */
+@media (max-width: 379px) {
+  .fakemons-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .info-card {
+    padding: 10px 12px !important;
+  }
+}

@@ -74,6 +74,18 @@ export default function HomePage() {
                 left: -280px;
             }
         }
+        .main-hero-title {
+            font-size: clamp(1.8rem, 5vw, 4.2rem) !important;
+            font-family: 'Righteous', cursive;
+            font-weight: 800;
+            color: var(--accent-gold);
+            text-shadow: 0 4px 15px rgba(245, 158, 11, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            line-height: 1.2;
+            word-break: break-word;
+            padding: 0 10px;
+        }
       `}</style>
       <div className="p-body-inner" style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "center", minHeight: "150px", color: "white", zIndex: 10 }}>
           <div className="hero-left-widgets">
@@ -138,7 +150,7 @@ export default function HomePage() {
               <div className="inner" style={{ marginTop: "60px", marginBottom: "60px" }}>
                   <div style={{ textAlign: "center", marginBottom: "40px", marginTop: "20px" }}>
                       <img src="/images/logo.png" alt="Pokefun Logo" className="animate__animated animate__pulse animate__infinite animate__slower" style={{ height: "150px", margin: "0 auto 20px", display: "block", filter: "drop-shadow(0 0 20px rgba(6, 182, 212, 0.6))" }} />
-                      <h2 className="animate__animated animate__fadeInUp" style={{ fontSize: "5.4rem", fontFamily: "'Righteous', cursive", fontWeight: 800, color: "var(--accent-gold)", textShadow: "0 4px 15px rgba(245, 158, 11, 0.5)", textTransform: "uppercase", letterSpacing: "2px" }}>The Best Cobblemon Server & Community</h2>
+                      <h2 className="animate__animated animate__fadeInUp main-hero-title">The Best Cobblemon Server & Community</h2>
                   </div>
 
                   {/* COMMUNITY PROMO */}
