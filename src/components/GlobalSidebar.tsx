@@ -8,8 +8,8 @@ export default function GlobalSidebar() {
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // Hide the global sidebar on the homepage and store page (homepage has full-width layout)
-  if (!pathname || pathname === "/" || pathname.startsWith('/store') || pathname.startsWith('https://store.pokefun.in')) {
+  // Hide the global sidebar only on the store page (it has its own custom shop layout)
+  if (pathname && (pathname.startsWith('/store') || pathname.startsWith('https://store.pokefun.in'))) {
     return null;
   }
 

@@ -154,12 +154,29 @@ a {
 }
 
 .desktop-sidebar-container {
+  width: 270px;
   flex-shrink: 0;
   z-index: 50;
+  position: sticky;
+  top: 80px;
+  height: fit-content;
+  display: block;
 }
 
 .desktop-sidebar-container:empty {
   display: none !important;
+}
+
+.global-sidebar {
+  width: 100% !important;
+  background: rgba(15, 23, 42, 0.9) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+  padding: 24px 18px !important;
+  position: static !important;
 }
 
 .site-page-content {
