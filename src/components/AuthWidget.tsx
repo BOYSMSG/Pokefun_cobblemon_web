@@ -9,7 +9,7 @@ export default function AuthWidget() {
 
   return (
     <>
-      <div style={{
+      <div className="auth-widget-wrapper" style={{
         position: "fixed",
         top: "20px",
         right: "30px",
@@ -105,6 +105,11 @@ export default function AuthWidget() {
       </div>
       
       <style>{`
+        @media (max-width: 991px) {
+          .auth-widget-wrapper {
+            display: none !important;
+          }
+        }
         .auth-menu-btn {
           display: flex;
           align-items: center;

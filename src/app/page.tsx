@@ -7,6 +7,15 @@ import GlobalSaleBanner from "@/components/GlobalSaleBanner";
 export default function HomePage() {
   const [playerCount, setPlayerCount] = useState<number | null>(null);
   const [storeConfig, setStoreConfig] = useState<any>(null);
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyIP = () => {
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      navigator.clipboard.writeText("play.pokefun.in");
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2200);
+    }
+  };
 
   useEffect(() => {
     const fetchPlayerCount = async () => {
@@ -14,7 +23,6 @@ export default function HomePage() {
       let players = 0;
 
       try {
-        // Try the internal scraper API first (since Cloudflare blocks external pingers)
         const res = await fetch("/api/player-count");
         const data = await res.json();
         if (data && data.online && data.players > 0) {
@@ -59,36 +67,12 @@ export default function HomePage() {
 
   return (
     <>
-      <style>{`
-        .hero-left-widgets {
-            position: absolute;
-            left: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 15px;
-            z-index: 20;
-        }
-        @media (min-width: 992px) {
-            .hero-left-widgets {
-                left: -280px;
-            }
-        }
-        .main-hero-title {
-            font-size: clamp(1.8rem, 5vw, 4.2rem) !important;
-            font-family: 'Righteous', cursive;
-            font-weight: 800;
-            color: var(--accent-gold);
-            text-shadow: 0 4px 15px rgba(245, 158, 11, 0.5);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            line-height: 1.2;
-            word-break: break-word;
-            padding: 0 10px;
-        }
-      `}</style>
-      <div className="p-body-inner" style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "center", minHeight: "150px", color: "white", zIndex: 10 }}>
-          <div className="hero-left-widgets">
+      {/* =================================================================
+          HERO SECTION (CLEAN, MODERN & RESPONSIVE)
+          ================================================================= */}
+      <div className="hero-main-container">
+          {/* Desktop-Only Left Widgets (Store & Player Count) */}
+          <div className="hero-left-widgets desktop-only-widget">
               <GlobalSaleBanner />
               <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
                   <Link id="store" href="https://store.pokefun.in" className="info-card" style={{ display: "flex", alignItems: "center", gap: "15px", textDecoration: "none", color: "white", fontWeight: 900 }}>
@@ -112,16 +96,55 @@ export default function HomePage() {
               </div>
           </div>
 
-          <div id="logo" style={{ zIndex: 5, position: "relative", display: "flex", justifyContent: "center" }}>
-              <a href="/">
-                  <img className="animate__infinite animate__slower animate__animated animate__pulse" src="/images/pokefun_logo_transparent.png" alt="Pokefun" style={{ maxWidth: "300px", height: "auto", mixBlendMode: "screen", filter: "drop-shadow(0 0 20px rgba(0, 168, 255, 0.4))" }} />
-              </a>
-              <div className="circle">
-                  <div className="circle"></div>
+          {/* Central Hero: Clean Logo + Portfolio-Style Identity & CTAs */}
+          <div className="hero-center-brand">
+              <div id="logo">
+                  <a href="/">
+                      <img 
+                        className="animate__infinite animate__slower animate__animated animate__pulse main-logo-img" 
+                        src="/images/pokefun_logo_transparent.png" 
+                        alt="Pokefun Cobblemon SMP" 
+                      />
+                  </a>
+              </div>
+
+              {/* High-Impact Hero Typography & Badges (Cleaned like Portfolio) */}
+              <div className="hero-portfolio-box">
+                  <div className="hero-status-pill">
+                      <span className="live-status-dot"></span>
+                      <span className="pill-badge-label">COBBLEMON SMP 1.20.1</span>
+                      <span className="pill-sep">•</span>
+                      <span className="pill-badge-sub">INDIA&apos;S #1 COMMUNITY</span>
+                  </div>
+
+                  <h1 className="hero-main-title">
+                      The Ultimate Cobblemon <br className="break-mobile" />
+                      <span className="hero-gradient-text">Server &amp; Community</span>
+                  </h1>
+
+                  <p className="hero-main-subtext">
+                      Custom Bosses, Mega Evolution, Raids, Pokémon Fusions, and an active player-driven economy.
+                  </p>
+
+                  <div className="hero-cta-button-group">
+                      <button onClick={handleCopyIP} className="hero-cta-btn ip-btn" title="Click to copy server IP">
+                          <i className={`fa-solid ${copied ? 'fa-check' : 'fa-copy'}`}></i>
+                          <span>{copied ? 'IP Copied to Clipboard!' : 'play.pokefun.in'}</span>
+                      </button>
+                      <a href="https://discord.gg/NtE8QBkmwR" target="_blank" rel="noopener noreferrer" className="hero-cta-btn discord-btn">
+                          <i className="fa-brands fa-discord"></i>
+                          <span>Join Discord</span>
+                      </a>
+                      <a href="https://store.pokefun.in" target="_blank" rel="noopener noreferrer" className="hero-cta-btn store-btn">
+                          <i className="fa-solid fa-cart-shopping"></i>
+                          <span>Store</span>
+                      </a>
+                  </div>
               </div>
           </div>
 
-          <div style={{ position: "absolute", right: "0", display: "flex", alignItems: "center", zIndex: 20 }}>
+          {/* Desktop-Only Right Widget (Discord) */}
+          <div className="hero-right-widget desktop-only-widget">
               <a id="discord" target="_blank" href="https://discord.gg/NtE8QBkmwR" className="info-card" style={{ display: "flex", alignItems: "center", gap: "20px", textDecoration: "none", color: "white", fontWeight: 900 }}>
                   <i className="fa-brands fa-discord"></i>
                   <div className="info-text">
@@ -131,48 +154,45 @@ export default function HomePage() {
               </a>
           </div>
       </div>
-      <div className="custom-shape-divider-bottom-1675067978 custom-shadow" style={{ position: "relative", zIndex: 10, marginTop: "-120px", width: "100vw", marginLeft: "calc(-50vw + 50%)" }}>
+
+      {/* Decorative SVG Shapes (Visible only on desktop, hidden on mobile to prevent gaps) */}
+      <div className="custom-shape-divider-bottom-1675067978 custom-shadow desktop-only-shape">
           <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
               <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" className="shape-fill"></path>
           </svg>
       </div>
-      <div className="custom-shape-divider-bottom-1675067978" style={{ position: "relative", zIndex: 10, marginTop: "-120px", width: "100vw", marginLeft: "calc(-50vw + 50%)" }}>
+      <div className="custom-shape-divider-bottom-1675067978 desktop-only-shape">
           <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
               <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" className="shape-fill"></path>
           </svg>
       </div>
       <div id="tsparticles" style={{ zIndex: 1 }}></div>
 
+      {/* =================================================================
+          MAIN CONTENT AREA
+          ================================================================= */}
       <main id="site-main" className="site-main outer" style={{ position: "relative", zIndex: 10 }}>
           <div className="inner posts">
 
-              {/* ALL EPIC FEATURES */}
-              <div className="inner" style={{ marginTop: "60px", marginBottom: "60px" }}>
-                  <div style={{ textAlign: "center", marginBottom: "40px", marginTop: "20px" }}>
-                      <img src="/images/logo.png" alt="Pokefun Logo" className="animate__animated animate__pulse animate__infinite animate__slower" style={{ height: "150px", margin: "0 auto 20px", display: "block", filter: "drop-shadow(0 0 20px rgba(6, 182, 212, 0.6))" }} />
-                      <h2 className="animate__animated animate__fadeInUp main-hero-title">The Best Cobblemon Server & Community</h2>
+              {/* COMMUNITY HUB PROMO CARD */}
+              <div className="community-promo-card">
+                  <h3 className="community-promo-title">Join the Pokefun Community Hub!</h3>
+                  <p className="community-promo-desc">
+                      Share your best moments, watch 60-second Reels, post your insane builds, and connect with other trainers! Get rewards for top posts!
+                  </p>
+                  <div className="community-promo-btns">
+                      <Link href="/community" className="promo-btn feed-btn">
+                          <i className="fa-solid fa-users"></i> Explore Feed
+                      </Link>
+                      <Link href="/community/reels" className="promo-btn reels-btn">
+                          <i className="fa-solid fa-play"></i> Watch Reels
+                      </Link>
                   </div>
+              </div>
 
-                  {/* COMMUNITY PROMO */}
-                  <div style={{ background: 'linear-gradient(135deg, #4c1d95 0%, #065f46 100%)', borderRadius: '20px', padding: '50px', textAlign: 'center', marginBottom: '80px', border: '1px solid rgba(255,255,255,0.2)', boxShadow: '0 15px 40px rgba(0,0,0,0.5)' }}>
-                      <h3 style={{ fontSize: '3.5rem', fontWeight: 900, color: 'white', textShadow: '0 4px 10px rgba(0,0,0,0.5)', marginBottom: '20px' }}>Join the Pokefun Community Hub!</h3>
-                      <p style={{ fontSize: '1.5rem', color: '#f3f4f6', textShadow: '0 2px 5px rgba(0,0,0,0.5)', marginBottom: '40px', maxWidth: '800px', margin: '0 auto 40px', lineHeight: '1.6' }}>
-                          Share your best moments, watch 60-second Reels, post your insane builds, and connect with other trainers! Get rewards for top posts!
-                      </p>
-                      <div style={{ display: 'flex', gap: '20px', justifyContent: 'center' }}>
-                          <Link href="/community">
-                              <button style={{ background: '#8b5cf6', color: 'white', border: 'none', padding: '18px 45px', borderRadius: '30px', fontSize: '1.3rem', fontWeight: 'bold', cursor: 'pointer', transition: '0.2s', boxShadow: '0 4px 15px rgba(139,92,246,0.6)' }} onMouseOver={e => e.currentTarget.style.transform = 'translateY(-3px)'} onMouseOut={e => e.currentTarget.style.transform = 'none'}>
-                                  Explore Feed
-                              </button>
-                          </Link>
-                          <Link href="/community/reels">
-                              <button style={{ background: 'white', color: '#065f46', border: 'none', padding: '18px 45px', borderRadius: '30px', fontSize: '1.3rem', fontWeight: 'bold', cursor: 'pointer', transition: '0.2s', boxShadow: '0 4px 15px rgba(255,255,255,0.3)' }} onMouseOver={e => e.currentTarget.style.transform = 'translateY(-3px)'} onMouseOut={e => e.currentTarget.style.transform = 'none'}>
-                                  <i className="fa-solid fa-play"></i> Watch Reels
-                              </button>
-                          </Link>
-                      </div>
-                  </div>
-                  <div className="section-title" style={{ textAlign: "center", marginBottom: "40px", fontSize: "32px", fontWeight: 800 }}>EPIC SERVER FEATURES</div>
+              {/* ALL EPIC FEATURES */}
+              <div className="inner" style={{ marginTop: "30px", marginBottom: "50px" }}>
+                  <div className="section-title" style={{ textAlign: "center", marginBottom: "35px", fontSize: "2rem", fontWeight: 800 }}>EPIC SERVER FEATURES</div>
                   <div className="fakemons-grid">
                       
                       <div className="fakemon-card">
@@ -322,21 +342,21 @@ export default function HomePage() {
                   </div>
               </div>
 
-              {/* Leaderboard Call to Action */}
-              <div className="inner" style={{ marginTop: '20px', marginBottom: '60px', background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(180, 83, 9, 0.2))', padding: '50px', borderRadius: '20px', border: '1px solid rgba(245, 158, 11, 0.3)', textAlign: 'center', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }}>
-                <i className="fa-solid fa-crown" style={{ fontSize: '4rem', color: '#fbbf24', marginBottom: '20px', textShadow: '0 0 20px rgba(245, 158, 11, 0.5)' }}></i>
-                <h2 style={{ fontSize: '3.5rem', fontWeight: 900, color: 'white', marginBottom: '15px', textShadow: '0 4px 10px rgba(0,0,0,0.5)' }}>Global Leaderboards</h2>
-                <p style={{ color: '#444', fontWeight: '500', fontSize: '1.4rem', marginBottom: '30px', maxWidth: '700px', margin: '0 auto 40px auto', lineHeight: '1.6' }}>
+              {/* LEADERBOARD CALL TO ACTION CARD */}
+              <div className="leaderboard-promo-card">
+                <i className="fa-solid fa-crown promo-crown-icon"></i>
+                <h2 className="leaderboard-promo-title">Global Leaderboards</h2>
+                <p className="leaderboard-promo-desc">
                   Check out the top players across Ranked PvP, AlphaZone, and Dungeons. Do you have what it takes to be #1?
                 </p>
-                <Link href="/leaderboard" style={{ background: '#f59e0b', color: 'black', padding: '18px 40px', borderRadius: '40px', fontWeight: 'bold', fontSize: '1.3rem', textDecoration: 'none', display: 'inline-block', boxShadow: '0 4px 15px rgba(245,158,11,0.5)', transition: 'transform 0.2s' }}>
-                  View Leaderboards
+                <Link href="/leaderboard" className="leaderboard-cta-btn">
+                  <i className="fa-solid fa-trophy" style={{ marginRight: '8px' }}></i> View Leaderboards
                 </Link>
               </div>
 
-                <div className="post-continue">
-                    <a href="/modpacks">Join Now</a>
-                </div>
+              <div className="post-continue">
+                  <a href="/modpacks">Join Now</a>
+              </div>
           </div>
       </main>
     </>

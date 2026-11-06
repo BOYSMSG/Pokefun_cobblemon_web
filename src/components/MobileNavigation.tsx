@@ -3,18 +3,20 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 export default function MobileNavigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [playerCount, setPlayerCount] = useState<number | null>(null);
+  const { data: session } = useSession();
   const pathname = usePathname();
 
-  // Close drawer when route changes
+  // Close drawer on route change
   useEffect(() => {
     setIsOpen(false);
   }, [pathname]);
 
-  // Prevent body scrolling when drawer is open
+  // Lock body scroll when drawer is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -26,7 +28,7 @@ export default function MobileNavigation() {
     };
   }, [isOpen]);
 
-  // Fetch online players count
+  // Live online player count
   useEffect(() => {
     const fetchPlayers = async () => {
       try {
@@ -42,12 +44,8 @@ export default function MobileNavigation() {
         const data = await res.json();
         if (data && data.online) {
           setPlayerCount(data.players.online + 30);
-        } else {
-          setPlayerCount(null);
         }
-      } catch {
-        setPlayerCount(null);
-      }
+      } catch {}
     };
     fetchPlayers();
   }, []);
@@ -56,16 +54,16 @@ export default function MobileNavigation() {
     {
       name: "Main Menu",
       links: [
-        { title: "Home", path: "/", icon: "fa-solid fa-house", highlight: false },
+        { title: "Home", path: "/", icon: "fa-solid fa-house" },
         { title: "Store & Ranks", path: "https://store.pokefun.in", icon: "fa-solid fa-cart-shopping", highlight: true, external: true },
-        { title: "Community Feed", path: "/community", icon: "fa-solid fa-users", highlight: false },
-        { title: "Reels", path: "/community/reels", icon: "fa-solid fa-play", highlight: false },
+        { title: "Community Feed", path: "/community", icon: "fa-solid fa-users" },
+        { title: "Reels", path: "/community/reels", icon: "fa-solid fa-play" },
         { title: "Leaderboards", path: "/leaderboard", icon: "fa-solid fa-trophy", highlight: true },
-        { title: "Messages", path: "/messages", icon: "fa-solid fa-comment-dots", highlight: false },
-        { title: "Wiki & Pokédex", path: "/wiki", icon: "fa-solid fa-book", highlight: false },
-        { title: "Modpacks Download", path: "/modpacks", icon: "fa-solid fa-download", highlight: false },
-        { title: "Vote for Rewards", path: "/vote", icon: "fa-solid fa-check-to-slot", highlight: false },
-        { title: "Showcase", path: "/showcase", icon: "fa-solid fa-star", highlight: false },
+        { title: "Messages", path: "/messages", icon: "fa-solid fa-comment-dots" },
+        { title: "Wiki & Pokédex", path: "/wiki", icon: "fa-solid fa-book" },
+        { title: "Modpacks", path: "/modpacks", icon: "fa-solid fa-download" },
+        { title: "Vote for Rewards", path: "/vote", icon: "fa-solid fa-check-to-slot" },
+        { title: "Showcase", path: "/showcase", icon: "fa-solid fa-star" },
       ],
     },
     {
@@ -100,33 +98,34 @@ export default function MobileNavigation() {
 
   return (
     <>
-      {/* Mobile Top Navigation Bar (Hidden on desktop screens >= 992px) */}
-      <nav className="mobile-header-bar">
-        <div className="mobile-header-inner">
-          {/* Logo & Brand */}
-          <Link href="/" className="mobile-brand">
+      {/* ==============================================================
+          WHITE & ELECTRIC AQUA MOBILE TOP BAR
+          ============================================================== */}
+      <nav className="mobile-aqua-header">
+        <div className="mobile-aqua-inner">
+          {/* Brand */}
+          <Link href="/" className="mobile-aqua-brand">
             <img
               src="/images/logo.png"
               alt="Pokefun Logo"
-              className="mobile-brand-logo"
+              className="mobile-aqua-logo"
               onError={(e) => {
                 e.currentTarget.src = "/images/pokefun_logo_transparent.png";
               }}
             />
-            <div className="mobile-brand-text">
-              <span className="mobile-brand-title">POKEFUN</span>
-              <span className="mobile-brand-subtitle">COBBLEMON SMP</span>
+            <div className="mobile-aqua-brand-text">
+              <span className="mobile-aqua-title">POKEFUN</span>
+              <span className="mobile-aqua-subtitle">COBBLEMON SMP</span>
             </div>
           </Link>
 
-          {/* Right Action Icons */}
-          <div className="mobile-header-actions">
+          {/* Right Header Actions */}
+          <div className="mobile-aqua-actions">
             <a
               href="https://store.pokefun.in"
               target="_blank"
               rel="noopener noreferrer"
-              className="mobile-store-pill"
-              title="Pokefun Store"
+              className="mobile-aqua-store-btn"
             >
               <i className="fa-solid fa-cart-shopping"></i>
               <span>STORE</span>
@@ -134,97 +133,166 @@ export default function MobileNavigation() {
 
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="mobile-menu-toggle"
-              aria-label="Toggle Navigation Menu"
-              aria-expanded={isOpen}
+              className="mobile-aqua-toggle"
+              aria-label="Open Navigation Menu"
             >
               <i className={`fa-solid ${isOpen ? "fa-xmark" : "fa-bars"}`}></i>
             </button>
           </div>
         </div>
 
-        {/* Players online status banner for mobile */}
-        <div className="mobile-status-strip">
-          <div className="mobile-status-item">
-            <span className="status-dot"></span>
-            <span className="status-text">
-              IP: <strong>play.pokefun.in</strong>
-            </span>
+        {/* Status Strip: White / Ice background with Emerald Dot */}
+        <div className="mobile-aqua-status">
+          <div className="status-badge">
+            <span className="status-live-dot"></span>
+            <span className="status-server-ip">play.pokefun.in</span>
           </div>
-          <div className="mobile-status-item">
-            <span className="status-players">
-              <i className="fa-solid fa-users text-cyan-400"></i>{" "}
-              {playerCount !== null ? `${playerCount} Online` : "Server Online"}
-            </span>
+          <div className="status-players-count">
+            <i className="fa-solid fa-users" style={{ color: "#0284c7" }}></i>{" "}
+            <strong>{playerCount !== null ? `${playerCount} Online` : "Online"}</strong>
           </div>
         </div>
       </nav>
 
-      {/* Drawer Overlay Backdrop */}
+      {/* Backdrop */}
       {isOpen && (
         <div
-          className="mobile-drawer-backdrop"
+          className="mobile-aqua-backdrop"
           onClick={() => setIsOpen(false)}
         />
       )}
 
-      {/* Slide-out Mobile Navigation Drawer */}
-      <aside className={`mobile-nav-drawer ${isOpen ? "drawer-open" : ""}`}>
+      {/* ==============================================================
+          WHITE & ELECTRIC AQUA SLIDE-OUT DRAWER
+          ============================================================== */}
+      <aside className={`mobile-aqua-drawer ${isOpen ? "drawer-visible" : ""}`}>
         {/* Drawer Header */}
-        <div className="drawer-header">
-          <div className="drawer-header-left">
+        <div className="drawer-aqua-header">
+          <div className="drawer-aqua-brand">
             <img
               src="/images/pokefun_logo_transparent.png"
               alt="Pokefun"
-              className="drawer-logo"
+              className="drawer-aqua-logo"
             />
             <div>
-              <h3 className="drawer-title">Pokefun SMP</h3>
-              <p className="drawer-subtitle">Cobblemon Multiplayer</p>
+              <h3 className="drawer-aqua-title">Pokefun SMP</h3>
+              <span className="drawer-aqua-badge">Electric Aqua Edition</span>
             </div>
           </div>
           <button
             onClick={() => setIsOpen(false)}
-            className="drawer-close-btn"
-            aria-label="Close Menu"
+            className="drawer-aqua-close"
+            aria-label="Close Navigation Menu"
           >
             <i className="fa-solid fa-xmark"></i>
           </button>
         </div>
 
-        {/* Quick Social / Action Links Grid */}
-        <div className="drawer-quick-actions">
+        {/* User Account / Login Section Inside Drawer (Clean White Card) */}
+        <div className="drawer-auth-card">
+          {session ? (
+            <div className="drawer-user-info">
+              <img
+                src={session.user?.image || "/images/default-avatar.png"}
+                alt="Avatar"
+                className="drawer-user-avatar"
+              />
+              <div className="drawer-user-meta">
+                <span className="drawer-user-name">{session.user?.name || "Trainer"}</span>
+                <span className="drawer-user-email">{session.user?.email || "Connected"}</span>
+              </div>
+              <div className="drawer-user-buttons">
+                <Link
+                  href="/profile"
+                  className="drawer-auth-action-btn profile-btn"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <i className="fa-solid fa-user"></i> Profile
+                </Link>
+                <button
+                  onClick={() => signOut()}
+                  className="drawer-auth-action-btn logout-btn"
+                >
+                  <i className="fa-solid fa-sign-out"></i>
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="drawer-guest-box">
+              <div className="drawer-guest-text">
+                <span className="guest-title">Trainer Account</span>
+                <span className="guest-subtitle">Sign in to save progress &amp; vote</span>
+              </div>
+              <div className="drawer-guest-buttons">
+                <button
+                  onClick={() => signIn("discord")}
+                  className="guest-login-btn discord"
+                >
+                  <i className="fa-brands fa-discord"></i> Discord
+                </button>
+                <button
+                  onClick={() => signIn("google")}
+                  className="guest-login-btn google"
+                >
+                  <i className="fa-brands fa-google"></i> Google
+                </button>
+              </div>
+              <div style={{ textAlign: "center", marginTop: "8px" }}>
+                <Link
+                  href="/admin"
+                  onClick={() => setIsOpen(false)}
+                  style={{
+                    fontSize: "0.72rem",
+                    color: "#0284c7",
+                    fontWeight: 700,
+                    textDecoration: "none",
+                  }}
+                >
+                  <i className="fa-solid fa-lock" style={{ marginRight: "4px" }}></i>
+                  Admin Login
+                </Link>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Quick Hub Links (Discord & Store) */}
+        <div className="drawer-hub-actions">
           <a
             href="https://discord.gg/pokefun"
             target="_blank"
             rel="noopener noreferrer"
-            className="drawer-quick-btn discord-btn"
+            className="hub-btn discord-hub"
           >
             <i className="fa-brands fa-discord"></i>
-            <span>Discord</span>
+            <span>Join Discord</span>
           </a>
           <a
             href="https://store.pokefun.in"
             target="_blank"
             rel="noopener noreferrer"
-            className="drawer-quick-btn store-btn"
+            className="hub-btn store-hub"
           >
             <i className="fa-solid fa-cart-shopping"></i>
-            <span>Shop Ranks</span>
+            <span>Store Ranks</span>
           </a>
         </div>
 
-        {/* Categorized Navigation Links */}
-        <div className="drawer-nav-content">
-          {navCategories.map((cat, catIdx) => (
-            <div key={cat.name} className="drawer-category">
-              <div className="drawer-category-title">{cat.name}</div>
-              <div className="drawer-links-list">
-                {cat.links.map((link) => {
+        {/* Scrollable Navigation Categories */}
+        <div className="drawer-scroll-body">
+          {navCategories.map((category) => (
+            <div key={category.name} className="nav-cat-group">
+              <div className="nav-cat-heading">
+                <span className="nav-cat-dot"></span>
+                <span>{category.name}</span>
+              </div>
+
+              <div className="nav-links-stack">
+                {category.links.map((link) => {
                   const isActive = pathname === link.path;
-                  const itemClass = `drawer-link-item ${
-                    isActive ? "active-link" : ""
-                  } ${link.highlight ? "highlight-link" : ""}`;
+                  const itemClass = `aqua-nav-item ${isActive ? "item-active" : ""} ${
+                    link.highlight ? "item-highlight" : ""
+                  }`;
 
                   if ((link as any).external) {
                     return (
@@ -235,9 +303,9 @@ export default function MobileNavigation() {
                         rel="noopener noreferrer"
                         className={itemClass}
                       >
-                        <i className={`link-icon ${link.icon}`}></i>
-                        <span className="link-title">{link.title}</span>
-                        <i className="fa-solid fa-arrow-up-right-from-square link-arrow"></i>
+                        <i className={`item-icon ${link.icon}`}></i>
+                        <span className="item-text">{link.title}</span>
+                        <i className="fa-solid fa-arrow-up-right-from-square item-ext"></i>
                       </a>
                     );
                   }
@@ -249,9 +317,9 @@ export default function MobileNavigation() {
                       className={itemClass}
                       onClick={() => setIsOpen(false)}
                     >
-                      <i className={`link-icon ${link.icon}`}></i>
-                      <span className="link-title">{link.title}</span>
-                      <i className="fa-solid fa-chevron-right link-arrow"></i>
+                      <i className={`item-icon ${link.icon}`}></i>
+                      <span className="item-text">{link.title}</span>
+                      <i className="fa-solid fa-chevron-right item-arrow"></i>
                     </Link>
                   );
                 })}
@@ -261,187 +329,190 @@ export default function MobileNavigation() {
         </div>
 
         {/* Drawer Footer */}
-        <div className="drawer-footer">
-          <div className="drawer-footer-text">
-            <span>2026 © Pokefun Network</span>
-            <span>Version 1.20.1+</span>
-          </div>
+        <div className="drawer-aqua-footer">
+          <span>2026 © Pokefun Network</span>
+          <span className="footer-cyan">Cobblemon 1.20.1</span>
         </div>
       </aside>
 
+      {/* ==============================================================
+          CSS STYLING (PURE WHITE & ELECTRIC AQUA THEME)
+          ============================================================== */}
       <style jsx>{`
-        /* Desktop: Hide all mobile navigation elements */
-        .mobile-header-bar,
-        .mobile-drawer-backdrop,
-        .mobile-nav-drawer {
+        /* Hide on desktop (>= 992px) */
+        .mobile-aqua-header,
+        .mobile-aqua-backdrop,
+        .mobile-aqua-drawer {
           display: none;
         }
 
-        /* Mobile & Tablet Styles (Screens < 992px) */
+        /* Mobile Screens (< 992px) */
         @media (max-width: 991px) {
-          .mobile-header-bar {
+          /* Top Navigation Bar: Frosted White & Aqua */
+          .mobile-aqua-header {
             display: block;
             position: sticky;
             top: 0;
             left: 0;
             width: 100%;
             z-index: 1000;
-            background: rgba(10, 14, 26, 0.96);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            background: rgba(255, 255, 255, 0.98) !important;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1.5px solid rgba(28, 198, 219, 0.35);
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08);
           }
 
-          .mobile-header-inner {
+          .mobile-aqua-inner {
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 10px 16px;
-            height: 60px;
+            height: 62px;
           }
 
-          .mobile-brand {
+          .mobile-aqua-brand {
             display: flex;
             align-items: center;
             gap: 10px;
             text-decoration: none;
           }
 
-          .mobile-brand-logo {
-            width: 38px;
-            height: 38px;
+          .mobile-aqua-logo {
+            width: 40px;
+            height: 40px;
             object-fit: contain;
-            filter: drop-shadow(0 0 10px rgba(28, 198, 219, 0.6));
+            filter: drop-shadow(0 2px 8px rgba(6, 182, 212, 0.4));
           }
 
-          .mobile-brand-text {
+          .mobile-aqua-brand-text {
             display: flex;
             flex-direction: column;
           }
 
-          .mobile-brand-title {
+          .mobile-aqua-title {
             font-family: 'Righteous', cursive, sans-serif;
-            font-size: 1.25rem;
+            font-size: 1.3rem;
             font-weight: 900;
             letter-spacing: 1.5px;
-            background: linear-gradient(135deg, #fbbf24 0%, #38bdf8 100%);
+            background: linear-gradient(135deg, #0284c7 0%, #06b6d4 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             line-height: 1.1;
           }
 
-          .mobile-brand-subtitle {
+          .mobile-aqua-subtitle {
             font-size: 0.65rem;
-            font-weight: 700;
+            font-weight: 800;
             letter-spacing: 1px;
-            color: #94a3b8;
+            color: #64748b;
             text-transform: uppercase;
           }
 
-          .mobile-header-actions {
+          .mobile-aqua-actions {
             display: flex;
             align-items: center;
             gap: 10px;
           }
 
-          .mobile-store-pill {
+          .mobile-aqua-store-btn {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            padding: 6px 14px;
+            padding: 7px 14px;
             border-radius: 9999px;
-            background: linear-gradient(135deg, #f59e0b, #d97706);
+            background: linear-gradient(135deg, #06b6d4, #0284c7);
             color: #ffffff !important;
             font-weight: 800;
             font-size: 0.75rem;
             letter-spacing: 0.5px;
-            text-decoration: none;
-            box-shadow: 0 2px 10px rgba(245, 158, 11, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: transform 0.15s ease;
+            text-decoration: none !important;
+            box-shadow: 0 3px 12px rgba(6, 182, 212, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: transform 0.15s;
           }
 
-          .mobile-store-pill:active {
+          .mobile-aqua-store-btn:active {
             transform: scale(0.96);
           }
 
-          .mobile-menu-toggle {
+          .mobile-aqua-toggle {
             width: 42px;
             height: 42px;
             border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            background: rgba(255, 255, 255, 0.06);
-            color: #ffffff;
+            border: 1.5px solid #ccfbf1;
+            background: #f0fdfa;
+            color: #0f766e;
             font-size: 1.25rem;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: background 0.2s, transform 0.15s;
+            box-shadow: 0 2px 8px rgba(15, 118, 110, 0.08);
+            transition: all 0.15s ease;
           }
 
-          .mobile-menu-toggle:active {
-            background: rgba(28, 198, 219, 0.2);
+          .mobile-aqua-toggle:active {
+            background: #ccfbf1;
             transform: scale(0.95);
           }
 
-          /* Status Strip */
-          .mobile-status-strip {
+          /* Sub-bar: Status strip */
+          .mobile-aqua-status {
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 6px 16px;
-            background: rgba(15, 23, 42, 0.85);
-            border-top: 1px solid rgba(255, 255, 255, 0.04);
-            font-size: 0.72rem;
-            color: #cbd5e1;
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            font-size: 0.75rem;
+            color: #475569;
           }
 
-          .mobile-status-item {
+          .status-badge {
             display: flex;
             align-items: center;
             gap: 6px;
           }
 
-          .status-dot {
-            width: 7px;
-            height: 7px;
+          .status-live-dot {
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
-            background: #22c55e;
-            box-shadow: 0 0 8px #22c55e;
-            animation: pulse-dot 2s infinite;
+            background: #10b981;
+            box-shadow: 0 0 10px #10b981;
+            animation: pulse-live 2s infinite;
           }
 
-          @keyframes pulse-dot {
+          @keyframes pulse-live {
             0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.4; transform: scale(1.2); }
           }
 
-          .status-players {
+          .status-server-ip {
             font-weight: 700;
-            color: #38bdf8;
+            color: #0f172a;
           }
 
-          /* Drawer Backdrop */
-          .mobile-drawer-backdrop {
+          .status-players-count {
+            font-size: 0.75rem;
+            color: #0284c7;
+          }
+
+          /* Backdrop */
+          .mobile-aqua-backdrop {
             display: block;
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.75);
+            background: rgba(15, 23, 42, 0.4);
             backdrop-filter: blur(4px);
             -webkit-backdrop-filter: blur(4px);
             z-index: 1998;
             animation: fadeIn 0.2s ease-out;
           }
 
-          @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-          }
-
-          /* Drawer Aside */
-          .mobile-nav-drawer {
+          /* White & Electric Aqua Drawer */
+          .mobile-aqua-drawer {
             display: flex;
             flex-direction: column;
             position: fixed;
@@ -450,64 +521,64 @@ export default function MobileNavigation() {
             bottom: 0;
             width: 86vw;
             max-width: 360px;
-            background: #0f172a;
-            border-left: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: -10px 0 40px rgba(0, 0, 0, 0.8);
+            background: #ffffff !important;
+            border-left: 1.5px solid #e2e8f0;
+            box-shadow: -10px 0 40px rgba(15, 23, 42, 0.15);
             z-index: 1999;
             transform: translateX(100%);
             transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
             overflow: hidden;
           }
 
-          .mobile-nav-drawer.drawer-open {
+          .mobile-aqua-drawer.drawer-visible {
             transform: translateX(0);
           }
 
           /* Drawer Header */
-          .drawer-header {
+          .drawer-aqua-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 16px;
-            background: rgba(15, 23, 42, 0.95);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
           }
 
-          .drawer-header-left {
+          .drawer-aqua-brand {
             display: flex;
             align-items: center;
             gap: 12px;
           }
 
-          .drawer-logo {
+          .drawer-aqua-logo {
             width: 40px;
             height: 40px;
             object-fit: contain;
           }
 
-          .drawer-title {
+          .drawer-aqua-title {
             font-family: 'Righteous', cursive, sans-serif;
             font-size: 1.15rem;
-            color: #ffffff;
+            color: #0f172a !important;
             margin: 0;
             line-height: 1.2;
           }
 
-          .drawer-subtitle {
-            font-size: 0.7rem;
-            color: #94a3b8;
-            margin: 0;
+          .drawer-aqua-badge {
+            font-size: 0.65rem;
+            font-weight: 800;
+            color: #0284c7;
             text-transform: uppercase;
             letter-spacing: 0.5px;
           }
 
-          .drawer-close-btn {
+          .drawer-aqua-close {
             width: 36px;
             height: 36px;
             border-radius: 10px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #ffffff;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            color: #64748b;
             font-size: 1.1rem;
             cursor: pointer;
             display: flex;
@@ -515,17 +586,137 @@ export default function MobileNavigation() {
             justify-content: center;
           }
 
-          /* Quick Actions */
-          .drawer-quick-actions {
+          /* User / Auth Section */
+          .drawer-auth-card {
+            padding: 12px 16px;
+            background: #f0fdfa;
+            border-bottom: 1px solid #ccfbf1;
+          }
+
+          .drawer-user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+          }
+
+          .drawer-user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid #06b6d4;
+          }
+
+          .drawer-user-meta {
+            flex: 1;
+            min-width: 0;
+          }
+
+          .drawer-user-name {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #0f172a !important;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+
+          .drawer-user-email {
+            display: block;
+            font-size: 0.7rem;
+            color: #0284c7 !important;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+
+          .drawer-user-buttons {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+          }
+
+          .drawer-auth-action-btn {
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+          }
+
+          .profile-btn {
+            background: #0284c7;
+            color: #ffffff !important;
+          }
+
+          .logout-btn {
+            background: #e2e8f0;
+            color: #475569;
+          }
+
+          .drawer-guest-box {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+          }
+
+          .drawer-guest-text {
+            display: flex;
+            flex-direction: column;
+          }
+
+          .guest-title {
+            font-size: 0.82rem;
+            font-weight: 800;
+            color: #0f172a !important;
+          }
+
+          .guest-subtitle {
+            font-size: 0.7rem;
+            color: #64748b !important;
+          }
+
+          .drawer-guest-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+          }
+
+          .guest-login-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 8px;
+            border-radius: 10px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            color: #ffffff !important;
+          }
+
+          .guest-login-btn.discord {
+            background: #5865f2;
+          }
+
+          .guest-login-btn.google {
+            background: #ea4335;
+          }
+
+          /* Hub actions (Discord & Store) */
+          .drawer-hub-actions {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
-            padding: 14px 16px;
-            background: rgba(30, 41, 59, 0.5);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 12px 16px;
+            background: #ffffff;
+            border-bottom: 1px solid #f1f5f9;
           }
 
-          .drawer-quick-btn {
+          .hub-btn {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -533,116 +724,135 @@ export default function MobileNavigation() {
             padding: 10px;
             border-radius: 12px;
             font-weight: 700;
-            font-size: 0.85rem;
-            text-decoration: none;
+            font-size: 0.82rem;
+            text-decoration: none !important;
             color: #ffffff !important;
-            transition: transform 0.15s;
           }
 
-          .drawer-quick-btn:active {
-            transform: scale(0.97);
-          }
-
-          .discord-btn {
+          .discord-hub {
             background: #5865f2;
-            box-shadow: 0 4px 12px rgba(88, 101, 242, 0.35);
+            box-shadow: 0 2px 8px rgba(88, 101, 242, 0.25);
           }
 
-          .store-btn {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);
+          .store-hub {
+            background: linear-gradient(135deg, #06b6d4, #0284c7);
+            box-shadow: 0 2px 8px rgba(6, 182, 212, 0.25);
           }
 
-          /* Nav Content Scrollable Area */
-          .drawer-nav-content {
+          /* Scrollable links */
+          .drawer-scroll-body {
             flex: 1;
             overflow-y: auto;
             padding: 14px 16px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 18px;
+            background: #ffffff !important;
           }
 
-          .drawer-category-title {
-            font-size: 0.72rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            color: #64748b;
-            margin-bottom: 8px;
-            padding-left: 6px;
-          }
-
-          .drawer-links-list {
+          .nav-cat-group {
             display: flex;
             flex-direction: column;
             gap: 4px;
           }
 
-          .drawer-link-item {
+          .nav-cat-heading {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 11px 14px;
-            border-radius: 12px;
-            color: #cbd5e1 !important;
+            gap: 6px;
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: #0284c7;
+            margin-bottom: 6px;
+            padding-left: 4px;
+          }
+
+          .nav-cat-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #06b6d4;
+          }
+
+          .nav-links-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+          }
+
+          /* 100% Guaranteed High-Contrast Links on White */
+          .aqua-nav-item {
+            display: flex !important;
+            align-items: center !important;
+            gap: 12px !important;
+            padding: 10px 14px !important;
+            border-radius: 12px !important;
+            color: #0f172a !important; /* Pure high-contrast dark slate text */
             text-decoration: none !important;
-            font-size: 0.92rem;
-            font-weight: 600;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid transparent;
-            transition: all 0.15s ease;
+            font-size: 0.9rem !important;
+            font-weight: 600 !important;
+            background: #ffffff !important;
+            border: 1px solid transparent !important;
+            transition: all 0.15s ease !important;
           }
 
-          .drawer-link-item:hover,
-          .drawer-link-item:active {
-            background: rgba(255, 255, 255, 0.07);
-            color: #ffffff !important;
+          .aqua-nav-item:hover,
+          .aqua-nav-item:active {
+            background: #f0fdfa !important;
+            color: #0369a1 !important;
+            border-color: #ccfbf1 !important;
           }
 
-          .drawer-link-item.active-link {
-            background: rgba(28, 198, 219, 0.15);
-            border-color: rgba(28, 198, 219, 0.4);
-            color: #38bdf8 !important;
-            font-weight: 700;
+          .aqua-nav-item.item-active {
+            background: rgba(28, 198, 219, 0.12) !important;
+            border-color: rgba(28, 198, 219, 0.4) !important;
+            color: #0284c7 !important;
+            font-weight: 700 !important;
           }
 
-          .drawer-link-item.highlight-link {
-            color: #fbbf24 !important;
+          .aqua-nav-item.item-highlight {
+            color: #d97706 !important;
+            font-weight: 700 !important;
           }
 
-          .link-icon {
+          .item-icon {
             font-size: 1rem;
             width: 20px;
             text-align: center;
-            color: #38bdf8;
+            color: #0284c7 !important;
           }
 
-          .drawer-link-item.highlight-link .link-icon {
-            color: #fbbf24;
+          .aqua-nav-item.item-highlight .item-icon {
+            color: #f59e0b !important;
           }
 
-          .link-title {
+          .item-text {
             flex: 1;
+            color: inherit !important;
           }
 
-          .link-arrow {
+          .item-arrow,
+          .item-ext {
             font-size: 0.75rem;
-            color: #64748b;
+            color: #94a3b8;
           }
 
           /* Drawer Footer */
-          .drawer-footer {
-            padding: 14px 16px;
-            background: rgba(15, 23, 42, 0.98);
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
-          }
-
-          .drawer-footer-text {
+          .drawer-aqua-footer {
+            padding: 12px 16px;
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
             display: flex;
             justify-content: space-between;
             font-size: 0.7rem;
+            font-weight: 700;
             color: #64748b;
+          }
+
+          .footer-cyan {
+            color: #0284c7;
           }
         }
       `}</style>
