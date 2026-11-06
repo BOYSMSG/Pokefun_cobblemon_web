@@ -7,6 +7,7 @@ import DynamicHero3D from "@/components/3d/DynamicHero3D";
 import AtmosphereEngine from "@/components/effects/AtmosphereEngine";
 import CinematicScroll from "@/components/effects/CinematicScroll";
 import MagneticButton from "@/components/effects/MagneticButton";
+import "./pokefun-cinematic.css";
 
 export default function HomePage() {
   const [playerCount, setPlayerCount] = useState<number | null>(null);
@@ -103,184 +104,135 @@ export default function HomePage() {
       `}} />
 
       {/* =================================================================
-          WHITE & ELECTRIC AQUA SCI-FI HERO SECTION (SPLIT-HERO LAYOUT)
+          CINEMATIC MINECRAFT COBBLEMON HERO SECTION (MATCHING REFERENCE B)
           ================================================================= */}
-      {/* Cinematic GSAP Scroll Choreography */}
       <CinematicScroll />
 
-      <section className="scifi-cyber-grid hero-sci-fi-section">
-        {/* Living Atmosphere Particle Engine */}
+      <section className="cinematic-hero-section">
+        {/* Full-width Minecraft Cobblemon City Environmental Background */}
+        <img 
+          src="/images/hero-cinematic-world.webp" 
+          alt="Pokefun Cobblemon Living World" 
+          className="cinematic-hero-world-img" 
+        />
+
+        {/* Readability Gradient Layer (Text contrast on left, reveals vibrant world on right) */}
+        <div className="cinematic-hero-readability"></div>
+
+        {/* Atmospheric Particle Layer */}
+        <div className="cinematic-hero-particles"></div>
         <AtmosphereEngine />
 
-        {/* Ambient Holographic Glow Aura */}
-        <div style={{
-          position: "absolute",
-          top: "-20%",
-          right: "5%",
-          width: "600px",
-          height: "600px",
-          borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(0, 201, 216, 0.22) 0%, rgba(22, 119, 255, 0.1) 45%, transparent 70%)",
-          filter: "blur(60px)",
-          pointerEvents: "none",
-          zIndex: 1
-        }}></div>
+        {/* Natural Corner Foliage Accents */}
+        <img src="/assets/pokefun/leaf-corner.svg" alt="" className="cinematic-leaf leaf-top-left" />
+        <img src="/assets/pokefun/leaf-corner.svg" alt="" className="cinematic-leaf leaf-bottom-left" />
+        <img src="/assets/pokefun/leaf-corner.svg" alt="" className="cinematic-leaf leaf-bottom-right" />
 
-        {/* Bulletproof Responsive Split Grid (Desktop 2-Col / Mobile 1-Col Stack) */}
-        <div className="hero-split-grid">
+        {/* Two-Column Responsive Hero Container */}
+        <div className="cinematic-hero-container">
           
-          {/* Left Column: Brand, Headline, CTAs */}
-          <div className="hero-text-column">
+          {/* Left Column: Brand & Server Gateway */}
+          <div className="cinematic-hero-left">
             
-            {/* Live Edition Pill Badge */}
-            <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "8px" }}>
-              <div style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "9px",
-                padding: "8px 18px",
-                borderRadius: "50px",
-                background: "#FFFFFF",
-                border: "1.5px solid rgba(0, 201, 216, 0.4)",
-                boxShadow: "0 4px 18px rgba(0, 201, 216, 0.12)"
-              }}>
-                <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#10b981", boxShadow: "0 0 10px #10b981" }}></span>
-                <span style={{ fontSize: "0.78rem", fontWeight: 800, letterSpacing: "1px", color: "#0B1524" }}>COBBLEMON 1.21.1</span>
-                <span style={{ color: "#00C9D8" }}>•</span>
-                <span style={{ fontSize: "0.78rem", fontWeight: 800, color: "#1677FF" }}>MINECRAFT JAVA EDITION</span>
-              </div>
+            {/* Top Live Edition Pill Badge */}
+            <div className="cinematic-edition-pill">
+              <span className="pill-diamond">❖</span>
+              <span className="pill-smp">COBBLEMON SMP 1.21.1</span>
+              <span className="pill-dot">•</span>
+              <span className="pill-platform">JAVA &amp; BEDROCK</span>
             </div>
 
-            {/* Hero Titles */}
-            <h1 style={{
-              fontFamily: "'Righteous', cursive, sans-serif",
-              fontSize: "clamp(1.85rem, 5.5vw, 3.4rem)",
-              fontWeight: 900,
-              letterSpacing: "0.5px",
-              color: "#0B1524",
-              lineHeight: 1.15,
-              margin: 0
-            }}>
-              The Ultimate Cobblemon <br />
-              <span style={{
-                background: "linear-gradient(135deg, #1677FF 0%, #00C9D8 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent"
-              }}>
-                Server &amp; Community
-              </span>
+            {/* Main Cinematic Heading */}
+            <h1 className="cinematic-title">
+              Your Adventure<br />
+              <span className="cinematic-title-gradient">Begins Here.</span>
             </h1>
 
-            <p style={{
-              fontSize: "clamp(0.98rem, 1.8vw, 1.12rem)",
-              color: "#3D567A",
-              maxWidth: "540px",
-              margin: 0,
-              lineHeight: 1.6
-            }}>
-              Catch, battle, fuse, and conquer. Immerse yourself in a living Pokémon world with custom wild raids, DNA fusions, 18 gyms, and an active player-driven economy.
+            {/* Supporting Subtitle */}
+            <h2 className="cinematic-subtitle">
+              Catch, Battle, Fuse &amp; Conquer.
+            </h2>
+
+            {/* Description */}
+            <p className="cinematic-description">
+              A custom Minecraft Cobblemon SMP with unique Pokémon, DNA Fusions, Boss Raids, Custom Gyms, and a vibrant player-driven economy.
             </p>
 
             {/* =================================================================
-                THE APEX SERVER GATEWAY (SHOWSTOPPER TERMINAL)
+                MINECRAFT SERVER GATEWAY (MATCHING REFERENCE B EXACTLY)
                 ================================================================= */}
-            <div className="apex-gateway-card">
-              {/* Terminal Header */}
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "8px" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "7px" }}>
-                  <i className="fa-solid fa-server" style={{ color: "#1677FF", fontSize: "0.85rem" }}></i>
-                  <span style={{ fontSize: "0.75rem", fontWeight: 800, letterSpacing: "0.8px", color: "#3D567A" }}>
-                    MINECRAFT SERVER GATEWAY
-                  </span>
+            <div className="cinematic-gateway-card">
+              {/* Gateway Header */}
+              <div className="cinematic-gateway-header">
+                <div className="gateway-header-label">
+                  <i className="fa-solid fa-server" style={{ color: "#1677FF" }}></i>
+                  <span>MINECRAFT SERVER GATEWAY</span>
                 </div>
-                <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                  <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#10b981", boxShadow: "0 0 10px #10b981" }}></span>
-                  <span style={{ fontSize: "0.74rem", fontWeight: 800, color: "#10b981" }}>
-                    ONLINE • {playerCount !== null && playerCount > 0 ? playerCount : "36"} TRAINERS
-                  </span>
+                <div className="gateway-live-badge">
+                  <span className="gateway-live-dot"></span>
+                  <span>ONLINE • {playerCount !== null && playerCount > 0 ? playerCount : "37"} TRAINERS</span>
                 </div>
               </div>
 
-              {/* Terminal IP Chamber & 1-Click Copy Trigger */}
-              <div className="apex-gateway-ip-row">
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  <span style={{ fontSize: "0.68rem", fontWeight: 700, color: "#64748B", textTransform: "uppercase", letterSpacing: "0.5px" }}>
-                    Server IP Address
-                  </span>
-                  <span style={{
-                    fontFamily: "monospace",
-                    fontSize: "1.18rem",
-                    fontWeight: 900,
-                    color: "#0B1524",
-                    letterSpacing: "0.5px"
-                  }}>
-                    play.pokefun.in
-                  </span>
+              {/* Gateway Main Row: IP Address Subcard + Primary Action Button */}
+              <div className="cinematic-gateway-main-row">
+                <div className="gateway-ip-subcard">
+                  <div className="gateway-ip-subcard-text">
+                    <span className="gateway-ip-subcard-label">Server IP Address</span>
+                    <span className="gateway-ip-subcard-ip">play.pokefun.in</span>
+                  </div>
+                  <button 
+                    onClick={handleCopyIP} 
+                    className="gateway-copy-icon-btn"
+                    title="Copy Server IP Address"
+                    aria-label="Copy Server IP Address"
+                  >
+                    <i className={`fa-solid ${copied ? 'fa-check' : 'fa-copy'}`}></i>
+                  </button>
                 </div>
 
-                {/* 1-Click Copy Button with Magnetic Tactility */}
                 <MagneticButton strength={0.22}>
                   <button
                     onClick={handleCopyIP}
-                    className="interactive-hero-btn scifi-sheen-btn cta-btn-play apex-gateway-copy-btn"
-                    style={{
-                      padding: "11px 22px",
-                      borderRadius: "12px",
-                      fontWeight: 900,
-                      border: "none",
-                      cursor: "pointer",
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "10px",
-                      background: copied ? "#10b981" : "linear-gradient(135deg, #1677FF 0%, #00C9D8 100%)",
-                      color: "#FFFFFF",
-                      boxShadow: copied ? "0 4px 20px rgba(16, 185, 129, 0.45)" : "0 4px 20px rgba(0, 201, 216, 0.45)",
-                      fontSize: "0.88rem",
-                      letterSpacing: "0.5px"
-                    }}
-                    title="Click to copy server IP to clipboard"
+                    className="cinematic-primary-cta"
+                    title="Click to copy server IP and join"
                   >
-                    <i className={`fa-solid ${copied ? 'fa-check' : 'fa-copy'}`} style={{ fontSize: "1.1rem" }}></i>
-                    <span>{copied ? 'IP COPIED! ⚡' : 'CLICK TO COPY'}</span>
+                    <span>{copied ? 'IP COPIED! ⚡' : 'COPY IP & JOIN'}</span>
+                    <i className="fa-solid fa-arrow-right"></i>
                   </button>
                 </MagneticButton>
               </div>
 
-              {/* Terminal Details Footer */}
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", fontSize: "0.72rem", color: "#64748B", fontWeight: 600, flexWrap: "wrap", gap: "6px" }}>
-                <span>⚡ Java Edition 1.21.1 • Port: 25565 (Default)</span>
-                <span style={{ color: "#1677FF", fontWeight: 700 }}>Direct Connect Supported</span>
+              {/* Gateway Footer Details */}
+              <div className="cinematic-gateway-footer">
+                <div className="gateway-footer-item">
+                  <i className="fa-solid fa-bolt" style={{ color: "#F59E0B" }}></i>
+                  <span>Java Edition 1.21.1 • Port: 25565</span>
+                </div>
+                <div className="gateway-footer-item">
+                  <i className="fa-solid fa-laptop" style={{ color: "#1677FF" }}></i>
+                  <span>Bedrock Connect Supported</span>
+                </div>
               </div>
             </div>
 
             {/* =================================================================
-                SATELLITE COMPANION HUBS (DISCORD, STORE, OWNER)
+                SECONDARY QUICK ACTION BUTTONS (DISCORD, STORE, WIKI)
                 ================================================================= */}
-            <div className="hero-satellite-grid">
+            <div className="cinematic-secondary-row">
               {/* Discord */}
               <a 
                 href="https://discord.gg/NtE8QBkmwR" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="interactive-hero-btn scifi-sheen-btn cta-btn-discord hero-satellite-btn"
-                style={{
-                  padding: "10px 14px",
-                  borderRadius: "14px",
-                  background: "#5865F2",
-                  color: "#FFFFFF",
-                  textDecoration: "none",
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "10px",
-                  boxShadow: "0 4px 18px rgba(88, 101, 242, 0.25)"
-                }}
+                className="cinematic-secondary-btn btn-discord"
               >
-                <i className="fa-brands fa-discord" style={{ fontSize: "1.25rem" }}></i>
-                <div style={{ display: "flex", flexDirection: "column", textAlign: "left", lineHeight: "1.15" }}>
-                  <span style={{ fontSize: "0.85rem", fontWeight: 900, letterSpacing: "0.5px" }}>DISCORD</span>
-                  <span style={{ fontSize: "0.68rem", fontWeight: 700, opacity: 0.9, display: "flex", alignItems: "center", gap: "3px" }}>
-                    Join 10K+ <i className="fa-solid fa-arrow-up-right-from-square" style={{ fontSize: "0.56rem" }}></i>
-                  </span>
+                <div className="btn-icon-wrap">
+                  <i className="fa-brands fa-discord"></i>
+                </div>
+                <div className="btn-text-wrap">
+                  <span className="btn-main-title">Discord</span>
+                  <span className="btn-sub-title">Join 10K+ Trainers ↗</span>
                 </div>
               </a>
 
@@ -289,114 +241,101 @@ export default function HomePage() {
                 href="https://store.pokefun.in" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="interactive-hero-btn scifi-sheen-btn cta-btn-store hero-satellite-btn"
-                style={{
-                  padding: "10px 14px",
-                  borderRadius: "14px",
-                  background: "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)",
-                  color: "#FFFFFF",
-                  textDecoration: "none",
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "10px",
-                  boxShadow: "0 4px 18px rgba(245, 158, 11, 0.25)"
-                }}
+                className="cinematic-secondary-btn btn-store"
               >
-                <i className="fa-solid fa-cart-shopping" style={{ fontSize: "1.15rem" }}></i>
-                <div style={{ display: "flex", flexDirection: "column", textAlign: "left", lineHeight: "1.15" }}>
-                  <span style={{ fontSize: "0.85rem", fontWeight: 900, letterSpacing: "0.5px" }}>STORE</span>
-                  <span style={{ fontSize: "0.68rem", fontWeight: 700, opacity: 0.9, display: "flex", alignItems: "center", gap: "3px" }}>
-                    Ranks &amp; Items <i className="fa-solid fa-arrow-up-right-from-square" style={{ fontSize: "0.56rem" }}></i>
-                  </span>
+                <div className="btn-icon-wrap">
+                  <i className="fa-solid fa-cart-shopping"></i>
+                </div>
+                <div className="btn-text-wrap">
+                  <span className="btn-main-title">Store</span>
+                  <span className="btn-sub-title">Ranks, Kits &amp; More ↗</span>
                 </div>
               </a>
 
-              {/* Owner Profile */}
+              {/* Wiki */}
               <a 
-                href="https://shifan.pokefun.in/" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="interactive-hero-btn scifi-sheen-btn cta-btn-owner hero-satellite-btn"
-                style={{
-                  padding: "10px 14px",
-                  borderRadius: "14px",
-                  background: "linear-gradient(135deg, #38BDF8 0%, #0284C7 100%)",
-                  color: "#FFFFFF",
-                  textDecoration: "none",
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "10px",
-                  boxShadow: "0 4px 18px rgba(14, 165, 233, 0.35)"
-                }}
-                title="Server Founder & Developer: Shifan"
+                href="/wiki" 
+                className="cinematic-secondary-btn btn-wiki"
               >
-                <i className="fa-solid fa-crown" style={{ fontSize: "1.15rem" }}></i>
-                <div style={{ display: "flex", flexDirection: "column", textAlign: "left", lineHeight: "1.15" }}>
-                  <span style={{ fontSize: "0.85rem", fontWeight: 900, letterSpacing: "0.5px" }}>OWNER</span>
-                  <span style={{ fontSize: "0.68rem", fontWeight: 700, opacity: 0.9, display: "flex", alignItems: "center", gap: "3px" }}>
-                    Profile <i className="fa-solid fa-arrow-up-right-from-square" style={{ fontSize: "0.56rem" }}></i>
-                  </span>
+                <div className="btn-icon-wrap">
+                  <i className="fa-solid fa-book-open"></i>
+                </div>
+                <div className="btn-text-wrap">
+                  <span className="btn-main-title">Wiki</span>
+                  <span className="btn-sub-title">Guides &amp; Info ↗</span>
                 </div>
               </a>
             </div>
 
-            {/* Quick feature highlights */}
-            <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginTop: "4px", alignItems: "center" }}>
-              <span style={{ fontSize: "0.74rem", fontWeight: 700, padding: "5px 12px", borderRadius: "10px", background: "rgba(22, 119, 255, 0.08)", color: "#1677FF", border: "1px solid rgba(22, 119, 255, 0.2)" }}>
-                ⚡ Custom DNA Fusions
-              </span>
-              <span style={{ fontSize: "0.74rem", fontWeight: 700, padding: "5px 12px", borderRadius: "10px", background: "rgba(0, 201, 216, 0.08)", color: "#00C9D8", border: "1px solid rgba(0, 201, 216, 0.25)" }}>
-                ⚔️ Wild Bosses &amp; Raids
-              </span>
-              <span style={{ fontSize: "0.74rem", fontWeight: 700, padding: "5px 12px", borderRadius: "10px", background: "rgba(245, 158, 11, 0.08)", color: "#d97706", border: "1px solid rgba(245, 158, 11, 0.2)" }}>
-                🏆 Gyms &amp; Tournaments
-              </span>
-              <span style={{ fontSize: "0.74rem", fontWeight: 700, padding: "5px 12px", borderRadius: "10px", background: "rgba(16, 185, 129, 0.08)", color: "#059669", border: "1px solid rgba(16, 185, 129, 0.2)" }}>
-                💼 Player Economy
-              </span>
-            </div>
           </div>
 
-          {/* 3D Holographic Showcase Pod (Stacked on Mobile) */}
-          <div className="hero-pod-wrapper">
-            
-            {/* Hologram Stage Pedestal Rings (Sci-Fi Base) */}
-            <div style={{
-              position: "absolute",
-              bottom: "25px",
-              left: "50%",
-              transform: "translateX(-50%) rotateX(68deg)",
-              width: "360px",
-              height: "360px",
-              borderRadius: "50%",
-              border: "2px solid rgba(0, 201, 216, 0.6)",
-              boxShadow: "0 0 35px rgba(0, 201, 216, 0.4), inset 0 0 35px rgba(22, 119, 255, 0.3)",
-              pointerEvents: "none",
-              zIndex: 1
-            }}></div>
-            <div style={{
-              position: "absolute",
-              bottom: "45px",
-              left: "50%",
-              transform: "translateX(-50%) rotateX(68deg)",
-              width: "260px",
-              height: "260px",
-              borderRadius: "50%",
-              border: "1.5px dashed rgba(22, 119, 255, 0.5)",
-              pointerEvents: "none",
-              zIndex: 1
-            }}></div>
-
-            {/* 3D Model with dynamic controls, switcher, and dynamic name tag */}
-            <div style={{ width: "100%", height: "100%", position: "relative", zIndex: 5 }}>
-              <DynamicHero3D />
-            </div>
-
+          {/* Right Column: Living Pokémon Showcase on Holographic Pedestal */}
+          <div className="cinematic-hero-right">
+            <DynamicHero3D />
           </div>
 
         </div>
 
       </section>
+
+      {/* =================================================================
+          HERO BOTTOM WAVE TRANSITION & 5-ITEM FEATURE STRIP (MATCHING REFERENCE B)
+          ================================================================= */}
+      <div className="cinematic-wave-wrapper">
+        <img src="/assets/pokefun/wave-divider-bottom.svg" alt="" className="cinematic-wave-svg" />
+      </div>
+
+      <div className="cinematic-feature-strip">
+        <div className="cinematic-feature-card">
+          <div className="feature-icon-badge">
+            <i className="fa-solid fa-cubes-stacked"></i>
+          </div>
+          <div className="feature-text-group">
+            <span className="feature-main-text">Custom Pokémon &amp; DNA Fusions</span>
+            <span className="feature-sub-text">Exclusive Cobblemon Genes</span>
+          </div>
+        </div>
+
+        <div className="cinematic-feature-card">
+          <div className="feature-icon-badge">
+            <i className="fa-solid fa-shield-halved"></i>
+          </div>
+          <div className="feature-text-group">
+            <span className="feature-main-text">Epic Boss Raids &amp; Events</span>
+            <span className="feature-sub-text">Server-Wide Boss Hunts</span>
+          </div>
+        </div>
+
+        <div className="cinematic-feature-card">
+          <div className="feature-icon-badge">
+            <i className="fa-solid fa-circle-dot"></i>
+          </div>
+          <div className="feature-text-group">
+            <span className="feature-main-text">Custom Gyms &amp; Regions</span>
+            <span className="feature-sub-text">18 Competitive Gym Badges</span>
+          </div>
+        </div>
+
+        <div className="cinematic-feature-card">
+          <div className="feature-icon-badge">
+            <i className="fa-solid fa-users"></i>
+          </div>
+          <div className="feature-text-group">
+            <span className="feature-main-text">Active Community</span>
+            <span className="feature-sub-text">10,000+ Active Trainers</span>
+          </div>
+        </div>
+
+        <div className="cinematic-feature-card">
+          <div className="feature-icon-badge">
+            <i className="fa-solid fa-gem"></i>
+          </div>
+          <div className="feature-text-group">
+            <span className="feature-main-text">Player Economy &amp; Trading</span>
+            <span className="feature-sub-text">Player Markets &amp; Auctions</span>
+          </div>
+        </div>
+      </div>
 
       {/* =================================================================
           COMMUNITY HUB PROMO BANNER (WHITE & ELECTRIC AQUA)

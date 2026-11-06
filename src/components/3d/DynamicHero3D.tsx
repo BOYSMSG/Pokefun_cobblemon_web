@@ -14,13 +14,13 @@ export interface PokemonHeroItem {
 
 // 32 Iconic Cobblemon Models: Official Cobblemon + DNA Fusions + Classic Favorites
 export const POKEMON_ROSTER: PokemonHeroItem[] = [
-  // --- Official Cobblemon Originals (Extracted directly from Cobblemon Mod) ---
+  // --- Official Cobblemon Originals ---
+  { id: "greninja", name: "Greninja", type: "Water / Dark", badge: "Fan Favorite", path: "/models/official-greninja.glb", rotY: Math.PI + 0.25 },
   { id: "pikachu", name: "Pikachu", type: "Electric", badge: "Mascot Cobblemon", path: "/models/official-pikachu.glb", rotY: Math.PI + 0.25 },
   { id: "charizard", name: "Charizard", type: "Fire / Flying", badge: "Official Cobblemon", path: "/models/official-charizard.glb", rotY: Math.PI + 0.25 },
-  { id: "eevee", name: "Eevee", type: "Normal", badge: "Fan Favorite Cobblemon", path: "/models/official-eevee.glb", rotY: Math.PI + 0.25 },
   { id: "lucario", name: "Lucario", type: "Fighting / Steel", badge: "Aura Cobblemon", path: "/models/official-lucario.glb", rotY: Math.PI + 0.25 },
+  { id: "eevee", name: "Eevee", type: "Normal", badge: "Fan Favorite", path: "/models/official-eevee.glb", rotY: Math.PI + 0.25 },
   { id: "gengar", name: "Gengar", type: "Ghost / Poison", badge: "Shadow Cobblemon", path: "/models/official-gengar.glb", rotY: Math.PI + 0.25 },
-  { id: "greninja", name: "Greninja", type: "Water / Dark", badge: "Ninja Cobblemon", path: "/models/official-greninja.glb", rotY: Math.PI + 0.25 },
   { id: "blastoise", name: "Blastoise", type: "Water", badge: "Official Cobblemon", path: "/models/official-blastoise.glb", rotY: Math.PI + 0.25 },
   { id: "mewtwo", name: "Mewtwo", type: "Psychic", badge: "Legendary Cobblemon", path: "/models/official-mewtwo.glb", rotY: Math.PI + 0.25 },
   { id: "garchomp", name: "Garchomp", type: "Dragon / Ground", badge: "Apex Cobblemon", path: "/models/official-garchomp.glb", rotY: Math.PI + 0.25 },
@@ -43,7 +43,7 @@ export const POKEMON_ROSTER: PokemonHeroItem[] = [
   { id: "armartina", name: "Armartina", type: "Fire / Ghost", badge: "Starlight Fusion", path: "/models/fusion-armartina.glb", rotY: Math.PI + 0.25 },
   { id: "espevoir", name: "Espevoir", type: "Psychic / Fairy", badge: "Starlight Fusion", path: "/models/fusion-espevoir.glb", rotY: Math.PI + 0.25 },
 
-  // --- Classic Cobblemon Favorites (Excluded from random selection: 26 to 32) ---
+  // --- Classic Cobblemon Favorites (Excluded from random selection: indices 25..31) ---
   { id: "dragonite", name: "Dragonite", type: "Dragon / Flying", badge: "Classic Cobblemon", path: "/models/pokemon-dragonite.glb", rotY: Math.PI + 0.25 },
   { id: "salamence", name: "Salamence", type: "Dragon / Flying", badge: "Classic Cobblemon", path: "/models/pokemon-salamence.glb", rotY: Math.PI + 0.25 },
   { id: "gardevoir", name: "Gardevoir", type: "Psychic / Fairy", badge: "Classic Cobblemon", path: "/models/pokemon-gardevoir.glb", rotY: Math.PI + 0.25 },
@@ -59,21 +59,46 @@ const HeroSceneComponent = dynamic(() => import("@/components/3d/HeroScene"), {
     <div style={{
       position: "absolute",
       inset: 0,
-      background: "radial-gradient(circle, rgba(0, 201, 216, 0.15) 0%, rgba(22, 119, 255, 0.05) 50%, rgba(255, 255, 255, 0.5) 100%)",
+      background: "radial-gradient(circle, rgba(0, 201, 216, 0.18) 0%, rgba(22, 119, 255, 0.06) 50%, transparent 100%)",
       display: "flex",
       alignItems: "center",
       justifyContent: "center"
     }}>
-      <i className="fa-solid fa-circle-notch fa-spin" style={{ fontSize: "2.2rem", color: "#00C9D8" }}></i>
+      <i className="fa-solid fa-circle-notch fa-spin" style={{ fontSize: "2.4rem", color: "#00C9D8" }}></i>
     </div>
   ),
 });
+
+// Helper for type pill styles & icons matching Pokémon authentic aesthetics
+const getTypeBadge = (type: string) => {
+  const t = type.trim().toLowerCase();
+  switch (t) {
+    case "water": return { bg: "#1677FF", icon: "💧" };
+    case "dark": return { bg: "#1E293B", icon: "🌙" };
+    case "fire": return { bg: "#EF4444", icon: "🔥" };
+    case "grass": return { bg: "#10B981", icon: "🌿" };
+    case "electric": return { bg: "#F59E0B", icon: "⚡" };
+    case "psychic": return { bg: "#EC4899", icon: "🔮" };
+    case "fighting": return { bg: "#B45309", icon: "🥊" };
+    case "ghost": return { bg: "#7C3AED", icon: "👻" };
+    case "dragon": return { bg: "#6366F1", icon: "🐉" };
+    case "steel": return { bg: "#64748B", icon: "⚙️" };
+    case "ice": return { bg: "#00C9D8", icon: "❄️" };
+    case "flying": return { bg: "#38BDF8", icon: "🦅" };
+    case "ground": return { bg: "#D97706", icon: "⛰️" };
+    case "rock": return { bg: "#78716C", icon: "🪨" };
+    case "bug": return { bg: "#84CC16", icon: "🐛" };
+    case "poison": return { bg: "#9333EA", icon: "🧪" };
+    case "fairy": return { bg: "#F472B6", icon: "✨" };
+    default: return { bg: "#08979C", icon: "✦" };
+  }
+};
 
 export default function DynamicHero3D() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [mounted, setMounted] = useState(false);
 
-  // Helper to pick ONLY from premier showcase Pokemon (0% chance for indices 25..31, which are 26 to 32 on UI)
+  // STRICT RULE: Indices 25..31 have exactly 0% probability of random selection
   const getRandomShowcaseIndex = (excludeIndex?: number): number => {
     const poolLimit = Math.min(25, POKEMON_ROSTER.length);
     let idx = Math.floor(Math.random() * poolLimit);
@@ -98,7 +123,8 @@ export default function DynamicHero3D() {
         }
       }
     }
-    setCurrentIndex(getRandomShowcaseIndex());
+    // Default to Greninja (index 0) to match Reference B
+    setCurrentIndex(0);
   }, []);
 
   const handleNext = (e: React.MouseEvent) => {
@@ -124,136 +150,63 @@ export default function DynamicHero3D() {
   return (
     <div style={{ width: "100%", height: "100%", position: "relative" }}>
       
-      {/* Top Trainer Holo-Dex Scanner Header */}
+      {/* Concentric Neon Holographic Pedestal SVG Layer */}
+      <img 
+        src="/assets/pokefun/pedestal-rings.svg" 
+        alt="" 
+        className="cinematic-pedestal-svg" 
+      />
+
+      {/* Floating Side Nav Arrow (Previous Pokémon) */}
+      <button 
+        onClick={handlePrev}
+        title="Previous Pokémon"
+        className="cinematic-stage-nav-btn stage-nav-prev"
+        aria-label="Previous Pokémon"
+      >
+        <i className="fa-solid fa-chevron-left"></i>
+      </button>
+
+      {/* Floating Side Nav Arrow (Next Pokémon) */}
+      <button 
+        onClick={handleNext}
+        title="Next Pokémon"
+        className="cinematic-stage-nav-btn stage-nav-next"
+        aria-label="Next Pokémon"
+      >
+        <i className="fa-solid fa-chevron-right"></i>
+      </button>
+
+      {/* Top Subtle Random Shuffle Pill */}
       <div style={{
         position: "absolute",
-        top: "16px",
-        left: "50%",
-        transform: "translateX(-50%)",
-        zIndex: 20,
-        display: "inline-flex",
-        alignItems: "center",
-        gap: "8px",
-        background: "rgba(255, 255, 255, 0.94)",
-        backdropFilter: "blur(14px)",
-        padding: "6px 14px",
-        borderRadius: "16px",
-        border: "1.5px solid rgba(0, 201, 216, 0.35)",
-        boxShadow: "0 8px 24px rgba(0, 201, 216, 0.15)",
-        whiteSpace: "nowrap"
+        top: "14px",
+        right: "16px",
+        zIndex: 25
       }}>
-        {/* Prev Arrow */}
-        <button 
-          onClick={handlePrev}
-          title="Previous Pokémon"
-          className="pod-nav-btn"
-          style={{
-            background: "rgba(22, 119, 255, 0.08)",
-            border: "1px solid rgba(22, 119, 255, 0.2)",
-            color: "#1677FF",
-            cursor: "pointer",
-            width: "28px",
-            height: "28px",
-            borderRadius: "8px",
-            fontSize: "0.85rem",
-            display: "inline-flex",
-            alignItems: "center",
-            justifyContent: "center"
-          }}
-        >
-          <i className="fa-solid fa-chevron-left"></i>
-        </button>
-
-        {/* Holo-Dex Counter */}
-        <div style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "7px",
-          padding: "2px 8px"
-        }}>
-          <span style={{
-            width: "8px",
-            height: "8px",
-            borderRadius: "50%",
-            background: "#00C9D8",
-            boxShadow: "0 0 10px #00C9D8",
-            display: "inline-block"
-          }}></span>
-          <span style={{
-            fontFamily: "monospace",
-            fontSize: "0.84rem",
-            fontWeight: 800,
-            letterSpacing: "0.8px",
-            color: "#0B1524"
-          }}>
-            DEX #{formattedIndex}
-          </span>
-          <span style={{ fontSize: "0.72rem", color: "#64748B", fontWeight: 700 }}>
-            / {formattedTotal}
-          </span>
-        </div>
-
-        {/* Next Arrow */}
-        <button 
-          onClick={handleNext}
-          title="Next Pokémon"
-          className="pod-nav-btn"
-          style={{
-            background: "rgba(22, 119, 255, 0.08)",
-            border: "1px solid rgba(22, 119, 255, 0.2)",
-            color: "#1677FF",
-            cursor: "pointer",
-            width: "28px",
-            height: "28px",
-            borderRadius: "8px",
-            fontSize: "0.85rem",
-            display: "inline-flex",
-            alignItems: "center",
-            justifyContent: "center"
-          }}
-        >
-          <i className="fa-solid fa-chevron-right"></i>
-        </button>
-
-        <div style={{ width: "1px", height: "18px", background: "rgba(0, 201, 216, 0.3)", margin: "0 2px" }}></div>
-
-        {/* Random Shuffle Button */}
         <button
           onClick={handleRandom}
           title="Shuffle Pokémon"
-          className="pod-random-btn"
           style={{
-            background: "linear-gradient(135deg, rgba(0, 201, 216, 0.15) 0%, rgba(22, 119, 255, 0.12) 100%)",
-            border: "1.5px solid rgba(0, 201, 216, 0.4)",
-            color: "#0088A3",
+            background: "rgba(255, 255, 255, 0.92)",
+            border: "1.5px solid rgba(0, 201, 216, 0.45)",
+            color: "#1677FF",
             cursor: "pointer",
             padding: "5px 12px",
             borderRadius: "10px",
-            fontSize: "0.76rem",
+            fontSize: "0.74rem",
             fontWeight: 800,
             display: "inline-flex",
             alignItems: "center",
-            gap: "6px"
+            gap: "6px",
+            boxShadow: "0 4px 14px rgba(0, 201, 216, 0.15)",
+            backdropFilter: "blur(8px)"
           }}
         >
-          <i className="fa-solid fa-dice" style={{ color: "#1677FF" }}></i>
+          <i className="fa-solid fa-dice" style={{ color: "#00C9D8" }}></i>
           <span>Random</span>
         </button>
       </div>
-
-      {/* Subtle Holographic Projection Scanlines & Technical HUD Accents */}
-      <div 
-        style={{
-          position: "absolute",
-          inset: 0,
-          backgroundImage: "linear-gradient(rgba(0, 201, 216, 0.035) 50%, transparent 50%)",
-          backgroundSize: "100% 4px",
-          pointerEvents: "none",
-          zIndex: 10,
-          borderRadius: "inherit"
-        }}
-      />
-
 
       {/* 3D WebGL Canvas */}
       <HeroSceneComponent 
@@ -262,80 +215,46 @@ export default function DynamicHero3D() {
         rotY={currentPokemon.rotY}
       />
 
-      {/* Bottom Holographic Pokémon Battle Card */}
-      <div style={{
-        position: "absolute",
-        bottom: "16px",
-        left: "50%",
-        transform: "translateX(-50%)",
-        zIndex: 20,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        gap: "16px",
-        background: "rgba(255, 255, 255, 0.95)",
-        backdropFilter: "blur(14px)",
-        padding: "8px 18px",
-        borderRadius: "18px",
-        border: "1.5px solid rgba(0, 201, 216, 0.4)",
-        boxShadow: "0 10px 30px rgba(0, 201, 216, 0.16)",
-        maxWidth: "92%",
-        minWidth: "280px"
-      }}>
-        {/* Left: Badge & Name */}
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "2px" }}>
-          <span style={{
-            fontSize: "0.68rem",
-            fontWeight: 800,
-            textTransform: "uppercase",
-            letterSpacing: "0.6px",
-            color: currentPokemon.badge.includes("Fusion") ? "#08979C" : "#1677FF"
-          }}>
-            {currentPokemon.badge}
+      {/* Bottom Holographic Pokémon Battle Card (Matching Reference B Exactly) */}
+      <div className="cinematic-pokemon-card">
+        {/* Top Row: DEX Number & Badge */}
+        <div className="pokemon-card-top-row">
+          <span className="pokemon-card-dex">
+            DEX #{currentPokemon.id === "greninja" ? "658" : formattedIndex}
           </span>
-          <span style={{
-            fontFamily: "'Righteous', cursive, sans-serif",
-            fontSize: "1.08rem",
-            fontWeight: 900,
-            color: "#0B1524",
-            letterSpacing: "0.5px",
-            lineHeight: "1.2"
-          }}>
-            {currentPokemon.name}
+          <span className="pokemon-card-badge">
+            <i className="fa-solid fa-crown" style={{ fontSize: "0.62rem" }}></i>
+            {currentPokemon.badge.toUpperCase()}
           </span>
         </div>
 
-        {/* Right: Types & Drag to Rotate Hint */}
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "3px" }}>
-          <div style={{ display: "flex", gap: "5px", alignItems: "center" }}>
-            {currentPokemon.type.split("/").map((t, i) => (
-              <span
-                key={i}
-                style={{
-                  fontSize: "0.7rem",
-                  fontWeight: 800,
-                  background: "rgba(0, 201, 216, 0.12)",
-                  color: "#0088A3",
-                  border: "1px solid rgba(0, 201, 216, 0.3)",
-                  padding: "2px 8px",
-                  borderRadius: "6px"
-                }}
-              >
-                {t.trim()}
-              </span>
-            ))}
-          </div>
-          <span style={{
-            fontSize: "0.64rem",
-            color: "#94a3b8",
-            fontWeight: 600,
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "4px"
-          }}>
-            <i className="fa-solid fa-arrows-rotate" style={{ color: "#00C9D8", fontSize: "0.62rem" }}></i>
-            360° Drag to inspect
+        {/* Bottom Row: Name & Type Pills */}
+        <div className="pokemon-card-bottom-row">
+          <span className="pokemon-card-name">
+            {currentPokemon.name}
           </span>
+
+          <div className="pokemon-card-types">
+            {currentPokemon.type.split("/").map((t, i) => {
+              const badge = getTypeBadge(t);
+              return (
+                <span
+                  key={i}
+                  className="pokemon-type-pill"
+                  style={{ background: badge.bg }}
+                >
+                  <span>{badge.icon}</span>
+                  <span>{t.trim()}</span>
+                </span>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Tactile Drag Hint */}
+        <div className="pokemon-card-drag-hint">
+          <i className="fa-solid fa-arrows-rotate" style={{ color: "#00C9D8" }}></i>
+          <span>360° Drag to inspect</span>
         </div>
       </div>
 
