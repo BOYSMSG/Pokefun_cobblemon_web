@@ -97,6 +97,7 @@ const getTypeBadge = (type: string) => {
 export default function DynamicHero3D() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [mounted, setMounted] = useState(false);
+  const [arrowDirection, setArrowDirection] = useState<number>(0);
 
   // STRICT RULE: Indices 25..31 have exactly 0% probability of random selection
   const getRandomShowcaseIndex = (excludeIndex?: number): number => {
@@ -157,9 +158,11 @@ export default function DynamicHero3D() {
         className="cinematic-pedestal-svg" 
       />
 
-      {/* Floating Side Nav Arrow (Previous Pokémon) */}
+      {/* Floating Side Nav Arrow (Previous Pokémon) - triggers model look-at */}
       <button 
         onClick={handlePrev}
+        onMouseEnter={() => setArrowDirection(-1)}
+        onMouseLeave={() => setArrowDirection(0)}
         title="Previous Pokémon"
         className="cinematic-stage-nav-btn stage-nav-prev"
         aria-label="Previous Pokémon"
@@ -167,9 +170,11 @@ export default function DynamicHero3D() {
         <i className="fa-solid fa-chevron-left"></i>
       </button>
 
-      {/* Floating Side Nav Arrow (Next Pokémon) */}
+      {/* Floating Side Nav Arrow (Next Pokémon) - triggers model look-at */}
       <button 
         onClick={handleNext}
+        onMouseEnter={() => setArrowDirection(1)}
+        onMouseLeave={() => setArrowDirection(0)}
         title="Next Pokémon"
         className="cinematic-stage-nav-btn stage-nav-next"
         aria-label="Next Pokémon"
@@ -213,6 +218,7 @@ export default function DynamicHero3D() {
         key={currentPokemon.path}
         modelPath={currentPokemon.path}
         rotY={currentPokemon.rotY}
+        arrowDirection={arrowDirection}
       />
 
       {/* Bottom Holographic Pokémon Battle Card (Matching Reference B Exactly) */}

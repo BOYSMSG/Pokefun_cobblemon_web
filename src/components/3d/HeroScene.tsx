@@ -7,15 +7,22 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 interface HeroSceneProps {
   modelPath?: string;
   rotY?: number;
+  arrowDirection?: number;
 }
 
 export default function HeroScene({ 
   modelPath = "/models/fusion-venustoise.glb",
-  rotY = Math.PI + 0.25 // ~3.39 rad: faces camera (+Z) with heroic 3/4 angle
+  rotY = Math.PI + 0.25, // ~3.39 rad: faces camera (+Z) with heroic 3/4 angle
+  arrowDirection = 0
 }: HeroSceneProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [webGLSupported, setWebGLSupported] = useState(true);
   const [isLoaded, setIsLoaded] = useState(false);
+  const arrowDirectionRef = useRef(arrowDirection);
+
+  useEffect(() => {
+    arrowDirectionRef.current = arrowDirection;
+  }, [arrowDirection]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -81,25 +88,26 @@ export default function HeroScene({
 
 // Seamless world floor (no opaque cylinder disc)
 
-    // Ground Contact Shadow Disc (Makes Pokémon feel grounded on stage)
-    const shadowGeo = new THREE.PlaneGeometry(3.2, 3.2);
+    // Glowing Cyan Radial Floor Disc (Illuminates ground beneath Pokemon)
+    const shadowGeo = new THREE.PlaneGeometry(4.2, 4.2);
     const shadowCanvas = document.createElement("canvas");
-    shadowCanvas.width = 128;
-    shadowCanvas.height = 128;
+    shadowCanvas.width = 256;
+    shadowCanvas.height = 256;
     const sCtx = shadowCanvas.getContext("2d");
     if (sCtx) {
-      const grad = sCtx.createRadialGradient(64, 64, 0, 64, 64, 64);
-      grad.addColorStop(0, "rgba(0, 180, 216, 0.55)");
-      grad.addColorStop(0.5, "rgba(22, 119, 255, 0.2)");
+      const grad = sCtx.createRadialGradient(128, 128, 0, 128, 128, 128);
+      grad.addColorStop(0, "rgba(0, 245, 255, 0.65)");
+      grad.addColorStop(0.35, "rgba(0, 201, 216, 0.35)");
+      grad.addColorStop(0.7, "rgba(22, 119, 255, 0.12)");
       grad.addColorStop(1, "rgba(0, 0, 0, 0)");
       sCtx.fillStyle = grad;
-      sCtx.fillRect(0, 0, 128, 128);
+      sCtx.fillRect(0, 0, 256, 256);
     }
     const shadowTex = new THREE.CanvasTexture(shadowCanvas);
     const shadowMat = new THREE.MeshBasicMaterial({
       map: shadowTex,
       transparent: true,
-      opacity: 0.7,
+      opacity: 0.85,
       depthWrite: false
     });
     groundContact = new THREE.Mesh(shadowGeo, shadowMat);
@@ -107,31 +115,81 @@ export default function HeroScene({
     groundContact.position.y = 0.01;
     scene.add(groundContact);
 
-    // Inner Glowing Neon Cyber-Ring
-    const ringGeo = new THREE.RingGeometry(2.6, 2.75, 64);
+    // Concentric Neon Cyber-Rings (Inner, Middle, Outer)
+    const ringGeo = new THREE.RingGeometry(2.1, 2.22, 64);
     const ringMat = new THREE.MeshBasicMaterial({
       color: 0x00e5ff,
       side: THREE.DoubleSide,
       transparent: true,
-      opacity: 0.9
+      opacity: 0.95
     });
     cyberRing = new THREE.Mesh(ringGeo, ringMat);
     cyberRing.rotation.x = -Math.PI / 2;
     cyberRing.position.y = 0.02;
     scene.add(cyberRing);
 
-    // Outer Cyber Ring with Dashes
-    const outerRingGeo = new THREE.RingGeometry(3.2, 3.32, 64);
+    const outerRingGeo = new THREE.RingGeometry(3.05, 3.16, 64);
     const outerRingMat = new THREE.MeshBasicMaterial({
       color: 0x1677ff,
       side: THREE.DoubleSide,
       transparent: true,
-      opacity: 0.75
+      opacity: 0.85
     });
     cyberRingOuter = new THREE.Mesh(outerRingGeo, outerRingMat);
     cyberRingOuter.rotation.x = -Math.PI / 2;
     cyberRingOuter.position.y = 0.02;
     scene.add(cyberRingOuter);
+
+    // 3D Translucent Holographic Glass Cylinder Forcefield (Matching Reference B)
+    const cylCanvas = document.createElement("canvas");
+    cylCanvas.width = 512;
+    cylCanvas.height = 256;
+    const cCtx = cylCanvas.getContext("2d");
+    if (cCtx) {
+      const cGrad = cCtx.createLinearGradient(0, 0, 0, 256);
+      cGrad.addColorStop(0, "rgba(0, 255, 255, 0.95)");     // Glowing top rim
+      cGrad.addColorStop(0.08, "rgba(0, 229, 255, 0.45)");  // Upper energy glow
+      cGrad.addColorStop(0.5, "rgba(0, 201, 216, 0.14)");   // Translucent glass field
+      cGrad.addColorStop(0.92, "rgba(0, 201, 216, 0.45)");  // Lower energy glow
+      cGrad.addColorStop(1, "rgba(22, 119, 255, 0.95)");    // Glowing bottom rim
+      cCtx.fillStyle = cGrad;
+      cCtx.fillRect(0, 0, 512, 256);
+
+      cCtx.fillStyle = "rgba(255, 255, 255, 0.2)";
+      for (let x = 0; x < 512; x += 32) {
+        cCtx.fillRect(x, 0, 2, 256);
+      }
+    }
+    const cylTex = new THREE.CanvasTexture(cylCanvas);
+    cylTex.wrapS = THREE.RepeatWrapping;
+    cylTex.wrapT = THREE.ClampToEdgeWrapping;
+
+    const holoCylGeo = new THREE.CylinderGeometry(3.1, 3.1, 0.82, 64, 1, true);
+    const holoCylMat = new THREE.MeshBasicMaterial({
+      map: cylTex,
+      transparent: true,
+      opacity: 0.75,
+      side: THREE.DoubleSide,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false
+    });
+    const holoCylinder = new THREE.Mesh(holoCylGeo, holoCylMat);
+    holoCylinder.position.y = 0.42;
+    scene.add(holoCylinder);
+
+    // Glowing Top Rim on the Cylinder
+    const topRimGeo = new THREE.RingGeometry(3.08, 3.14, 64);
+    const topRimMat = new THREE.MeshBasicMaterial({
+      color: 0x00ffff,
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.95,
+      blending: THREE.AdditiveBlending
+    });
+    const topRim = new THREE.Mesh(topRimGeo, topRimMat);
+    topRim.rotation.x = -Math.PI / 2;
+    topRim.position.y = 0.83;
+    scene.add(topRim);
 
     // Floating Luminous Sci-Fi Energy Particles
     const particleCount = 65;
@@ -173,10 +231,12 @@ export default function HeroScene({
         lastPointerX = e.clientX;
         targetRotY += deltaX * 0.015;
       } else {
-        const mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-        const mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
-        mouseOffsetRotX = mouseY * 0.08;
-        mouseOffsetRotY = mouseX * 0.12;
+        const rect = container.getBoundingClientRect();
+        const relX = (e.clientX - rect.left) / rect.width - 0.5; // -0.5 (left near < arrow) to +0.5 (right near > arrow)
+        const relY = -((e.clientY - rect.top) / rect.height - 0.5);
+        mouseOffsetRotX = relY * 0.1;
+        // Responsive body/gaze tracking: turns up to ~25 degrees following pointer
+        mouseOffsetRotY = relX * 0.45;
       }
     };
 
@@ -297,9 +357,16 @@ export default function HeroScene({
 
       // Smooth model drag rotation with lerp inertia & living movements
       if (modelGroup) {
-        // Manual 360° inspection: No continuous auto-spin so Pokémon stays facing forward proudly
-        currentRotY += (targetRotY + mouseOffsetRotY - currentRotY) * 0.08;
+        // Interactive arrow following: If arrow button is hovered, turn smoothly to face it; otherwise follow cursor look
+        const arrowTargetOffset = (arrowDirectionRef.current || 0) * 0.55;
+        const dynamicLookY = arrowDirectionRef.current !== 0 ? arrowTargetOffset : mouseOffsetRotY;
+        currentRotY += (targetRotY + dynamicLookY - currentRotY) * 0.08;
         modelGroup.rotation.y = currentRotY;
+
+        // Gentle living shimmer on the holographic cylinder
+        if (cylTex) {
+          cylTex.offset.x += 0.0012;
+        }
 
         // Dynamic Living Creature Movement (Tail sway, breathing, lively posture)
         if (hasNativeAnim) {

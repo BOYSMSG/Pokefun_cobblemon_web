@@ -1,5 +1,46 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 220" fill="none">
-<path d="M0 82C180 145 300 162 470 119C650 73 760 35 930 85C1110 138 1230 173 1400 120C1580 64 1730 38 1920 104V220H0V82Z" fill="#FFFFFF"/>
-<path d="M0 82C180 145 300 162 470 119C650 73 760 35 930 85C1110 138 1230 173 1400 120C1580 64 1730 38 1920 104" stroke="#BDEFF5" stroke-width="3"/>
-<path d="M0 104C220 165 355 180 530 137C700 95 805 73 965 112C1150 157 1280 188 1460 140C1640 92 1780 78 1920 128" stroke="#00C9D8" stroke-opacity=".24" stroke-width="2"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 220" preserveAspectRatio="none" fill="none">
+  <defs>
+    <!-- Cyan glow for cloud crest -->
+    <filter id="crestGlow" x="-5%" y="-20%" width="110%" height="150%">
+      <feDropShadow dx="0" dy="-4" stdDeviation="10" flood-color="#00C9D8" flood-opacity="0.25" />
+    </filter>
+    <!-- Vertical transition gradient into site body (#F8FBFF) -->
+    <linearGradient id="cloudGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="1" />
+      <stop offset="40%" stop-color="#FFFFFF" stop-opacity="1" />
+      <stop offset="100%" stop-color="#F8FBFF" stop-opacity="1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Secondary soft undulating under-wave -->
+  <path 
+    d="M0 80 Q 280 20, 580 70 T 1180 50 T 1620 68 T 1920 62 L 1920 220 L 0 220 Z" 
+    fill="rgba(223, 247, 255, 0.7)" 
+  />
+
+  <!-- Main pristine organic cloud wave (Filled solid to completely cover any background cut) -->
+  <path 
+    d="M0 98 Q 240 28, 520 68 T 1080 44 T 1560 62 T 1920 84 L 1920 220 L 0 220 Z" 
+    fill="url(#cloudGrad)" 
+    filter="url(#crestGlow)" 
+  />
+
+  <!-- Electric Cyan Luminous Wave Crest Line (Matches Reference B accent) -->
+  <path 
+    d="M0 98 Q 240 28, 520 68 T 1080 44 T 1560 62 T 1920 84" 
+    stroke="#00C9D8" 
+    stroke-width="3" 
+    stroke-opacity="0.5" 
+    stroke-linecap="round" 
+    fill="none" 
+  />
+
+  <!-- Subtle Ice Blue Echo Stroke -->
+  <path 
+    d="M0 112 Q 250 42, 530 82 T 1090 58 T 1570 76 T 1920 98" 
+    stroke="#1677FF" 
+    stroke-width="1.5" 
+    stroke-opacity="0.2" 
+    fill="none" 
+  />
 </svg>

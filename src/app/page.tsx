@@ -291,15 +291,19 @@ export default function HomePage() {
 
         </div>
 
+        {/* Bottom Soft World Fade: completely dissolves the background into page surface */}
+        <div className="cinematic-hero-bottom-fade"></div>
+
+        {/* Organic White Cloud Wave Divider (Matches Reference B Exactly, seamless bottom) */}
+        <div className="cinematic-wave-wrapper">
+          <img src="/assets/pokefun/wave-divider-bottom.svg" alt="" className="cinematic-wave-svg" />
+        </div>
+
       </section>
 
       {/* =================================================================
-          HERO BOTTOM WAVE TRANSITION & 5-ITEM FEATURE STRIP (MATCHING REFERENCE B)
+          5-ITEM FEATURE STRIP FLOATING OVER SEAMLESS TRANSITION
           ================================================================= */}
-      <div className="cinematic-wave-wrapper">
-        <img src="/assets/pokefun/wave-divider-bottom.svg" alt="" className="cinematic-wave-svg" />
-      </div>
-
       <div className="cinematic-feature-strip">
         <div className="cinematic-feature-card">
           <div className="feature-icon-badge">
