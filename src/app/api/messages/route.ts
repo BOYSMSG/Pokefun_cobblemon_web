@@ -16,9 +16,15 @@ export async function GET(req: Request) {
 
     await connectDB();
     const myEmail = session.user.email;
-    const me = await User.findOne({ email: myEmail }).lean();
+    const me = await User.findOne({ email: myEmail });
     if (!me) return NextResponse.json({ error: 'User not found' }, { status: 404 });
-    const myUsername = me.username;
+    let myUsername = me.username;
+    if (!myUsername) {
+      myUsername = (me.name || myEmail.split('@')[0] || "trainer")
+        .toLowerCase()
+        .replace(/[^a-z0-9_]/g, '');
+      await User.updateOne({ _id: me._id }, { $set: { username: myUsername } });
+    }
 
     // Fetch all messages where user is sender or receiver
     const messages = await Message.find({
@@ -82,11 +88,19 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    const me = await User.findOne({ email: session.user.email }).lean();
+    const me = await User.findOne({ email: session.user.email });
     if (!me) return NextResponse.json({ error: 'User not found' }, { status: 404 });
 
+    let myUsername = me.username;
+    if (!myUsername) {
+      myUsername = (me.name || session.user.email.split('@')[0] || "trainer")
+        .toLowerCase()
+        .replace(/[^a-z0-9_]/g, '');
+      await User.updateOne({ _id: me._id }, { $set: { username: myUsername } });
+    }
+
     const newMessage = await Message.create({
-      senderId: me.username,
+      senderId: myUsername,
       receiverId,
       content,
       read: false
