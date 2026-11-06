@@ -61,15 +61,16 @@ export default function GlobalSidebar() {
     const isActive = pathname === link.path;
     const linkStyle = {
       display: "block",
-      padding: "8px 12px",
-      borderRadius: "6px",
-      color: isActive ? "white" : "#a3a3a3",
-      background: isActive ? "rgba(28, 198, 219, 0.2)" : "transparent",
-      fontWeight: isActive ? "bold" : "normal",
+      padding: "8px 14px",
+      borderRadius: "10px",
+      color: isActive ? "#0284c7" : "#334155",
+      background: isActive ? "linear-gradient(135deg, rgba(22, 119, 255, 0.1), rgba(0, 201, 216, 0.16))" : "transparent",
+      fontWeight: isActive ? 700 : 500,
+      border: isActive ? "1px solid rgba(0, 201, 216, 0.35)" : "1px solid transparent",
       textDecoration: "none",
-      fontSize: "0.95rem",
-      transition: "background 0.2s, color 0.2s",
-      marginBottom: "2px"
+      fontSize: "0.92rem",
+      transition: "all 0.2s ease",
+      marginBottom: "3px"
     };
 
     if (link.external) {
@@ -80,8 +81,19 @@ export default function GlobalSidebar() {
           target="_blank" 
           rel="noopener noreferrer" 
           style={linkStyle}
-          onMouseEnter={(e) => { e.currentTarget.style.color = "white"; }}
-          onMouseLeave={(e) => { e.currentTarget.style.color = "#a3a3a3"; }}
+          className="global-sidebar-navlink"
+          onMouseEnter={(e) => {
+            if (!isActive) {
+              e.currentTarget.style.background = "rgba(0, 201, 216, 0.08)";
+              e.currentTarget.style.color = "#0284c7";
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (!isActive) {
+              e.currentTarget.style.background = "transparent";
+              e.currentTarget.style.color = "#334155";
+            }
+          }}
         >
           {link.title}
         </a>
@@ -94,16 +106,17 @@ export default function GlobalSidebar() {
         href={link.path}
         onClick={() => setSidebarOpen(false)}
         style={linkStyle}
+        className="global-sidebar-navlink"
         onMouseEnter={(e) => {
           if (!isActive) {
-            e.currentTarget.style.background = "rgba(255, 255, 255, 0.05)";
-            e.currentTarget.style.color = "white";
+            e.currentTarget.style.background = "rgba(0, 201, 216, 0.08)";
+            e.currentTarget.style.color = "#0284c7";
           }
         }}
         onMouseLeave={(e) => {
           if (!isActive) {
             e.currentTarget.style.background = "transparent";
-            e.currentTarget.style.color = "#a3a3a3";
+            e.currentTarget.style.color = "#334155";
           }
         }}
       >
@@ -120,7 +133,7 @@ export default function GlobalSidebar() {
       >
         <button 
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          style={{ background: "#1cc6db", color: "white", border: "none", width: "50px", height: "50px", borderRadius: "25px", cursor: "pointer", boxShadow: "0 4px 10px rgba(0,0,0,0.5)" }}
+          style={{ background: "linear-gradient(135deg, #1677FF, #00C9D8)", color: "white", border: "none", width: "50px", height: "50px", borderRadius: "25px", cursor: "pointer", boxShadow: "0 4px 15px rgba(0, 201, 216, 0.35)" }}
         >
           <i className={`fa-solid ${sidebarOpen ? 'fa-xmark' : 'fa-bars'}`} style={{ fontSize: "1.5rem" }}></i>
         </button>
@@ -129,25 +142,25 @@ export default function GlobalSidebar() {
       <aside 
         className={`global-sidebar ${sidebarOpen ? "open" : ""}`}
         style={{ 
-          width: "300px", 
-          background: "rgba(10, 15, 30, 0.9)", // Darker, less transparent
-          backdropFilter: "blur(15px)",
-          border: "1px solid rgba(255, 255, 255, 0.05)", 
+          width: "270px", 
+          background: "rgba(255, 255, 255, 0.95)",
+          backdropFilter: "blur(16px)",
+          border: "1.5px solid rgba(0, 201, 216, 0.22)", 
           borderRadius: "20px",
-          padding: "30px 20px",
+          padding: "24px 16px",
           position: "sticky",
-          top: "80px", // slightly higher
+          top: "80px",
           height: "fit-content",
           maxHeight: "calc(100vh - 100px)",
           overflowY: "auto",
           flexShrink: 0,
           zIndex: 100,
-          boxShadow: "0 20px 40px rgba(0,0,0,0.4)",
+          boxShadow: "0 8px 30px rgba(22, 119, 255, 0.06)",
           transition: "transform 0.3s ease"
         }}
       >
-        <div style={{ marginBottom: "25px", padding: "0 10px" }}>
-           <h2 style={{ fontSize: "0.85rem", fontWeight: 800, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "10px" }}>
+        <div style={{ marginBottom: "22px", padding: "0 8px" }}>
+           <h2 style={{ fontSize: "0.8rem", fontWeight: 800, color: "#0B1524", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "8px" }}>
              Main Menu
            </h2>
            <nav>
@@ -155,8 +168,8 @@ export default function GlobalSidebar() {
            </nav>
         </div>
 
-        <div style={{ marginBottom: "25px", padding: "0 10px" }}>
-           <h2 style={{ fontSize: "0.85rem", fontWeight: 800, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "10px" }}>
+        <div style={{ marginBottom: "22px", padding: "0 8px" }}>
+           <h2 style={{ fontSize: "0.8rem", fontWeight: 800, color: "#0B1524", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "8px" }}>
              Community & Info
            </h2>
            <nav>
@@ -164,8 +177,8 @@ export default function GlobalSidebar() {
            </nav>
         </div>
 
-        <div style={{ marginBottom: "25px", padding: "0 10px" }}>
-           <h2 style={{ fontSize: "0.85rem", fontWeight: 800, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "10px" }}>
+        <div style={{ marginBottom: "22px", padding: "0 8px" }}>
+           <h2 style={{ fontSize: "0.8rem", fontWeight: 800, color: "#0B1524", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "8px" }}>
              Other Features
            </h2>
            <nav>
@@ -173,8 +186,8 @@ export default function GlobalSidebar() {
            </nav>
         </div>
 
-        <div style={{ marginBottom: "25px", padding: "0 10px" }}>
-           <h2 style={{ fontSize: "0.85rem", fontWeight: 800, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "10px" }}>
+        <div style={{ marginBottom: "22px", padding: "0 8px" }}>
+           <h2 style={{ fontSize: "0.8rem", fontWeight: 800, color: "#0B1524", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "8px" }}>
              FAQ & Guides
            </h2>
            <nav>

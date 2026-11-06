@@ -70,132 +70,39 @@ export default async function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              try {
-                if (localStorage.getItem('theme') === 'dark') {
-                  document.documentElement.classList.add('dark-mode');
-                } else {
-                  document.documentElement.classList.remove('dark-mode');
-                }
-              } catch(e) {}
-            `
-          }}
-        />
         <meta name="HandheldFriendly" content="True" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-        <link rel="stylesheet" href="/css/screen.css" />
+        {/* CRITICAL ZERO-LATENCY STATIC HYDRATION & THEME GUARD */}
+        <style dangerouslySetInnerHTML={{ __html: `
+          /* Instant pre-hydration guard: Desktop must NEVER show mobile nav, Mobile must NEVER show desktop nav */
+          @media (min-width: 992px) {
+            .mobile-aqua-header,
+            .mobile-aqua-backdrop,
+            .mobile-aqua-drawer {
+              display: none !important;
+            }
+          }
+          @media (max-width: 991px) {
+            .desktop-global-header,
+            .desktop-sidebar-container,
+            .global-sidebar,
+            .global-sidebar-toggle,
+            .auth-widget-wrapper {
+              display: none !important;
+            }
+          }
+          /* Instant white & electric aqua theme background to eliminate dark flash */
+          html, body, .viewport {
+            background-color: #F8FBFF !important;
+            color: #0B1524 !important;
+          }
+        `}} />
         <link rel="stylesheet" href="/css/custom.css" />
-        <link rel="stylesheet" type="text/css" href="/css/style.css" />
         <link rel="stylesheet" type="text/css" href="/css/cards.min.css" />
         <link rel="stylesheet" type="text/css" href="/css/animate.min.css" />
         <link rel="stylesheet" type="text/css" href="/css/all.min.css" />
         <link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet" />
-        <style>{`
-          :root {
-            --ghost-accent-color: #1cc6db;
-          }
-          /* Custom CSS to fix up Fakemons grid in this theme */
-          .fakemons-grid {
-             display: grid;
-             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-             gap: 20px;
-          }
-          .fakemon-card {
-             background: var(--content-bg, #fff);
-             border-radius: var(--border-radius, 12px);
-             box-shadow: var(--shadow-lg);
-             padding: 20px;
-             text-align: center;
-             transition: transform 0.2s, background 0.2s, color 0.2s;
-             color: #000;
-          }
-          .fakemon-card:hover {
-             transform: translateY(-5px);
-          }
-          html.dark-mode .fakemon-card {
-             background: #1c1f21;
-             color: #fff;
-             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-          }
-          html.dark-mode .fakemon-card span {
-             background: #2a2e33 !important;
-             color: #ddd !important;
-          }
-          .fakemon-img {
-             width: 120px;
-             height: 120px;
-             object-fit: contain;
-             margin: 0 auto 15px;
-          }
-        `}</style>
-        <style>{`
-          .custom-global-nav {
-             padding: 0 150px 0 15px;
-          }
-          #nav .container>a {
-             padding: 5px 10px !important;
-             font-size: 14.5px !important;
-             display: inline-flex;
-             align-items: center;
-             gap: 5px;
-             border-radius: 20px;
-             transition: all 0.2s ease;
-             white-space: nowrap;
-          }
-          #nav .container>a:hover {
-             background: rgba(255, 255, 255, 0.15);
-             transform: translateY(-1px);
-          }
-          #nav .container>a.active-pill {
-             padding: 6px 16px !important;
-             min-width: auto !important;
-          }
-
-          @media (max-width: 900px) {
-             #nav { display: none !important; }
-             .custom-global-nav { 
-               padding: 0 20px !important; 
-             }
-          }
-
-          /* Dropdown CSS for 'Other' menu */
-          .nav-dropdown {
-             position: relative;
-             display: inline-block;
-          }
-          .nav-dropdown-content {
-             display: none;
-             position: absolute;
-             background-color: #1a1e21;
-             min-width: 160px;
-             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
-             z-index: 100;
-             border-radius: 8px;
-             border: 1px solid #333;
-             overflow: hidden;
-             top: 100%;
-             left: 50%;
-             transform: translateX(-50%);
-          }
-          .nav-dropdown-content a {
-             color: white;
-             padding: 12px 16px;
-             text-decoration: none;
-             display: block;
-             font-size: 1rem !important;
-             text-align: left;
-          }
-          .nav-dropdown-content a:hover {
-             background-color: #2a2e33;
-             color: var(--ghost-accent-color);
-          }
-          .nav-dropdown:hover .nav-dropdown-content {
-             display: block;
-          }
-        `}</style>
       </head>
       <body>
         <Providers>
