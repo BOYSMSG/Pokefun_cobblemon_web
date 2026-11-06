@@ -103,25 +103,46 @@ a {
   max-width: 1400px;
   margin: 0 auto;
   padding: 10px 24px;
+  padding-right: 200px; /* Room for fixed AuthWidget button */
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
+  gap: 16px;
 }
 
 .nav-brand-link {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   text-decoration: none;
   flex-shrink: 0;
 }
 
+/* High-contrast Logo Container so logo never fades into background */
+.nav-brand-logo-badge {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(22, 119, 255, 0.12), rgba(0, 201, 216, 0.22));
+  border: 1.5px solid rgba(0, 201, 216, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  box-shadow: 0 2px 10px rgba(0, 201, 216, 0.25);
+  flex-shrink: 0;
+  transition: all 0.25s ease;
+}
+.nav-brand-link:hover .nav-brand-logo-badge {
+  transform: scale(1.06);
+  border-color: #00C9D8;
+  box-shadow: 0 0 18px rgba(0, 201, 216, 0.5);
+}
 .nav-brand-logo {
-  width: 36px;
-  height: 36px;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 2px 8px rgba(0, 201, 216, 0.45));
+  filter: drop-shadow(0 2px 6px rgba(11, 21, 36, 0.35));
 }
 
 .nav-brand-text {
@@ -137,50 +158,150 @@ a {
 .nav-links-center {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 6px 12px;
+  flex-wrap: nowrap !important;
+  gap: 4px 6px;
   justify-content: flex-end;
 }
 
-.nav-links-center a {
-  padding: 6px 14px;
+.nav-link-item {
+  padding: 7px 13px;
   border-radius: 9999px;
   font-size: 0.88rem;
   font-weight: 600;
   color: #182B45;
   transition: all 0.2s ease;
   white-space: nowrap;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
 }
 
-.nav-links-center a:hover {
+.nav-link-item:hover {
   color: #1677FF;
   background: rgba(22, 119, 255, 0.08);
   transform: translateY(-1px);
 }
 
-.nav-links-center a.active-pill {
+.nav-link-item.active-pill {
   background: linear-gradient(135deg, rgba(22, 119, 255, 0.1), rgba(0, 201, 216, 0.16)) !important;
   color: #1677FF !important;
   border: 1px solid rgba(0, 201, 216, 0.35) !important;
   font-weight: 700;
 }
 
-.nav-gold-link {
-  color: #d97706 !important;
-  font-weight: 700 !important;
-}
-
-.nav-store-link {
-  background: linear-gradient(135deg, #f59e0b, #d97706) !important;
-  color: #ffffff !important;
-  font-weight: 800 !important;
-  box-shadow: 0 2px 10px rgba(245, 158, 11, 0.3);
-}
-
-.nav-discord-link {
-  background: #5865f2 !important;
+/* Unified Professional Store Pill (Electric Aqua Theme) */
+.nav-store-pill {
+  background: linear-gradient(135deg, #00C9D8 0%, #1677FF 100%) !important;
   color: #ffffff !important;
   font-weight: 700 !important;
+  padding: 7px 16px !important;
+  border-radius: 9999px !important;
+  box-shadow: 0 2px 10px rgba(0, 201, 216, 0.35);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.88rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+.nav-store-pill:hover {
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 4px 16px rgba(0, 201, 216, 0.55);
+}
+
+/* Professional More Dropdown Menu */
+.nav-item-dropdown {
+  position: relative;
+  display: inline-block;
+}
+.nav-dropdown-trigger {
+  background: transparent;
+  border: 1.5px solid rgba(0, 201, 216, 0.35);
+  color: #182B45;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+.nav-item-dropdown:hover .nav-dropdown-trigger {
+  background: rgba(0, 201, 216, 0.12);
+  border-color: #00C9D8;
+  color: #1677FF;
+}
+.nav-dropdown-arrow {
+  font-size: 0.72rem;
+  transition: transform 0.2s ease;
+}
+.nav-item-dropdown:hover .nav-dropdown-arrow {
+  transform: rotate(180deg);
+}
+.nav-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 210px;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid rgba(0, 201, 216, 0.35);
+  border-radius: 14px;
+  padding: 8px;
+  box-shadow: 0 12px 35px rgba(22, 119, 255, 0.15);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1050;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.nav-item-dropdown:hover .nav-dropdown-menu,
+.nav-item-dropdown:focus-within .nav-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.dropdown-link-item {
+  padding: 9px 12px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #182B45;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.18s ease;
+  text-decoration: none;
+}
+.dropdown-link-item:hover {
+  background: rgba(0, 201, 216, 0.1);
+  color: #1677FF;
+  transform: translateX(3px);
+}
+.dropdown-link-icon {
+  font-size: 0.95rem;
+  width: 18px;
+  text-align: center;
+  color: #00C9D8;
+}
+.nav-dropdown-divider {
+  height: 1px;
+  background: rgba(0, 201, 216, 0.2);
+  margin: 6px 4px;
+}
+.dropdown-link-item.discord-item {
+  color: #5865F2;
+}
+.dropdown-link-item.discord-item .dropdown-link-icon {
+  color: #5865F2;
 }
 
 /* ===================================================================
@@ -280,7 +401,7 @@ a {
   max-width: 290px;
   width: 100%;
   height: auto;
-  filter: drop-shadow(0 4px 25px rgba(0, 201, 216, 0.35));
+  filter: drop-shadow(0 8px 18px rgba(11, 21, 36, 0.28)) drop-shadow(0 2px 6px rgba(0, 201, 216, 0.5));
 }
 
 .hero-portfolio-box {
@@ -1031,4 +1152,181 @@ a {
   .fakemons-grid {
     grid-template-columns: repeat(3, 1fr);
   }
+}
+
+
+/* ===================================================================
+   COMPREHENSIVE DARK MODE SYSTEM (DEEP BLACK & ELECTRIC AQUA)
+   =================================================================== */
+html.dark-mode {
+  --bg-primary: #0B0E14;
+  --bg-surface: #111827;
+  --bg-ice-100: #151F32;
+  --bg-ice-200: #1E293B;
+  --bg-ice-300: #1E3A5F;
+  
+  --text-primary: #F8FAFC;
+  --text-secondary: #94A3B8;
+  --text-muted: #64748B;
+  
+  --electric-blue: #38BDF8;
+  --electric-blue-hover: #0EA5E9;
+  --electric-cyan: #00F0FF;
+  --electric-cyan-dark: #00C9D8;
+  --electric-glow: rgba(0, 240, 255, 0.25);
+  
+  --border-subtle: 1.5px solid rgba(0, 240, 255, 0.2);
+  --border-accent: 1.5px solid rgba(0, 240, 255, 0.45);
+  
+  --shadow-glass: 0 8px 30px rgba(0, 0, 0, 0.6);
+  --shadow-hover: 0 12px 36px rgba(0, 240, 255, 0.18);
+  --shadow-cyan-glow: 0 0 25px rgba(0, 240, 255, 0.4);
+}
+
+html.dark-mode,
+html.dark-mode body,
+html.dark-mode .viewport {
+  background-color: #0B0E14 !important;
+  background: linear-gradient(180deg, #0B0E14 0%, #111827 50%, #0B0E14 100%) fixed !important;
+  color: #F8FAFC !important;
+}
+
+/* Header & Nav in Dark Mode */
+html.dark-mode .desktop-global-header {
+  background: rgba(11, 14, 20, 0.94) !important;
+  border-bottom: 1.5px solid rgba(0, 240, 255, 0.22) !important;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.7) !important;
+}
+
+html.dark-mode .nav-brand-logo-badge {
+  background: rgba(0, 240, 255, 0.12) !important;
+  border-color: rgba(0, 240, 255, 0.4) !important;
+  box-shadow: 0 0 16px rgba(0, 240, 255, 0.25) !important;
+}
+
+html.dark-mode .nav-link-item {
+  color: #E2E8F0 !important;
+}
+
+html.dark-mode .nav-link-item:hover {
+  color: #00F0FF !important;
+  background: rgba(0, 240, 255, 0.12) !important;
+}
+
+html.dark-mode .nav-dropdown-trigger {
+  color: #E2E8F0 !important;
+  border-color: rgba(0, 240, 255, 0.35) !important;
+}
+
+html.dark-mode .nav-dropdown-trigger:hover {
+  background: rgba(0, 240, 255, 0.12) !important;
+  border-color: #00F0FF !important;
+  color: #00F0FF !important;
+}
+
+html.dark-mode .nav-dropdown-menu {
+  background: rgba(17, 24, 39, 0.98) !important;
+  border-color: rgba(0, 240, 255, 0.28) !important;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.8) !important;
+}
+
+html.dark-mode .dropdown-link-item {
+  color: #E2E8F0 !important;
+}
+
+html.dark-mode .dropdown-link-item:hover {
+  color: #00F0FF !important;
+  background: rgba(0, 240, 255, 0.12) !important;
+}
+
+html.dark-mode .nav-store-pill {
+  background: linear-gradient(135deg, #00F0FF 0%, #0284C7 100%) !important;
+  color: #000000 !important;
+  font-weight: 800 !important;
+  box-shadow: 0 0 16px rgba(0, 240, 255, 0.45) !important;
+}
+
+/* Sidebar in Dark Mode */
+html.dark-mode .global-sidebar {
+  background: rgba(17, 24, 39, 0.92) !important;
+  border-color: rgba(0, 240, 255, 0.2) !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5) !important;
+}
+
+html.dark-mode .sidebar-nav-item {
+  color: #94A3B8 !important;
+}
+
+html.dark-mode .sidebar-nav-item:hover {
+  color: #00F0FF !important;
+  background: rgba(0, 240, 255, 0.1) !important;
+}
+
+html.dark-mode .sidebar-nav-item.active {
+  background: rgba(0, 240, 255, 0.16) !important;
+  color: #00F0FF !important;
+  border-left-color: #00F0FF !important;
+}
+
+html.dark-mode .sidebar-title-badge {
+  color: #94A3B8 !important;
+  border-color: rgba(0, 240, 255, 0.2) !important;
+}
+
+/* Hero & Content in Dark Mode */
+html.dark-mode .hero-portfolio-box {
+  background: rgba(17, 24, 39, 0.82) !important;
+  border-color: rgba(0, 240, 255, 0.25) !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7) !important;
+}
+
+html.dark-mode .hero-main-title {
+  color: #FFFFFF !important;
+}
+
+html.dark-mode .hero-main-subtext {
+  color: #94A3B8 !important;
+}
+
+html.dark-mode .main-logo-img {
+  filter: drop-shadow(0 0 35px rgba(0, 240, 255, 0.55)) drop-shadow(0 10px 25px rgba(0, 0, 0, 0.8)) !important;
+}
+
+/* Feature Cards in Dark Mode */
+html.dark-mode .feature-card-aqua {
+  background: #111827 !important;
+  border-color: rgba(0, 240, 255, 0.2) !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5) !important;
+}
+
+html.dark-mode .feature-title {
+  color: #FFFFFF !important;
+}
+
+html.dark-mode .feature-description {
+  color: #94A3B8 !important;
+}
+
+/* Footer in Dark Mode */
+html.dark-mode #footer {
+  background: #0B0E14 !important;
+  border-top: 1.5px solid rgba(0, 240, 255, 0.2) !important;
+  color: #94A3B8 !important;
+}
+
+/* Mobile Nav in Dark Mode */
+html.dark-mode .mobile-aqua-header {
+  background: rgba(11, 14, 20, 0.95) !important;
+  border-color: rgba(0, 240, 255, 0.2) !important;
+}
+
+html.dark-mode .mobile-aqua-drawer {
+  background: #0B0E14 !important;
+  border-color: rgba(0, 240, 255, 0.2) !important;
+}
+
+html.dark-mode .drawer-nav-item {
+  background: #111827 !important;
+  color: #E2E8F0 !important;
+  border-color: rgba(0, 240, 255, 0.15) !important;
 }

@@ -73,6 +73,18 @@ export default async function RootLayout({
         <meta name="HandheldFriendly" content="True" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
         {/* CRITICAL ZERO-LATENCY STATIC HYDRATION & THEME GUARD */}
+        <script dangerouslySetInnerHTML={{ __html: `
+          (function() {
+            try {
+              var saved = localStorage.getItem('theme');
+              if (saved === 'dark') {
+                document.documentElement.classList.add('dark-mode');
+              } else if (saved === 'light') {
+                document.documentElement.classList.remove('dark-mode');
+              }
+            } catch(e) {}
+          })();
+        `}} />
         <style dangerouslySetInnerHTML={{ __html: `
           /* Instant pre-hydration guard: Desktop must NEVER show mobile nav, Mobile must NEVER show desktop nav */
           @media (min-width: 992px) {
@@ -91,10 +103,16 @@ export default async function RootLayout({
               display: none !important;
             }
           }
-          /* Instant white & electric aqua theme background to eliminate dark flash */
-          html, body, .viewport {
+          /* Instant Light Theme */
+          html:not(.dark-mode), html:not(.dark-mode) body, html:not(.dark-mode) .viewport {
             background-color: #F8FBFF !important;
             color: #0B1524 !important;
+          }
+          /* Instant Dark Theme (Deep Black & Electric Aqua) */
+          html.dark-mode, html.dark-mode body, html.dark-mode .viewport {
+            background-color: #0B0E14 !important;
+            background: #0B0E14 !important;
+            color: #F8FAFC !important;
           }
         `}} />
         <link rel="stylesheet" href="/css/custom.css" />
@@ -113,31 +131,63 @@ export default async function RootLayout({
               <header className="desktop-global-header">
                 <nav id="nav" className="custom-global-nav">
                     <div className="container desktop-nav-container">
-                        <a href="/" className="nav-brand-link">
-                            <img src="/images/pokefun_logo_transparent.png" alt="Pokefun" className="nav-brand-logo" />
+                        <a href="/" className="nav-brand-link" title="Pokefun Home">
+                            <div className="nav-brand-logo-badge">
+                                <img src="/images/pokefun_logo_transparent.png" alt="Pokefun Logo" className="nav-brand-logo" />
+                            </div>
                             <span className="nav-brand-text">POKEFUN</span>
                         </a>
                         <div className="nav-links-center">
-                            <a href="/">Home</a>
-                            <a href="/community">Community</a>
-                            <a href="/community/reels">Reels</a>
-                            <a href="/messages" id="desktop-nav-messages">Messages</a>
-                            <a href="/leaderboard" className="nav-gold-link">
-                                <i className="fa-solid fa-trophy"></i> Leaderboards
+                            <a href="/" className="nav-link-item">Home</a>
+                            <a href="/community" className="nav-link-item">Community</a>
+                            <a href="/community/reels" className="nav-link-item">Reels</a>
+                            <a href="/leaderboard" className="nav-link-item">
+                                <i className="fa-solid fa-trophy" style={{ marginRight: '6px', opacity: 0.85 }}></i> Leaderboards
                             </a>
-                            <a href="/wiki">Wiki</a>
-                            <a href="/modpacks">Modpacks</a>
-                            <a href="/rules">Rules</a>
-                            <a href="/vote">Vote</a>
-                            <a href="https://store.pokefun.in" target="_blank" rel="noopener noreferrer" className="nav-store-link">
+                            <a href="/wiki" className="nav-link-item">Wiki</a>
+                            <a href="/vote" className="nav-link-item">Vote</a>
+                            <a href="https://store.pokefun.in" target="_blank" rel="noopener noreferrer" className="nav-store-pill">
                                 <i className="fa-solid fa-cart-shopping"></i> Store
                             </a>
-                            <a href="/showcase">Showcase</a>
-                            <a href="/team">Team</a>
-                            <a href="/changelogs">Changelogs</a>
-                            <a href="https://discord.gg/pokefun" target="_blank" rel="noopener noreferrer" className="nav-discord-link">
-                                <i className="fa-brands fa-discord"></i> Discord
-                            </a>
+
+                            {/* Clean Professional 'More ▾' Dropdown */}
+                            <div className="nav-item-dropdown">
+                                <button className="nav-dropdown-trigger" type="button" aria-haspopup="true">
+                                    <span>More</span>
+                                    <i className="fa-solid fa-chevron-down nav-dropdown-arrow"></i>
+                                </button>
+                                <div className="nav-dropdown-menu">
+                                    <a href="/messages" className="dropdown-link-item">
+                                        <i className="fa-solid fa-envelope dropdown-link-icon"></i>
+                                        <span>Messages</span>
+                                    </a>
+                                    <a href="/modpacks" className="dropdown-link-item">
+                                        <i className="fa-solid fa-box-archive dropdown-link-icon"></i>
+                                        <span>Modpacks</span>
+                                    </a>
+                                    <a href="/rules" className="dropdown-link-item">
+                                        <i className="fa-solid fa-scale-balanced dropdown-link-icon"></i>
+                                        <span>Rules</span>
+                                    </a>
+                                    <a href="/showcase" className="dropdown-link-item">
+                                        <i className="fa-solid fa-images dropdown-link-icon"></i>
+                                        <span>Showcase</span>
+                                    </a>
+                                    <a href="/team" className="dropdown-link-item">
+                                        <i className="fa-solid fa-users dropdown-link-icon"></i>
+                                        <span>Staff Team</span>
+                                    </a>
+                                    <a href="/changelogs" className="dropdown-link-item">
+                                        <i className="fa-solid fa-clock-rotate-left dropdown-link-icon"></i>
+                                        <span>Changelogs</span>
+                                    </a>
+                                    <div className="nav-dropdown-divider"></div>
+                                    <a href="https://discord.gg/pokefun" target="_blank" rel="noopener noreferrer" className="dropdown-link-item discord-item">
+                                        <i className="fa-brands fa-discord dropdown-link-icon"></i>
+                                        <span>Discord Server</span>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </nav>
