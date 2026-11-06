@@ -501,12 +501,29 @@ a {
   box-shadow: 0 8px 25px rgba(6, 182, 212, 0.25);
 }
 
+/* Eradicate any legacy Ghost header blue background or 500px void */
+#gh-header {
+  min-height: 0 !important;
+  padding-bottom: 0 !important;
+  background: transparent !important;
+}
+#gh-header:before {
+  display: none !important;
+}
+
 .fakemon-card img {
-  width: 140px;
-  height: 140px;
-  object-fit: contain;
-  margin: 0 auto 15px auto;
-  display: block;
+  width: 100% !important;
+  max-width: 220px !important;
+  height: 190px !important;
+  object-fit: contain !important;
+  margin: 0 auto 14px auto !important;
+  display: block !important;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
+  transition: transform 0.25s ease;
+}
+
+.fakemon-card:hover img {
+  transform: scale(1.06);
 }
 
 .fakemon-card h3 {
@@ -644,9 +661,12 @@ a {
   }
 
   .fakemon-card img {
-    width: 90px !important;
-    height: 90px !important;
-    margin-bottom: 8px !important;
+    width: 100% !important;
+    max-width: 155px !important;
+    height: 145px !important;
+    object-fit: contain !important;
+    margin: 0 auto 10px auto !important;
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.4)) !important;
   }
 
   .fakemon-card h3 {

@@ -112,9 +112,9 @@ export default function HomePage() {
               <div className="hero-portfolio-box">
                   <div className="hero-status-pill">
                       <span className="live-status-dot"></span>
-                      <span className="pill-badge-label">COBBLEMON SMP 1.20.1</span>
+                      <span className="pill-badge-label">COBBLEMON SMP 1.21.1</span>
                       <span className="pill-sep">•</span>
-                      <span className="pill-badge-sub">INDIA&apos;S #1 COMMUNITY</span>
+                      <span className="pill-badge-sub">JAVA &amp; BEDROCK</span>
                   </div>
 
                   <h1 className="hero-main-title">

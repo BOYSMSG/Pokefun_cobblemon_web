@@ -203,7 +203,7 @@ export default async function RootLayout({
             <div className="viewport">
               <MobileNavigation />
               {/* Modern Desktop Navigation Bar */}
-              <div id="gh-header" className="desktop-global-header">
+              <header className="desktop-global-header">
                 <nav id="nav" className="custom-global-nav">
                     <div className="container desktop-nav-container">
                         <a href="/" className="nav-brand-link">
@@ -234,7 +234,7 @@ export default async function RootLayout({
                         </div>
                     </div>
                 </nav>
-              </div>
+              </header>
             
               <main className="site-main-viewport">
                  <div className="site-content-layout">

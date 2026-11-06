@@ -331,7 +331,7 @@ export default function MobileNavigation() {
         {/* Drawer Footer */}
         <div className="drawer-aqua-footer">
           <span>2026 © Pokefun Network</span>
-          <span className="footer-cyan">Cobblemon 1.20.1</span>
+          <span className="footer-cyan">Cobblemon 1.21.1 • Java &amp; Bedrock</span>
         </div>
       </aside>
 
