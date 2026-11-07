@@ -74,7 +74,7 @@ export default function HomePage() {
     { title: "Natural Bosses", desc: "Powerful bosses spawn naturally in the wild! Defeat them for epic loot and rare items.", img: "/images/features/image09_bosspokemons1.png" },
     { title: "Custom Raids", desc: "Team up with fellow trainers in the new Raid System to battle legendary Pokémon.", img: "/images/features/image27_Team_Raids_Battle.png" },
     { title: "Battle Gimmicks", desc: "Mega Evolution, Dynamax, Gigantamax, and Z-Moves are fully active across all battles!", img: "/images/features/image29_Z_Mega1s.png" },
-    { title: "Pokémon Fusions", desc: "Create unique and devastating Pokémon through our advanced DNA splicing fusion system.", img: "/images/features/fusion pokemons1.png" },
+    { title: "Pokémon Fusions", desc: "Create unique and devastating Pokémon through our advanced DNA splicing fusion system.", img: "/images/features/fusion_pokemons1.png" },
     { title: "Gym System", desc: "Challenge player-run and NPC gyms across various biomes to earn official gym badges.", img: "/images/features/battletower.png" },
     { title: "Battle Tower", desc: "Test your tactical skills in the endless Battle Tower and earn rare competitive rewards.", img: "/images/features/image26_primal_forms.png" },
     { title: "Cool Fakemons", desc: "Discover hundreds of unique custom Fakemons and regional forms to catch and train.", img: "/images/features/coolfakemons.png" },
@@ -486,8 +486,7 @@ export default function HomePage() {
                 borderBottom: "1.5px solid rgba(0, 201, 216, 0.2)"
               }}>
                 <img 
-                  loading="lazy" 
-                  decoding="async" 
+                  loading="eager" 
                   src={item.img} 
                   alt={item.title} 
                   className="feature-card-img"
@@ -496,9 +495,15 @@ export default function HomePage() {
                     height: "100%",
                     objectFit: "cover",
                     objectPosition: "center",
+                    display: "block",
                     transition: "transform 0.35s ease"
                   }}
-                  onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                  onError={(e) => {
+                    const img = e.currentTarget;
+                    if (!img.src.includes('image09_bosspokemons1.png')) {
+                      img.src = '/images/features/image09_bosspokemons1.png';
+                    }
+                  }}
                 />
               </div>
 

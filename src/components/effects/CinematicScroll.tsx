@@ -44,19 +44,23 @@ export default function CinematicScroll() {
         duration: 0.9
       }, "-=0.7");
 
-      // 2. Feature Cards Scroll Reveal
-      gsap.from(".feature-card-item", {
-        scrollTrigger: {
-          trigger: ".features-grid-container",
-          start: "top 82%",
-          toggleActions: "play none none none"
-        },
-        y: 35,
-        opacity: 0,
-        stagger: 0.12,
-        duration: 0.7,
-        ease: "power2.out"
-      });
+      // 2. Feature Cards Scroll Reveal (Safe opacity and clearProps to never block rendering)
+      gsap.fromTo(".feature-card-item", 
+        { y: 20, opacity: 0.85 },
+        {
+          scrollTrigger: {
+            trigger: ".features-grid-container",
+            start: "top 92%",
+            toggleActions: "play none none none"
+          },
+          y: 0,
+          opacity: 1,
+          stagger: 0.06,
+          duration: 0.5,
+          ease: "power2.out",
+          clearProps: "transform,opacity"
+        }
+      );
 
       // 3. Community Hub Card Reveal
       gsap.from(".community-hub-card", {
@@ -85,7 +89,17 @@ export default function CinematicScroll() {
       });
     });
 
-    return () => ctx.revert();
+    const refreshST = () => ScrollTrigger.refresh();
+    window.addEventListener("load", refreshST);
+    const t1 = setTimeout(refreshST, 600);
+    const t2 = setTimeout(refreshST, 1800);
+
+    return () => {
+      window.removeEventListener("load", refreshST);
+      clearTimeout(t1);
+      clearTimeout(t2);
+      ctx.revert();
+    };
   }, []);
 
   return null;

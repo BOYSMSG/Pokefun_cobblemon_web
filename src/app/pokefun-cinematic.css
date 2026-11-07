@@ -809,3 +809,22 @@
     grid-column: span 1;
   }
 }
+
+/* Feature Cards Grid Robust Styling */
+.features-grid-container {
+  width: 100%;
+}
+
+.feature-card-item {
+  opacity: 1 !important;
+  will-change: transform;
+}
+
+.feature-card-img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  image-rendering: auto;
+}
