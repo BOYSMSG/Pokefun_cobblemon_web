@@ -152,36 +152,7 @@ export default function DynamicHero3D() {
         <i className="fa-solid fa-chevron-right"></i>
       </button>
 
-      {/* Top Subtle Random Shuffle Pill */}
-      <div style={{
-        position: "absolute",
-        top: "14px",
-        right: "16px",
-        zIndex: 25
-      }}>
-        <button
-          onClick={handleRandom}
-          title="Shuffle Pokémon"
-          style={{
-            background: "rgba(255, 255, 255, 0.92)",
-            border: "1.5px solid rgba(0, 201, 216, 0.45)",
-            color: "#1677FF",
-            cursor: "pointer",
-            padding: "5px 12px",
-            borderRadius: "10px",
-            fontSize: "0.74rem",
-            fontWeight: 800,
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "6px",
-            boxShadow: "0 4px 14px rgba(0, 201, 216, 0.15)",
-            backdropFilter: "blur(8px)"
-          }}
-        >
-          <i className="fa-solid fa-dice" style={{ color: "#00C9D8" }}></i>
-          <span>Random</span>
-        </button>
-      </div>
+{/* Random pill button removed for clean sky view */}
 
       {/* 3D WebGL Canvas */}
       <HeroSceneComponent 

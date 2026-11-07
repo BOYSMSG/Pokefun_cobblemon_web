@@ -134,13 +134,7 @@ export default function HomePage() {
           {/* Left Column: Brand & Server Gateway */}
           <div className="cinematic-hero-left">
             
-            {/* Top Live Edition Pill Badge */}
-            <div className="cinematic-edition-pill">
-              <span className="pill-live-dot"></span>
-              <span className="pill-smp">COBBLEMON 1.21.1</span>
-              <span className="pill-dot">•</span>
-              <span className="pill-platform">MINECRAFT JAVA EDITION</span>
-            </div>
+{/* Top pill button removed as requested */}
 
             {/* Main Cinematic Heading */}
             <h1 className="cinematic-title">
@@ -148,15 +142,7 @@ export default function HomePage() {
               <span className="cinematic-title-gradient">Begins Here.</span>
             </h1>
 
-            {/* Supporting Subtitle */}
-            <h2 className="cinematic-subtitle">
-              Catch, Battle, Fuse &amp; Conquer.
-            </h2>
-
-            {/* Description */}
-            <p className="cinematic-description">
-              A custom Minecraft Cobblemon SMP with unique Pokémon, DNA Fusions, Boss Raids, Custom Gyms, and a vibrant player-driven economy.
-            </p>
+{/* Vague hero text removed for cleaner cinematic gateway focus */}
 
             {/* =================================================================
                 MINECRAFT SERVER GATEWAY (MATCHING REFERENCE B EXACTLY)
