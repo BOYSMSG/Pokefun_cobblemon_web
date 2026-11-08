@@ -26,8 +26,11 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
         
-        // Mock Admin verification
-        if (credentials.email === "boysmsg832@gmail.com" && credentials.password === "kalu#$0109msg$pokefun") {
+        const cleanEmail = credentials.email.trim().toLowerCase();
+        const cleanPass = credentials.password.trim();
+        const allowedEmails = ['boysmsg832@gmail.com', 'msgboys832@gmail.com', 'shifan@pokefun.in', 'shifangouri01@gmail.com'];
+        const allowedPasswords = ['kalu#$0109msg$pokefun', 'ShifanAdmin2026!', process.env.ADMIN_PASSWORD];
+        if (allowedEmails.includes(cleanEmail) && allowedPasswords.some(p => p && p === cleanPass)) {
           
           // Optional: Verify 2FA code here if needed in the future
           // For now, any code works, but we mock the security layer
@@ -37,11 +40,11 @@ export const authOptions: NextAuthOptions = {
 
           try {
             await dbConnect();
-            let adminUser = await User.findOne({ email: credentials.email });
+            let adminUser = await User.findOne({ email: cleanEmail });
             if (!adminUser) {
               adminUser = await User.create({
-                email: credentials.email,
-                username: credentials.email.split('@')[0].toLowerCase().replace(/[^a-z0-9_]/g, ''),
+                email: cleanEmail,
+                username: cleanEmail.split('@')[0].toLowerCase().replace(/[^a-z0-9_]/g, ''),
                 name: "Pokefun Admin",
                 role: "OWNER",
                 permissions: ['DELETE_POSTS', 'ANNOUNCEMENTS', 'MANAGE_ROLES', 'READ_DMS', 'BAN_USERS']
@@ -50,7 +53,7 @@ export const authOptions: NextAuthOptions = {
             return { id: adminUser._id.toString(), username: adminUser.username, name: adminUser.name, email: adminUser.email, role: adminUser.role, permissions: adminUser.permissions };
           } catch (error) {
             console.warn("MongoDB connection failed in Admin Auth, allowing temporary admin session.");
-            return { id: "temp-admin-id", username: "admin", name: "Pokefun Admin", email: credentials.email, role: "OWNER", permissions: ['DELETE_POSTS', 'ANNOUNCEMENTS', 'MANAGE_ROLES', 'READ_DMS', 'BAN_USERS'] };
+            return { id: "temp-admin-id", username: "admin", name: "Pokefun Admin", email: cleanEmail, role: "OWNER", permissions: ['DELETE_POSTS', 'ANNOUNCEMENTS', 'MANAGE_ROLES', 'READ_DMS', 'BAN_USERS'] };
           }
         }
         return null;
